@@ -4,6 +4,9 @@ import json
 
 import requests
 from flask import Flask, request
+from firebase import Firebase
+
+f = Firebase('https://welse-141512.firebaseio.com/items')
 
 app = Flask(__name__)
 
@@ -38,8 +41,9 @@ def webhook():
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
-
-                    send_message(sender_id, "got it, thanks!")
+                    a = f.get()
+                    for i in a:
+                        send_message(sender_id, a)
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
