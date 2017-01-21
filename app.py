@@ -61,7 +61,7 @@ def webhook():
                                 {
                                     "title": item['name'],
                                     "subtitle": item['subtitle'],
-                                    "image_url": "http://th.seaicons.com/wp-content/uploads/2016/07/RAM-Drive-icon.png",
+                                    "image_url": item['image'],
                                     "buttons": [{
                                         "title": "View",
                                         "type": "web_url",
@@ -142,7 +142,29 @@ def send_message(recipient_id, message_text):
         },
         "message": {
             "text": message_text
-        }
+        },
+        "quick_replies":[
+          {
+            "content_type":"text",
+            "title":"Ram",
+            "payload": "ram,1"
+          },
+          {
+            "content_type":"text",
+            "title":"Monitor",
+            "payload": "monitor,1"
+          },
+          {
+            "content_type":"text",
+            "title":"CPU",
+            "payload": "cpu,1"
+          },
+          {
+            "content_type":"text",
+            "title":"Storage",
+            "payload": "storage,1"
+          }
+        ]
     })
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
     if r.status_code != 200:
@@ -152,7 +174,6 @@ def send_message(recipient_id, message_text):
 def send_elements(recipient_id, elements, page, item_type):
 
     # log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
-
     params = {
         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
     }
@@ -180,9 +201,6 @@ def send_elements(recipient_id, elements, page, item_type):
                 }
             }
         }
-        # "message": {
-        #     "text": message_text
-        # }
     })
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
     if r.status_code != 200:
