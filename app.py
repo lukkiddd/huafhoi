@@ -10,31 +10,8 @@ from flask import Flask, request
 from firebase import Firebase
 
 f = Firebase('https://welse-141512.firebaseio.com/items')
-items_array = f.get()
-for i in items_array:
-    q = Firebase('https://welse-141512.firebaseio.com/items/' + i)
-    item = q.get()
-    print(item)
-    print(item['name'])
-    print(item['link'])
 
 app = Flask(__name__)
-
-
-def scrap():
-    items = []
-    items_link = []
-    for i in xrange(1,5):
-        url = "https://www.overclockzone.com/forums/forumdisplay.php/158-Monitor/page" + str(i) + "?prefixid=Sell"
-        r  = requests.get(url)
-        data = r.text
-        soup = BeautifulSoup(data)
-        for item in soup.find_all('div', {'class':'inner'}):
-            if("Today" in item.find_all('span',{'class':'label'})[0].get_text() or
-               "Yesterday" in item.find_all('span',{'class':'label'})[0].get_text()):
-                for title in item.find_all('a', {'class':'title'}):
-                    items.append({'name': convert(title.get_text()), 'link': "https://www.overclockzone.com/forums/" +title['href']})
-    return items
 
 @app.route('/', methods=['GET'])
 def verify():
@@ -67,9 +44,13 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
                     # scan(sender_id)
-                    a = f.get()
-                    for i in a:
-                        send_message(sender_id, i)
+                    items_array = f.get()
+                    for i in items_array:
+                        q = Firebase('https://welse-141512.firebaseio.com/items/' + i)
+                        item = q.get()
+                        send_message(sender_id, item['name'])
+                    # for i in a:
+                        # send_message(sender_id, i)
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
