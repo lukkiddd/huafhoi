@@ -6,9 +6,9 @@ import re
 import time
 from bs4 import BeautifulSoup
 from flask import Flask, request
-from firebase import Firebase
+# from firebase import Firebase
 
-f = Firebase('https://welse-141512.firebaseio.com/items')
+# f = Firebase('https://welse-141512.firebaseio.com/items')
 
 app = Flask(__name__)
 
