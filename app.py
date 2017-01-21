@@ -57,9 +57,7 @@ def webhook():
                                     "title": item['name'],
                                     "default_action": {
                                         "type": "web_url",
-                                        "url": item['link'],
-                                        "messenger_extensions": True,
-                                        "fallback_url": "https://powerful-woodland-41704.herokuapp.com/"
+                                        "url": item['link']
                                     }
                                 }
                             )
