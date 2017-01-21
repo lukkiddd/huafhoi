@@ -12,11 +12,7 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
-def convert(content):
-    content = content.lower();
-    ret = re.sub('[!=@\-\*/:"]+',"", content);
-    ret = re.sub("[\s]+", " ", ret);
-    return ret
+
 def scrap():
     items = []
     items_link = []
@@ -63,7 +59,9 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
                     # scan(sender_id)
-                    send_message(sender_id, "FUCK")
+                    send_message(sender_id, "ทดสอบ")
+                    send_message(sender_id, "ลอง")
+                    send_message(sender_id, "ลองส่งแบบหลายข้อความ")
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
@@ -105,23 +103,6 @@ def log(message):  # simple wrapper for logging to stdout on heroku
     print str(message)
     sys.stdout.flush()
 
-def scan(sender_id):
-    oldlen = 0
-    count = 0
-    new_item = []
-    while(1):
-        print count
-        items = scrap()
-        if(oldlen != len(items)):
-            for i in items:
-                if i not in new_item:
-
-                      send_message(sender_id, i['name'] + "\n LINK:" + i['link'])
-                      new_item.append(i)
-                      time.sleep(1)
-            oldlen = len(items)
-        time.sleep(1)
-        count += 1
 
 if __name__ == '__main__':
     app.run(debug=True)
