@@ -7,9 +7,9 @@ import re
 import time
 from bs4 import BeautifulSoup
 from flask import Flask, request
-# from firebase import Firebase
+from firebase import Firebase
 
-# f = Firebase('https://welse-141512.firebaseio.com/items')
+f = Firebase('https://welse-141512.firebaseio.com/items')
 
 app = Flask(__name__)
 
@@ -60,11 +60,9 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
                     # scan(sender_id)
-                    send_message(sender_id, "ทดสอบ")
-                    time.sleep(3)
-                    send_message(sender_id, "หลังจากส่งมา 3 วิ")
-                    time.sleep(3)
-                    send_message(sender_id, "อีก 3 วิ")
+                    a = f.get()
+                    for i in a:
+                        send_message(sender_id, i)
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
