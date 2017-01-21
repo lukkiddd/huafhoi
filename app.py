@@ -94,6 +94,7 @@ def webhook():
                     if message_text.lower() == 'cpu' or message_text.lower() == 'ram' or message_text.lower() == 'monitor' or message_text.lower() == 'storage':
                         f = Firebase('https://welse-141512.firebaseio.com/items/' + message_text + '/page' + str(page))
                         items_array = f.get()
+                        send_message('https://welse-141512.firebaseio.com/items/' + message_text + '/page' + str(page))
                         if items_array == None:
                             send_message(sender_id, "Nothing new!")
                             break
