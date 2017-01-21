@@ -61,6 +61,7 @@ def webhook():
                                 {
                                     "title": item['name'],
                                     "subtitle": item['subtitle'],
+                                    "image_url": "http://th.seaicons.com/wp-content/uploads/2016/07/RAM-Drive-icon.png",
                                     "buttons": [{
                                         "title": "View",
                                         "type": "web_url",
