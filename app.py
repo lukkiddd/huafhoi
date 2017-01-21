@@ -43,6 +43,8 @@ def webhook():
                     if(not messaging_event["message"].has_key('text')):
                         break
                     message_text = messaging_event["message"]["text"]  # the message's text
+                    send_message(sender_id, message_text)
+                    
                     if message_text.lower() == 'cpu' or message_text.lower() == 'ram' or message_text.lower() == 'monitor' or message_text.lower() == 'storage':
                         f = Firebase('https://welse-141512.firebaseio.com/items/' + message_text + '/page1')
                         items_array = f.get()
@@ -90,11 +92,11 @@ def webhook():
                     if(not messaging_event["postback"].has_key('payload')):
                         break
                     message_text = messaging_event["postback"]["payload"].split(",")[0] 
+                    send_message(sender_id, message_text)
                     page = messaging_event["postback"]["payload"].split(",")[1] 
                     if message_text.lower() == 'cpu' or message_text.lower() == 'ram' or message_text.lower() == 'monitor' or message_text.lower() == 'storage':
                         f = Firebase('https://welse-141512.firebaseio.com/items/' + message_text + '/page' + str(page))
                         items_array = f.get()
-                        send_message(sender_id,'https://welse-141512.firebaseio.com/items/' + message_text + '/page' + str(page))
                         if items_array == None:
                             send_message(sender_id, "Nothing new!")
                             break
