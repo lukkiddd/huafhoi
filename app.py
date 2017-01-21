@@ -10,6 +10,13 @@ from flask import Flask, request
 from firebase import Firebase
 
 f = Firebase('https://welse-141512.firebaseio.com/items')
+items_array = f.get()
+for i in items_array:
+    q = Firebase('https://welse-141512.firebaseio.com/items/' + i)
+    item = q.get()
+    print(item)
+    print(item['name'])
+    print(item['link'])
 
 app = Flask(__name__)
 
