@@ -60,8 +60,10 @@ def webhook():
                     message_text = messaging_event["message"]["text"]  # the message's text
                     # scan(sender_id)
                     send_message(sender_id, "ทดสอบ")
-                    send_message(sender_id, "ลอง")
-                    send_message(sender_id, "ลองส่งแบบหลายข้อความ")
+                    time.sleep(3)
+                    send_message(sender_id, "หลังจากส่งมา 3 วิ")
+                    time.sleep(3)
+                    send_message(sender_id, "อีก 3 วิ")
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
