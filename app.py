@@ -48,7 +48,7 @@ def webhook():
                     for i in items_array:
                         q = Firebase('https://welse-141512.firebaseio.com/items/' + i)
                         item = q.get()
-                        send_message(sender_id, item['link'])
+                        send_message(sender_id, item['name'])
                     # for i in a:
                         # send_message(sender_id, i)
 
@@ -66,7 +66,7 @@ def webhook():
 
 def send_message(recipient_id, message_text):
 
-    log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
+    # log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
 
     params = {
         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
