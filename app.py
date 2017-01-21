@@ -56,11 +56,11 @@ def webhook():
                                 {
                                     "title": item['name'],
                                     "subtitle": item['type'],
-                                    # "buttons": {
-                                    #     "title": "View",
-                                    #     "type": "web_url",
-                                    #     "url": item['link'],
-                                    # },
+                                    "buttons": [{
+                                        "title": "View",
+                                        "type": "web_url",
+                                        "url": item['link'],
+                                    }],
                                     "default_action": {
                                         "type": "web_url",
                                         "url": item['link']
@@ -105,6 +105,7 @@ def send_message(recipient_id, elements):
                 "type": "template",
                 "payload": {
                     "template_type": "list",
+                    "top_element_style": "compact",
                     "elements": elements
                 }
             }
