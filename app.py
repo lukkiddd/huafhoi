@@ -73,7 +73,7 @@ def webhook():
                                 }
                             )
                             counts += 1
-                        send_elements(sender_id, el, 2)
+                        send_elements(sender_id, el, 2, item['type'])
                     else:
                         send_message(sender_id, "NO item from " + message_text + ' category')
 
@@ -86,9 +86,10 @@ def webhook():
                 if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
-                    if(not messaging_event["message"].has_key('text')):
+                    if(not messaging_event["postback"].has_key('payload')):
                         break
-                    message_text = messaging_event["message"]["text"]  # the message's text
+                    message_text = messaging_event["postback"]["payload"].split(",")[0] 
+                    page = messaging_event["postback"]["payload"].split(",")[1] 
                     if message_text.lower() == 'cpu' or message_text.lower() == 'ram' or message_text.lower() == 'monitor' or message_text.lower() == 'storage':
                         f = Firebase('https://welse-141512.firebaseio.com/items/' + message_text + '/page' + str(page))
                         items_array = f.get()
@@ -120,7 +121,7 @@ def webhook():
                             )
                             counts += 1
                         page += 1
-                        send_elements(sender_id, el, page)
+                        send_elements(sender_id, el, page, item['type'])
                     else:
                         send_message(sender_id, "NO item from " + message_text + ' category')
 
@@ -147,7 +148,7 @@ def send_message(recipient_id, message_text):
         log(r.status_code)
         log(r.text)
 
-def send_elements(recipient_id, elements, page):
+def send_elements(recipient_id, elements, page, item_type):
 
     # log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
 
@@ -172,7 +173,7 @@ def send_elements(recipient_id, elements, page):
                         {
                             "title": "View More",
                             "type": "postback",
-                            "payload": str(page)                        
+                            "payload": item_type+","+str(page)                        
                         }
                     ]  
                 }
