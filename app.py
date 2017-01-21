@@ -48,7 +48,7 @@ def webhook():
                             q = Firebase('https://welse-141512.firebaseio.com/items/' + message_text + '/' + i)
                             item = q.get()
                             print("\n\n\n")
-                            send_message(sender_id, item['name'] + "\n" + item['link'])
+                            send_message(sender_id, item)
                     else:
                         send_message(sender_id, "NO item from " + message_text + ' category')
                     # for i in a:
@@ -66,7 +66,7 @@ def webhook():
     return "ok", 200
 
 
-def send_message(recipient_id, message_text):
+def send_message(recipient_id, item):
 
     # log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
 
@@ -81,8 +81,27 @@ def send_message(recipient_id, message_text):
             "id": recipient_id
         },
         "message": {
-            "text": message_text
+            "attachment": {
+                "type": "template",
+                "payload": {
+                    "template_type": "list",
+                    "elements": [
+                        {
+                            "title": item['name'],
+                            "default_action": {
+                                "type": "web_url",
+                                "url": item['link'],
+                                "messenger_extensions": true,
+                                "fallback_url": "https://powerful-woodland-41704.herokuapp.com/"
+                            },
+                        }
+                    ]
+                }
+            }
         }
+        # "message": {
+        #     "text": message_text
+        # }
     })
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
     if r.status_code != 200:
