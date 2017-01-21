@@ -44,11 +44,23 @@ def webhook():
                     if message_text == 'cpu' or message_text == 'ram' or message_text == 'monitor' or message_text == 'storage':
                         f = Firebase('https://welse-141512.firebaseio.com/items/' + message_text)
                         items_array = f.get()
+                        el = []
                         for i in items_array:
                             q = Firebase('https://welse-141512.firebaseio.com/items/' + message_text + '/' + i)
                             item = q.get()
                             print("\n\n\n")
-                            send_message(sender_id, item)
+                            el.append(
+                                {
+                                    "title": item['name'],
+                                    "default_action": {
+                                        "type": "web_url",
+                                        "url": item['link'],
+                                        "messenger_extensions": true,
+                                        "fallback_url": "https://powerful-woodland-41704.herokuapp.com/"
+                                    },
+                                }
+                            )
+                        send_message(sender_id, el)
                     else:
                         send_message(sender_id, "NO item from " + message_text + ' category')
                     # for i in a:
@@ -66,7 +78,7 @@ def webhook():
     return "ok", 200
 
 
-def send_message(recipient_id, item):
+def send_message(recipient_id, elements):
 
     # log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
 
@@ -85,17 +97,7 @@ def send_message(recipient_id, item):
                 "type": "template",
                 "payload": {
                     "template_type": "list",
-                    "elements": [
-                        {
-                            "title": item['name'],
-                            "default_action": {
-                                "type": "web_url",
-                                "url": item['link'],
-                                "messenger_extensions": true,
-                                "fallback_url": "https://powerful-woodland-41704.herokuapp.com/"
-                            },
-                        }
-                    ]
+                    "elements": elements
                 }
             }
         }
