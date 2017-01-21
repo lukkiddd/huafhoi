@@ -59,7 +59,7 @@ def webhook():
                                         "title": "View",
                                         "type": "web_url",
                                         "url": item['link'],
-                                    }
+                                    },
                                     "default_action": {
                                         "type": "web_url",
                                         "url": item['link']
