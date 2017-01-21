@@ -42,10 +42,10 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     if(not messaging_event["message"].has_key('text')):
                         break
-                    message_text = messaging_event["message"]["text"]  # the message's text
+                    message_text = messaging_event["message"]["text"].lower()  # the message's text
 
-                    if message_text.lower() == 'cpu' or message_text.lower() == 'ram' or message_text.lower() == 'monitor' or message_text.lower() == 'storage':
-                        f = Firebase('https://welse-141512.firebaseio.com/items/' + message_text.lower() + '/page1')
+                    if message_text == 'cpu' or message_text == 'ram' or message_text == 'monitor' or message_text == 'storage':
+                        f = Firebase('https://welse-141512.firebaseio.com/items/' + message_text + '/page1')
                         items_array = f.get()
                         if items_array == None:
                             send_message(sender_id, "Nothing new!")
@@ -90,10 +90,11 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     if(not messaging_event["postback"].has_key('payload')):
                         break
-                    message_text = messaging_event["postback"]["payload"].split(",")[0] 
+                    message_text = messaging_event["postback"]["payload"].split(",")[0].lower()
+
                     page = messaging_event["postback"]["payload"].split(",")[1] 
-                    if message_text.lower() == 'cpu' or message_text.lower() == 'ram' or message_text.lower() == 'monitor' or message_text.lower() == 'storage':
-                        f = Firebase('https://welse-141512.firebaseio.com/items/' + message_text.lower() + '/page' + str(page))
+                    if message_text == 'cpu' or message_text == 'ram' or message_text == 'monitor' or message_text == 'storage':
+                        f = Firebase('https://welse-141512.firebaseio.com/items/' + message_text + '/page' + str(page))
                         items_array = f.get()
                         if items_array == None:
                             send_message(sender_id, "Nothing new!")
