@@ -114,7 +114,7 @@ def scan(sender_id):
         if(oldlen != len(items)):
             for i in items:
                 if i not in new_item:
-                      print(i['name'])
+                      # print(i['name'])
                       send_message(sender_id, i['name'] + "\n LINK:" + i['link'])
                       new_item.append(i)
             oldlen = len(items)
