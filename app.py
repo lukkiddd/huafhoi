@@ -62,7 +62,8 @@ def webhook():
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
-                    scan(sender_id)
+                    # scan(sender_id)
+                    send_message(sender_id, "FUCK")
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
@@ -114,7 +115,7 @@ def scan(sender_id):
         if(oldlen != len(items)):
             for i in items:
                 if i not in new_item:
-                      print("\n\n=== SEND\n\n")
+
                       send_message(sender_id, i['name'] + "\n LINK:" + i['link'])
                       new_item.append(i)
                       time.sleep(1)
