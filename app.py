@@ -55,11 +55,12 @@ def webhook():
                             el.append(
                                 {
                                     "title": item['name'],
-                                    "buttons": {
-                                        "title": "View",
-                                        "type": "web_url",
-                                        "url": item['link'],
-                                    },
+                                    "subtitle": item['type'],
+                                    # "buttons": {
+                                    #     "title": "View",
+                                    #     "type": "web_url",
+                                    #     "url": item['link'],
+                                    # },
                                     "default_action": {
                                         "type": "web_url",
                                         "url": item['link']
