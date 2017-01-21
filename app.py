@@ -40,8 +40,8 @@ def webhook():
 
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
-                    message_text = messaging_event["message"]["text"]  # the message's text
-                    if message_text == 'cpu' or message_text == 'ram' or message_text == 'monitor':
+                    message_text = messaging_event["message"]["text"].lower()  # the message's text
+                    if message_text == 'cpu' or message_text == 'ram' or message_text == 'monitor' or message_text == 'storage':
                         f = Firebase('https://welse-141512.firebaseio.com/items/' + message_text)
                         items_array = f.get()
                         for i in items_array:
