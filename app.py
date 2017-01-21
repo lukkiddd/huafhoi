@@ -9,8 +9,6 @@ from bs4 import BeautifulSoup
 from flask import Flask, request
 from firebase import Firebase
 
-f = Firebase('https://welse-141512.firebaseio.com/items')
-
 app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
@@ -43,12 +41,16 @@ def webhook():
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
-                    # scan(sender_id)
-                    items_array = f.get()
-                    for i in items_array:
-                        q = Firebase('https://welse-141512.firebaseio.com/items/' + i)
-                        item = q.get()
-                        send_message(sender_id, item['name'])
+                    if message_text == 'cpu' or message_text == 'ram' or message_text == 'monitor':
+                        f = Firebase('https://welse-141512.firebaseio.com/items/' + message_text)
+                        items_array = f.get()
+                        for i in items_array:
+                            q = Firebase('https://welse-141512.firebaseio.com/items/' + message_text)
+                            item = q.get()
+                            print("\n\n\n")
+                            send_message(sender_id, item['name'])
+                    else:
+                        send_message(sender_id, "ไม่มีของประเภท " + message_text)
                     # for i in a:
                         # send_message(sender_id, i)
 
