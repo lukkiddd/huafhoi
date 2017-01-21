@@ -2,6 +2,9 @@ import os
 import sys
 import json
 import requests
+import re
+import time
+from bs4 import BeautifulSoup
 from flask import Flask, request
 from firebase import Firebase
 
@@ -9,6 +12,25 @@ f = Firebase('https://welse-141512.firebaseio.com/items')
 
 app = Flask(__name__)
 
+def convert(content):
+    content = content.lower();
+    ret = re.sub('[!=@\-\*/:"]+',"", content);
+    ret = re.sub("[\s]+", " ", ret);
+    return ret
+def scrap():
+    items = []
+    items_link = []
+    for i in xrange(1,5):
+        url = "https://www.overclockzone.com/forums/forumdisplay.php/158-Monitor/page" + str(i) + "?prefixid=Sell"
+        r  = requests.get(url)
+        data = r.text
+        soup = BeautifulSoup(data)
+        for item in soup.find_all('div', {'class':'inner'}):
+            if("Today" in item.find_all('span',{'class':'label'})[0].get_text() or
+               "Yesterday" in item.find_all('span',{'class':'label'})[0].get_text()):
+                for title in item.find_all('a', {'class':'title'}):
+                    items.append({'name': convert(title.get_text()), 'link': "https://www.overclockzone.com/forums/" +title['href']})
+    return items
 
 @app.route('/', methods=['GET'])
 def verify():
@@ -40,9 +62,7 @@ def webhook():
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
-                    a = f.get()
-                    for i in a:
-                        send_message(sender_id, a)
+                    scan(sender_id)
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
@@ -84,6 +104,22 @@ def log(message):  # simple wrapper for logging to stdout on heroku
     print str(message)
     sys.stdout.flush()
 
+def scan(sender_id):
+    oldlen = 0
+    count = 0
+    new_item = []
+    while(1):
+        print count
+        items = scrap()
+        if(oldlen != len(items)):
+            for i in items:
+                if i not in new_item:
+                      print(i['name'])
+                      send_message(sender_id, i['name'] + "\n LINK:" + i['link'])
+                      new_item.append(i)
+            oldlen = len(items)
+        time.sleep(1)
+        count += 1
 
 if __name__ == '__main__':
     app.run(debug=True)
