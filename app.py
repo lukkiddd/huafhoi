@@ -45,9 +45,9 @@ def webhook():
                         f = Firebase('https://welse-141512.firebaseio.com/items/' + message_text)
                         items_array = f.get()
                         el = []
-                        counts + 0
+                        counts = 0
                         for i in items_array:
-                            if counts == 5 :
+                            if counts == 4 :
                                 break
                             q = Firebase('https://welse-141512.firebaseio.com/items/' + message_text + '/' + i)
                             item = q.get()
