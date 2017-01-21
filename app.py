@@ -48,9 +48,9 @@ def webhook():
                             q = Firebase('https://welse-141512.firebaseio.com/items/' + message_text)
                             item = q.get()
                             print("\n\n\n")
-                            send_message(sender_id, item['name'])
+                            send_message(sender_id, item['name'] + "\n" + item['link'])
                     else:
-                        send_message(sender_id, "ไม่มีของประเภท " + message_text)
+                        send_message(sender_id, "NO item from " + message_text + ' category')
                     # for i in a:
                         # send_message(sender_id, i)
 
