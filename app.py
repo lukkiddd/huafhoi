@@ -45,7 +45,7 @@ def webhook():
                         f = Firebase('https://welse-141512.firebaseio.com/items/' + message_text)
                         items_array = f.get()
                         for i in items_array:
-                            q = Firebase('https://welse-141512.firebaseio.com/items/' + message_text)
+                            q = Firebase('https://welse-141512.firebaseio.com/items/' + message_text + '/' + i)
                             item = q.get()
                             print("\n\n\n")
                             send_message(sender_id, item['name'] + "\n" + item['link'])
