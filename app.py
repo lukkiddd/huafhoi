@@ -123,8 +123,8 @@ def webhook():
                                 }
                             )
                             counts += 1
-                        page += 1
-                        send_elements(sender_id, el, page, item['type'])
+                        next_page = int(page) + 1
+                        send_elements(sender_id, el, next_page, item['type'])
                     else:
                         send_message(sender_id, "NO item from " + message_text + ' category')
 
