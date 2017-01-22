@@ -10,8 +10,8 @@ from flask import Flask, request
 from firebase import Firebase
 
 def send_news():
-    f = Firebase('https://welse-141512.firebaseio.com/item_list')
-    old_items = f.get()
+    fb = Firebase('https://welse-141512.firebaseio.com/item_list')
+    old_items = fb.get()
     if(old_items == None):
         old_items = scrap()
 
@@ -20,8 +20,9 @@ def send_news():
     counts = 0
     el = []
     broadcast_text("Checking:: " + str(len(old_items)) + " | " + str(len(new_items)))
+    broadcast_text(str(len(new_items) - len(old_items)) + ' อัพเดทใหม่จ้า')
     if( len(new_items) == len(old_items) ):
-        broadcast_text("NO ITEM NEW")
+        broadcast_text("ยังไม่มีของใหม่นะ")
     else:
         for item in new_items:
             if counts == 1:
@@ -45,7 +46,7 @@ def send_news():
                 }
             )
             counts += 1
-   	f.set(new_items)
+    fb.set(new_items)
 
 def broadcast_text(message_text):
     f = Firebase('https://welse-141512.firebaseio.com/ocz/')
