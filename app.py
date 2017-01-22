@@ -76,6 +76,10 @@ def webhook():
                             )
                             counts += 1
                         send_elements(sender_id, el, 2, item['type'])
+                    elif message_text == 'noti':
+                        while(1):
+                            send_message(sender_id, "test_noti")
+                            time.sleep(1)
                     else:
                         send_message(sender_id, "NO item from " + message_text + ' category')
 
