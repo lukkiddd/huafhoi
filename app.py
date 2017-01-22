@@ -267,9 +267,38 @@ def log(message):  # simple wrapper for logging to stdout on heroku
     print str(message)
     sys.stdout.flush()
 
+def convert(content):
+    content = content.lower();
+    ret = re.sub('[!=@\-\*/:"]+',"", content);
+    ret = re.sub("[\s]+", " ", ret);
+    return ret
+
 def scrap():
+    type_item = [
+        {
+            'slug': 'cpu',
+            'value': '93-CPU',
+            'image': 'https://www.iconexperience.com/_img/g_collection_png/standard/512x512/cpu2.png'
+        },
+        {
+            'slug': 'monitor',
+            'value': '158-Monitor',
+            'image': 'https://www.iconexperience.com/_img/g_collection_png/standard/512x512/monitor.png'
+        },
+        {
+            'slug': 'ram',
+            'value': '94-Memory-(RAM)',
+            'image': 'http://th.seaicons.com/wp-content/uploads/2016/07/RAM-Drive-icon.png'
+        },
+        {
+            'slug': 'storage',
+            'value': '96-Storage',
+            'image': 'http://pngwebicons.com/upload/small/hard_disk_png9158.png'
+        }
+    ]
     items = []
     for slug in type_item:
+        print "Loading:",slug['slug']
         for i in xrange(1,5):
             url = "https://www.overclockzone.com/forums/forumdisplay.php/"+slug['value']+"/page" + str(i) + "?prefixid=Sell"
             r  = requests.get(url)
@@ -294,6 +323,7 @@ def scrap():
 def getNew(items):
     oldlen = 0
     new_item = []
+    print "Checking New"
     if(oldlen != len(items)):
         for i in items:
             if i not in new_item:
