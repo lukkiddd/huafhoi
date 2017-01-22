@@ -328,15 +328,15 @@ def scrap():
                             )
     return items
 
-def getNew(items):
-    oldlen = 0
-    new_item = []
+def getNew(old,new):
+    oldlen = len(old)
+    new_item = new
     print "Checking New"
-    if(oldlen != len(items)):
-        for i in items:
+    if(oldlen != len(new)):
+        for i in new:
             if i not in new_item:
                 new_item.append(i)
-        oldlen = len(items)
+        oldlen = len(new)
     return new_item
 
 if __name__ == '__main__':
