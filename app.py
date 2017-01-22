@@ -200,7 +200,29 @@ def send_image(recipient_id, image):
               "payload":{
                 "url": image
               }
-            }
+            },
+            "quick_replies":[
+              {
+                "content_type":"text",
+                "title":"Ram",
+                "payload": "ram,1"
+              },
+              {
+                "content_type":"text",
+                "title":"Monitor",
+                "payload": "monitor,1"
+              },
+              {
+                "content_type":"text",
+                "title":"CPU",
+                "payload": "cpu,1"
+              },
+              {
+                "content_type":"text",
+                "title":"Storage",
+                "payload": "storage,1"
+              }
+            ]
         }
     })
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
