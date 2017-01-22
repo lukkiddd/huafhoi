@@ -127,12 +127,13 @@ def webhook():
                             counts += 1
                         next_page = int(page) + 1
                         send_elements(sender_id, el, next_page, item['type'])
+                    elif message_text == "check":
+                        send_news() 
                     else:
                         send_message(sender_id, "NO item from " + message_text + ' category')
 
     return "ok", 200
 
-@app.route('/update', methods=['GET'])
 def send_news():
     old_items = scrap()
     while(1):
