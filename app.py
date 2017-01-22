@@ -76,12 +76,13 @@ def webhook():
                             )
                             counts += 1
                         send_elements(sender_id, el, 2, item['type'])
-                    elif message_text == 'check':
-                        send_message(sender_id, "Subcribe!!")
+                    elif message_text == 'checka':
                         old_items = scrap()
                         while(1):
                             new_items = scrap()
                             new_items = getNew(old_items, new_items)
+                            log(len(new_items))
+                            log(len(old_items))
                             if( len(new_items) == 0 ):
                                 continue
                             for item in new_items:
