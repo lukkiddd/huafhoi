@@ -48,7 +48,7 @@ def webhook():
                         f = Firebase('https://welse-141512.firebaseio.com/items/' + message_text + '/page1')
                         items_array = f.get()
                         if items_array == None:
-                            send_message(sender_id, "Nothing new!")
+                            send_message(sender_id, "หมดแล้ว!! บ๋อแบ๋")
                             break
                         el = []
                         counts = 0
@@ -78,7 +78,7 @@ def webhook():
                             counts += 1
                         send_elements(sender_id, el, 2, item['type'])
                     else:
-                        send_message(sender_id, "NO item from " + message_text + ' category')
+                        send_message(sender_id, "เลือกตามเมนูดิเห้ย !! เดี๋ยวตบหัวฟ่ำ!!")
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
@@ -98,7 +98,7 @@ def webhook():
                         f = Firebase('https://welse-141512.firebaseio.com/items/' + message_text + '/page' + str(page))
                         items_array = f.get()
                         if items_array == None:
-                            send_message(sender_id, "Nothing new!")
+                            send_message(sender_id, "หมดแล้ว!! บ๋อแบ๋")
                             break
                         el = []
                         counts = 0
