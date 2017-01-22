@@ -25,7 +25,7 @@ def send_news():
         pass
     else:
         for item in new_send:
-            if(counts % 4 or item['name'] == new_send[-1]['name']):
+            if(counts % 10 or item['name'] == new_send[-1]['name']):
                 broadcast_generic(el)
                 el = []
             el.append(
@@ -256,10 +256,9 @@ def scrap():
                         items.append(
                             {
                             'name': convert(title.get_text()),
-                            'subtitle': item.find_all('span', {'class':'label'})[0].get_text(),
+                            'subtitle': item.find_all('span', {'class':'label'})[0].get_text().split(",")[0],
                             'link': "https://www.overclockzone.com/forums/" +title['href'],
                             'type': slug['slug'],
-                            'time': item.find_all('span', {'class':'label'})[0].get_text().split(",")[1],
                             'image': slug['image']
                             }
                           )
@@ -267,8 +266,6 @@ def scrap():
 
 def getNew(old,new):
     new_i = []
-    print len(old)
-    print len(new)
     for n in new:
         if n not in old:
             new_i.append(n)
