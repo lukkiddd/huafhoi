@@ -284,26 +284,26 @@ def convert(content):
 
 def scrap():
     type_item = [
-        {
-            'slug': 'cpu',
-            'value': '93-CPU',
-            'image': 'https://www.iconexperience.com/_img/g_collection_png/standard/512x512/cpu2.png'
-        },
-        {
-            'slug': 'monitor',
-            'value': '158-Monitor',
-            'image': 'https://www.iconexperience.com/_img/g_collection_png/standard/512x512/monitor.png'
-        },
+        # {
+        #     'slug': 'cpu',
+        #     'value': '93-CPU',
+        #     'image': 'https://www.iconexperience.com/_img/g_collection_png/standard/512x512/cpu2.png'
+        # },
+        # {
+        #     'slug': 'monitor',
+        #     'value': '158-Monitor',
+        #     'image': 'https://www.iconexperience.com/_img/g_collection_png/standard/512x512/monitor.png'
+        # },
         {
             'slug': 'ram',
             'value': '94-Memory-(RAM)',
             'image': 'http://th.seaicons.com/wp-content/uploads/2016/07/RAM-Drive-icon.png'
-        },
-        {
-            'slug': 'storage',
-            'value': '96-Storage',
-            'image': 'http://pngwebicons.com/upload/small/hard_disk_png9158.png'
         }
+        # {
+        #     'slug': 'storage',
+        #     'value': '96-Storage',
+        #     'image': 'http://pngwebicons.com/upload/small/hard_disk_png9158.png'
+        # }
     ]
     items = []
     for slug in type_item:
