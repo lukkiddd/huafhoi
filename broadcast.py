@@ -22,13 +22,9 @@ def send_news():
     broadcast_text("Checking:: " + str(len(old_items)) + " | " + str(len(new_items)))
     broadcast_text(str(len(new_items) - len(old_items)) + ' อัพเดทใหม่จ้า')
     if( len(new_items) == len(old_items) ):
-        broadcast_text("ยังไม่มีของใหม่นะ")
+        pass
     else:
         for item in new_items:
-            if counts == 1:
-                broadcast_element(el)
-                counts = 0
-                el = []
             el.append(
                 {
                     "title": item['name'],
@@ -45,6 +41,9 @@ def send_news():
                     }
                 }
             )
+            broadcast_element(el)
+            counts = 0
+            el = []
             counts += 1
     fb.set(new_items)
 
