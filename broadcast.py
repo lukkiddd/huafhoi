@@ -33,6 +33,9 @@ def send_news():
                         "title": "View",
                         "type": "web_url",
                         "url": item['link'],
+                    },
+                    {
+                        "type":"element_share"
                     }],
                     "default_action": {
                         "type": "web_url",
