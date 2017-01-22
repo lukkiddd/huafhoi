@@ -245,7 +245,7 @@ def scrap():
     items = []
     for slug in type_item:
         print "Loading:",slug['slug']
-        for i in xrange(1,5):
+        for i in xrange(1,3):
             url = "https://www.overclockzone.com/forums/forumdisplay.php/"+slug['value']+"/page" + str(i) + "?prefixid=Sell"
             r  = requests.get(url)
             data = r.text
@@ -267,7 +267,11 @@ def scrap():
 def getNew(old,new):
     new_i = []
     for n in new:
-        if n not in old:
+        found = 0
+        for o in old:
+            if n['name'] == o['name']:
+                found = 1
+        if not found:
             new_i.append(n)
     return new_i
 
