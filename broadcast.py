@@ -10,22 +10,21 @@ from flask import Flask, request
 from firebase import Firebase
 
 def send_news(sender):
-   	f = Firebase('https://welse-141512.firebaseio.com/item_list')
-		old_items = f.get()
+    f = Firebase('https://welse-141512.firebaseio.com/item_list')
+    old_items = f.get()
+    if(old_items == None):
+    old_items = scrap()
 
-		if(old_items == None):
-	    old_items = scrap()
-
-	  new_items = scrap()
-	  new_items = getNew(old_items, new_items)
-	  counts = 0
-	  if( len(new_items) == 0 )
-				broadcast_text("Checking:: " + str(len(old_items)) + " | " + str(len(new_items)))
-		else:
-				for item in new_items:
-						if counts == 4:
-								broadcast_element(el, 2, item['type'])
-						el.append(
+    new_items = scrap()
+    new_items = getNew(old_items, new_items)
+    counts = 0
+    if( len(new_items) == 0 )
+        broadcast_text("Checking:: " + str(len(old_items)) + " | " + str(len(new_items)))
+    else:
+        for item in new_items:
+            if counts == 4:
+                broadcast_element(el, 2, item['type'])
+            el.append(
                 {
                     "title": item['name'],
                     "subtitle": item['subtitle'],
@@ -45,16 +44,16 @@ def send_news(sender):
    	f.push(new_items)
 
 def broadcast_text(message_text):
-		f = Firebase('https://welse-141512.firebaseio.com/ocz/')
-		user = f.get()
-		for u in user:
-				send_message(u, message_text)
+    f = Firebase('https://welse-141512.firebaseio.com/ocz/')
+    user = f.get()
+    for u in user:
+        send_message(u, message_text)
 
 def broadcast_element(elements, page, item_type):
-		f = Firebase('https://welse-141512.firebaseio.com/ocz/')
-		user = f.get()
-		for u in user:
-				send_elements(u, elements, page, item_type)
+    f = Firebase('https://welse-141512.firebaseio.com/ocz/')
+    user = f.get()
+    for u in user:
+        send_elements(u, elements, page, item_type)
 
 def send_message(recipient_id, message_text):
     params = {
@@ -224,4 +223,4 @@ def getNew(old,new):
     return new_item
 
 if __name__ == '__main__':
-	send_news()
+    send_news()
