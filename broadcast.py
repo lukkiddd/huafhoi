@@ -45,7 +45,7 @@ def send_news():
                     }
                 }
             )
-            broadcast_generic(el)
+            broadcast_element(el)
             el = []
             counts += 1
     fb.set(new_items)
