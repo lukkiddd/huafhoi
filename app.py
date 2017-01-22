@@ -78,7 +78,7 @@ def webhook():
                             counts += 1
                         send_elements(sender_id, el, 2, item['type'])
                     elif message_text == "check":
-                        send_news() 
+                        send_news(sender_id) 
                     else:
                         send_message(sender_id, "NO item from " + message_text + ' category')
 
@@ -133,14 +133,15 @@ def webhook():
 
     return "ok", 200
 
-def send_news():
+def send_news(sender):
     old_items = scrap()
     while(1):
-        send_message(202924450173508, "CHECKING")
+        send_message(sender, "CHECKING")
         new_items = scrap()
         new_items = getNew(old_items, new_items)
-        send_message(202924450173508, "new: " + str(len(new_items)))
-        send_message(202924450173508, "old: " + str(len(old_items)))
+        counts = 0
+        send_message(sender, "new: " + str(len(new_items)))
+        send_message(sender, "old: " + str(len(old_items)))
         if( len(new_items) == 0 ):
             continue
         for item in new_items:
