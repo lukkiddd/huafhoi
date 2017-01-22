@@ -77,7 +77,8 @@ def webhook():
                             )
                             counts += 1
                         send_elements(sender_id, el, 2, item['type'])
-
+                    elif message_text == "check":
+                        send_news() 
                     else:
                         send_message(sender_id, "NO item from " + message_text + ' category')
 
@@ -127,8 +128,6 @@ def webhook():
                             counts += 1
                         next_page = int(page) + 1
                         send_elements(sender_id, el, next_page, item['type'])
-                    elif message_text == "check":
-                        send_news() 
                     else:
                         send_message(sender_id, "NO item from " + message_text + ' category')
 
