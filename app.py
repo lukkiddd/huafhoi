@@ -80,8 +80,8 @@ def webhook():
                         send_elements(sender_id, el, 2, item['type'])
                     else:
                         send_message(sender_id, "เลือกตามเมนูดิเห้ย !! เดี๋ยวตบหัวฟ่ำ!!")
-                        send_imaeg(sender_id, "https://media.tenor.co/images/98c01672f3f5e6868d28d47ad4971a22/raw")
-                        
+                        send_image(sender_id, "https://media.tenor.co/images/98c01672f3f5e6868d28d47ad4971a22/raw")
+
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
@@ -140,7 +140,7 @@ def webhook():
                         send_elements(sender_id, el, next_page, item['type'])
                     else:
                         send_message(sender_id, "เลือกตามเมนูดิเห้ย !! เดี๋ยวตบหัวฟ่ำ!!")
-                        send_imaeg(sender_id, "https://media.tenor.co/images/98c01672f3f5e6868d28d47ad4971a22/raw")
+                        send_image(sender_id, "https://media.tenor.co/images/98c01672f3f5e6868d28d47ad4971a22/raw")
 
     return "ok", 200
 
