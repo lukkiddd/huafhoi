@@ -167,7 +167,7 @@ def send_news():
                 }
             )
             counts += 1
-        time.sleep(10)
+        time.sleep(5)
         old_items = new_items
 
 def send_message(recipient_id, message_text):
