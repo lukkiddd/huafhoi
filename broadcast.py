@@ -24,27 +24,50 @@ def send_news():
     if( len(new_items) == len(old_items) ):
         pass
     else:
-        for item in new_items:
-            el.append(
-                {
-                    "title": item['name'],
-                    "subtitle": item['subtitle'],
-                    "image_url": item['image'],
-                    "buttons": [{
-                        "title": "View",
-                        "type": "web_url",
-                        "url": item['link'],
-                    }],
-                    "default_action": {
-                        "type": "web_url",
-                        "url": item['link']
+        if(len(new_items) > 1):
+            for item in new_items:
+                if(counts == 2):
+                    broadcast_element(el)
+                    counts = 0
+                    el = []
+                el.append(
+                    {
+                        "title": item['name'],
+                        "subtitle": item['subtitle'],
+                        "image_url": item['image'],
+                        "buttons": [{
+                            "title": "View",
+                            "type": "web_url",
+                            "url": item['link'],
+                        }],
+                        "default_action": {
+                            "type": "web_url",
+                            "url": item['link']
+                        }
                     }
-                }
-            )
-            broadcast_element(el)
-            counts = 0
-            el = []
-            counts += 1
+                )
+                counts += 1
+        else:
+            for item in new_items:
+                el.append(
+                    {
+                        "title": item['name'],
+                        "subtitle": item['subtitle'],
+                        "image_url": item['image'],
+                        "buttons": [{
+                            "title": "View",
+                            "type": "web_url",
+                            "url": item['link'],
+                        }],
+                        "default_action": {
+                            "type": "web_url",
+                            "url": item['link']
+                        }
+                    }
+                )
+                broadcast_generic(el)
+                el = []
+
     fb.set(new_items)
 
 def broadcast_text(message_text):
@@ -58,6 +81,12 @@ def broadcast_element(elements):
     user = f.get()
     for u in user:
         send_elements(u, elements)
+
+def broadcast_generic(elements):
+    f = Firebase('https://welse-141512.firebaseio.com/ocz/')
+    user = f.get()
+    for u in user:
+        send_generic(u, elements)
 
 def send_message(recipient_id, message_text):
     params = {
@@ -73,6 +102,54 @@ def send_message(recipient_id, message_text):
         },
         "message": {
             "text": message_text,
+            "quick_replies":[
+              {
+                "content_type":"text",
+                "title":"Ram",
+                "payload": "ram,1"
+              },
+              {
+                "content_type":"text",
+                "title":"Monitor",
+                "payload": "monitor,1"
+              },
+              {
+                "content_type":"text",
+                "title":"CPU",
+                "payload": "cpu,1"
+              },
+              {
+                "content_type":"text",
+                "title":"Storage",
+                "payload": "storage,1"
+              }
+            ]
+        }
+    })
+    r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
+    if r.status_code != 200:
+        log(r.status_code)
+        log(r.text)
+
+def send_generic(recipient_id, elements):
+    params = {
+        "access_token": os.environ["PAGE_ACCESS_TOKEN"]
+    }
+    headers = {
+        "Content-Type": "application/json"
+    }
+    data = json.dumps({
+        "recipient": {
+            "id": recipient_id
+        },
+        "message": {
+            "attachment": {
+                "type": "template",
+                "payload": {
+                    "template_type": "generic",
+                    "elements": elements
+                }
+            },
             "quick_replies":[
               {
                 "content_type":"text",
