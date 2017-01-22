@@ -79,6 +79,31 @@ def webhook():
                     elif message_text == 'noti':
                         while(1):
                             send_message(sender_id, "test_noti")
+                            allItem = scrap()
+                            new_items = getNew(allItem)
+                            if( len(new_items) == 0 ):
+                                continue
+                            for item in new_items:
+                                if counts == 4:
+                                    break
+                                el.append(
+                                    {
+                                        "title": item['name'],
+                                        "subtitle": item['subtitle'],
+                                        "image_url": item['image'],
+                                        "buttons": [{
+                                            "title": "View",
+                                            "type": "web_url",
+                                            "url": item['link'],
+                                        }],
+                                        "default_action": {
+                                            "type": "web_url",
+                                            "url": item['link']
+                                        }
+                                    }
+                                )
+                                counts += 1
+                            send_elements(sender_id, el, 2, item['type'])
                             time.sleep(1)
                     else:
                         send_message(sender_id, "NO item from " + message_text + ' category')
@@ -240,6 +265,39 @@ def log(message):  # simple wrapper for logging to stdout on heroku
     print str(message)
     sys.stdout.flush()
 
+def scrap():
+    items = []
+    for slug in type_item:
+        for i in xrange(1,5):
+            url = "https://www.overclockzone.com/forums/forumdisplay.php/"+slug['value']+"/page" + str(i) + "?prefixid=Sell"
+            r  = requests.get(url)
+            data = r.text
+            soup = BeautifulSoup(data)
+            for item in soup.find_all('div', {'class':'inner'}):
+                if("Today" in item.find_all('span',{'class':'label'})[0].get_text() or
+                    "Yesterday" in item.find_all('span',{'class':'label'})[0].get_text()):
+                    for title in item.find_all('a', {'class':'title'}):
+                        items.append(
+                            {
+                            'name': convert(title.get_text()),
+                            'subtitle': item.find_all('span', {'class':'label'})[0].get_text(),
+                            'link': "https://www.overclockzone.com/forums/" +title['href'],
+                            'type': slug['slug'],
+                            'time': item.find_all('span', {'class':'label'})[0].get_text().split(",")[1],
+                            'image': slug['image']
+                            }
+                            )
+    return items
+
+def getNew(items):
+    oldlen = 0
+    new_item = []
+    if(oldlen != len(items)):
+        for i in items:
+            if i not in new_item:
+                new_item.append(i)
+        oldlen = len(items)
+    return new_item
 
 if __name__ == '__main__':
     app.run(debug=True)
