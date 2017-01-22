@@ -76,7 +76,9 @@ def webhook():
                             )
                             counts += 1
                         send_elements(sender_id, el, 2, item['type'])
+
                     elif message_text == 'checka':
+                        send_message(sender_id,"UPDATE USER!!")
                         f = Firebase('https://welse-141512.firebaseio.com/ocz/'+sender_id)
                         f.push({"message":message_text})
 
