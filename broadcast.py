@@ -19,13 +19,13 @@ def send_news():
     new_send = getNew(old_items, new_items)
     counts = 0
     el = []
-    # broadcast_text("Checking:: " + str(len(old_items)) + " | " + str(len(new_items)))
-    # broadcast_text(str(len(new_send)) + ' อัพเดทใหม่จ้า')
     if( len(new_items) == len(old_items) ):
         pass
     else:
         broadcast_text('ใหม่!! ' + str(len(new_send)) + ' กระทู้เช็คด่วน!!')
         for item in new_send:
+            if(counts > 9):
+                break
             # if((counts % 10 and counts != 0) or item['name'] == new_send[-1]['name']):
                 # broadcast_generic(el)
                 # el = []
@@ -45,8 +45,7 @@ def send_news():
                     }
                 }
             )
-            broadcast_element(el)
-            el = []
+            broadcast_generic(el)
             counts += 1
     fb.set(new_items)
 
@@ -61,7 +60,6 @@ def broadcast_element(elements):
     f = Firebase('https://welse-141512.firebaseio.com/ocz/')
     user = f.get()
     for u in user:
-        # print u, elements[0]['title']
         send_elements(u, elements)
 
 def broadcast_generic(elements):
