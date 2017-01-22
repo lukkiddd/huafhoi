@@ -77,8 +77,8 @@ def webhook():
                             counts += 1
                         send_elements(sender_id, el, 2, item['type'])
                     elif message_text == 'noti':
+                        send_message(sender_id, "Subcribe!!")
                         while(1):
-                            send_message(sender_id, "test_noti")
                             allItem = scrap()
                             new_items = getNew(allItem)
                             if( len(new_items) == 0 ):
@@ -104,7 +104,7 @@ def webhook():
                                 )
                                 counts += 1
                             send_elements(sender_id, el, 2, item['type'])
-                            time.sleep(1)
+                            time.sleep(5)
                     else:
                         send_message(sender_id, "NO item from " + message_text + ' category')
 
