@@ -49,6 +49,7 @@ def webhook():
                         items_array = f.get()
                         if items_array == None:
                             send_message(sender_id, "หมดแล้ว!! บ๋อแบ๋")
+                            send_image(sender_id, "https://media.tenor.co/images/ab096f70ea512a3881e85756d3175c26/raw")
                             break
                         el = []
                         counts = 0
@@ -79,6 +80,8 @@ def webhook():
                         send_elements(sender_id, el, 2, item['type'])
                     else:
                         send_message(sender_id, "เลือกตามเมนูดิเห้ย !! เดี๋ยวตบหัวฟ่ำ!!")
+                        send_imaeg(sender_id, "https://media.tenor.co/images/98c01672f3f5e6868d28d47ad4971a22/raw")
+                        
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
@@ -93,6 +96,7 @@ def webhook():
                         break
                     if(messaging_event["postback"]["payload"] == 'hey'):
                         send_message(sender_id, "เฮ้ โย่ว หวัดเด")
+                        send_image(sender_id, "https://media.tenor.co/images/a4932ffb7bd04392cfd220e4cbd325f1/raw")
                         send_message(sender_id, "อยากรู้อะไร ถาม กดตามเมนู นอกจากนี้ อย่าทะลึ่งถาม เพราะจะตอบไม่ได้ เข้าใจไหม!!")
                         send_message(sender_id, "ต่อจากนี้ จะอัพเดทของใหม่ให้ทุก 10 นาที ถ้ามีของร้อนวางขายใหม่ จะทักไปอย่างรวดเร็วเลย")
                         send_message(sender_id, "ถ้ารำคาญก็ กด Delete Conversation ทิ้งไป โอเค๊??")
@@ -106,6 +110,7 @@ def webhook():
                         items_array = f.get()
                         if items_array == None:
                             send_message(sender_id, "หมดแล้ว!! บ๋อแบ๋")
+                            send_image(sender_id, "https://media.tenor.co/images/ab096f70ea512a3881e85756d3175c26/raw")
                             break
                         el = []
                         counts = 0
@@ -134,7 +139,8 @@ def webhook():
                         next_page = int(page) + 1
                         send_elements(sender_id, el, next_page, item['type'])
                     else:
-                        send_message(sender_id, "NO item from " + message_text + ' category')
+                        send_message(sender_id, "เลือกตามเมนูดิเห้ย !! เดี๋ยวตบหัวฟ่ำ!!")
+                        send_imaeg(sender_id, "https://media.tenor.co/images/98c01672f3f5e6868d28d47ad4971a22/raw")
 
     return "ok", 200
 
@@ -175,6 +181,32 @@ def send_news(sender):
             counts += 1
         time.sleep(5)
         old_items = new_items
+
+def send_image(recipient_id, image):
+    params = {
+        "access_token": os.environ["PAGE_ACCESS_TOKEN"]
+    }
+    headers = {
+        "Content-Type": "application/json"
+    }
+
+    data = json.dumps({
+        "recipient": {
+            "id": recipient_id
+        },
+        "message":{
+            "attachment":{
+              "type":"image",
+              "payload":{
+                "url": image
+              }
+            }
+        }
+    })
+    r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
+    if r.status_code != 200:
+        log(r.status_code)
+        log(r.text)
 
 def send_message(recipient_id, message_text):
     params = {
