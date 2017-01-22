@@ -10,7 +10,6 @@ from flask import Flask, request
 from firebase import Firebase
 
 app = Flask(__name__)
-send_news()
 
 @app.route('/', methods=['GET'])
 def verify():
@@ -342,3 +341,4 @@ def getNew(items):
 
 if __name__ == '__main__':
     app.run(debug=True)
+    send_news()
