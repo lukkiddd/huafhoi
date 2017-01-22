@@ -24,11 +24,6 @@ def send_news():
     else:
         broadcast_text('ใหม่!! ' + str(len(new_send)) + ' กระทู้เช็คด่วน!!')
         for item in new_send:
-            if(counts > 9):
-                break
-            # if((counts % 10 and counts != 0) or item['name'] == new_send[-1]['name']):
-                # broadcast_generic(el)
-                # el = []
             el.append(
                 {
                     "title": item['name'],
@@ -45,7 +40,9 @@ def send_news():
                     }
                 }
             )
-            broadcast_generic(el)
+            if(counts >= 9 or new_send[-1]['name'] == item['name']):
+                broadcast_generic(el)
+                break
             counts += 1
     fb.set(new_items)
 
