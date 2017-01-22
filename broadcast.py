@@ -16,16 +16,16 @@ def send_news():
         old_items = scrap()
 
     new_items = scrap()
-    new_items = getNew(old_items, new_items)
+    new_send = getNew(old_items, new_items)
     counts = 0
     el = []
     broadcast_text("Checking:: " + str(len(old_items)) + " | " + str(len(new_items)))
-    broadcast_text(str(len(new_items) - len(old_items)) + ' อัพเดทใหม่จ้า')
+    broadcast_text(str(len(new_send)) + ' อัพเดทใหม่จ้า')
     if( len(new_items) == len(old_items) ):
         pass
     else:
-        if(len(new_items) > 1):
-            for item in new_items:
+        if(len(new_send) > 1):
+            for item in new_send:
                 if(counts == 2):
                     broadcast_element(el)
                     counts = 0
@@ -48,7 +48,7 @@ def send_news():
                 )
                 counts += 1
         else:
-            for item in new_items:
+            for item in new_send:
                 el.append(
                     {
                         "title": item['name'],
@@ -74,18 +74,21 @@ def broadcast_text(message_text):
     f = Firebase('https://welse-141512.firebaseio.com/ocz/')
     user = f.get()
     for u in user:
-        send_message(u, message_text)
+        print u,message_text
+        # send_message(u, message_text)
 
 def broadcast_element(elements):
     f = Firebase('https://welse-141512.firebaseio.com/ocz/')
     user = f.get()
     for u in user:
+        # print u, elements[0]['title']
         send_elements(u, elements)
 
 def broadcast_generic(elements):
     f = Firebase('https://welse-141512.firebaseio.com/ocz/')
     user = f.get()
     for u in user:
+        # print u, elements[0]['title']
         send_generic(u, elements)
 
 def send_message(recipient_id, message_text):
@@ -286,15 +289,12 @@ def scrap():
     return items
 
 def getNew(old,new):
-    oldlen = len(old)
-    new_item = new
-    print "Checking New"
-    if(oldlen != len(new)):
-        for i in new:
-            if i not in new_item:
-                new_item.append(i)
-        oldlen = len(new)
-    return new_item
+    new_i = []
+    for o in old:
+        for n in new:
+            if n not in old and n not in new_i:
+                new_i.append(n)
+    return new_i
 
 if __name__ == '__main__':
     send_news()
