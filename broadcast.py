@@ -20,12 +20,13 @@ def send_news():
     counts = 0
     el = []
     broadcast_text("Checking:: " + str(len(old_items)) + " | " + str(len(new_items)))
-    if( len(new_items) == 0 ):
+    if( len(new_items) == len(old_items) ):
         broadcast_text("NO ITEM NEW")
     else:
         for item in new_items:
-            if counts == 4:
+            if counts == 1:
                 broadcast_element(el, 2, item['type'])
+                counts = 0
                 el = []
             el.append(
                 {
