@@ -67,7 +67,6 @@ def send_news():
                 )
                 broadcast_generic(el)
                 el = []
-
     fb.set(new_items)
 
 def broadcast_text(message_text):
