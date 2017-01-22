@@ -77,37 +77,9 @@ def webhook():
                             counts += 1
                         send_elements(sender_id, el, 2, item['type'])
                     elif message_text == 'checka':
-                        old_items = scrap()
-                        while(1):
-                            new_items = scrap()
-                            new_items = getNew(old_items, new_items)
-                            log(len(new_items))
-                            log(len(old_items))
-                            if( len(new_items) == 0 ):
-                                continue
-                            for item in new_items:
-                                if counts == 4:
-                                    break
-                                el.append(
-                                    {
-                                        "title": item['name'],
-                                        "subtitle": item['subtitle'],
-                                        "image_url": item['image'],
-                                        "buttons": [{
-                                            "title": "View",
-                                            "type": "web_url",
-                                            "url": item['link'],
-                                        }],
-                                        "default_action": {
-                                            "type": "web_url",
-                                            "url": item['link']
-                                        }
-                                    }
-                                )
-                                counts += 1
-                            send_elements(sender_id, el, 2, item['type'])
-                            time.sleep(5)
-                            old_items = new_items
+                        f = Firebase('https://welse-141512.firebaseio.com/ocz/'+sender_id)
+                        f.push({"message":message_text})
+
                     else:
                         send_message(sender_id, "NO item from " + message_text + ' category')
 
@@ -161,6 +133,43 @@ def webhook():
                         send_message(sender_id, "NO item from " + message_text + ' category')
 
     return "ok", 200
+
+
+def send_news():
+    old_items = scrap()
+    while(1):
+        new_items = scrap()
+        new_items = getNew(old_items, new_items)
+        log(len(new_items))
+        log(len(old_items))
+        if( len(new_items) == 0 ):
+            continue
+        for item in new_items:
+            if counts == 4:
+                break
+            el.append(
+                {
+                    "title": item['name'],
+                    "subtitle": item['subtitle'],
+                    "image_url": item['image'],
+                    "buttons": [{
+                        "title": "View",
+                        "type": "web_url",
+                        "url": item['link'],
+                    }],
+                    "default_action": {
+                        "type": "web_url",
+                        "url": item['link']
+                    }
+                }
+            )
+            counts += 1
+        f = Firebase('https://welse-141512.firebaseio.com/ocz/')
+        user = f.get()
+        for u in user:
+            send_elements(u, el, 2, item['type'])
+        time.sleep(5)
+        old_items = new_items
 
 def send_message(recipient_id, message_text):
     params = {
