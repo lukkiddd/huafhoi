@@ -136,6 +136,7 @@ def webhook():
 def send_news():
     old_items = scrap()
     while(1):
+        send_message("202924450173508", "CHECKING")
         new_items = scrap()
         new_items = getNew(old_items, new_items)
         log(len(new_items))
