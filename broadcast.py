@@ -67,14 +67,15 @@ def send_news():
                 )
                 broadcast_generic(el)
                 el = []
+
     fb.set(new_items)
 
 def broadcast_text(message_text):
     f = Firebase('https://welse-141512.firebaseio.com/ocz/')
     user = f.get()
     for u in user:
-        print u,message_text
-        # send_message(u, message_text)
+        # print u,message_text
+        send_message(u, message_text)
 
 def broadcast_element(elements):
     f = Firebase('https://welse-141512.firebaseio.com/ocz/')
