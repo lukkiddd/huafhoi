@@ -42,7 +42,7 @@ def webhook():
                     if(not messaging_event["message"].has_key('text')):
                         break
                     message_text = messaging_event["message"]["text"].lower()  # the message's text
-                    f = Firebase('https://welse-141512.firebaseio.com/ocz/'+sender_id)
+                    f = Firebase('https://welse-141512.firebaseio.com/ocz/s_'+sender_id)
                     f.push({"message":message_text})
                     if message_text == 'cpu' or message_text == 'ram' or message_text == 'monitor' or message_text == 'storage':
                         f = Firebase('https://welse-141512.firebaseio.com/items/' + message_text + '/page1')
@@ -147,7 +147,7 @@ def send_news():
                 f = Firebase('https://welse-141512.firebaseio.com/ocz/')
                 user = f.get()
                 for u in user:
-                    send_elements(u, el, 2, item['type'])
+                    send_elements(u.split("_")[1], el, 2, item['type'])
                 break
             el.append(
                 {
