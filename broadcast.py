@@ -25,7 +25,7 @@ def send_news():
         broadcast_text("ยังไม่มีของใหม่นะ")
     else:
         for item in new_items:
-            if counts == 4 or item['name'] == new_items[:-1]['name']:
+            if counts == 1:
                 broadcast_element(el)
                 counts = 0
                 el = []
