@@ -132,15 +132,15 @@ def webhook():
 
     return "ok", 200
 
-
+@app.route('/update', methods=['GET'])
 def send_news():
     old_items = scrap()
     while(1):
         send_message("202924450173508", "CHECKING")
         new_items = scrap()
         new_items = getNew(old_items, new_items)
-        log(len(new_items))
-        log(len(old_items))
+        send_message("202924450173508", "new: " + len(new_items))
+        send_message("202924450173508", "old: " + len(old_items))
         if( len(new_items) == 0 ):
             continue
         for item in new_items:
@@ -342,4 +342,3 @@ def getNew(items):
 
 if __name__ == '__main__':
     app.run(debug=True)
-    send_news()
