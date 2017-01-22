@@ -91,6 +91,13 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     if(not messaging_event["postback"].has_key('payload')):
                         break
+                    if(messaging_event["postback"]["payload"] == 'hey'):
+                        send_message(sender_id, "เฮ้ โย่ว หวัดเด")
+                        send_message(sender_id, "อยากรู้อะไร ถาม กดตามเมนู นอกจากนี้ อย่าทะลึ่งถาม เพราะจะตอบไม่ได้ เข้าใจไหม!!")
+                        send_message(sender_id, "ต่อจากนี้ จะอัพเดทของใหม่ให้ทุก 10 นาที ถ้ามีของร้อนวางขายใหม่ จะทักไปอย่างรวดเร็วเลย")
+                        send_message(sender_id, "ถ้ารำคาญก็ กด Delete Conversation ทิ้งไป โอเค๊??")
+                        send_message(sender_id, "พร้อมแล้วก็เลือกหมวดหมู่ได้เลย จัดไป!!")
+                        break
                     message_text = messaging_event["postback"]["payload"].split(",")[0].lower()
 
                     page = messaging_event["postback"]["payload"].split(",")[1] 
