@@ -268,6 +268,7 @@ def getNew(old,new):
     new_i = []
     for n in new:
         if n not in old:
+            print n['name']
             new_i.append(n)
     return new_i
 
