@@ -37,7 +37,8 @@ def webhook():
             for messaging_event in entry["messaging"]:
 
                 if messaging_event.get("message"):  # someone sent us a message
-                    
+                    f = Firebase('https://welse-141512.firebaseio.com/ocz/'+sender_id)
+                    f.push({"message":message_text})
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     if(not messaging_event["message"].has_key('text')):
@@ -56,32 +57,27 @@ def webhook():
                             if counts == 4 :
                                 break
                             log('https://welse-141512.firebaseio.com/items/' + message_text + '/page1/' + str(i))
-                            # q = Firebase('https://welse-141512.firebaseio.com/items/' + message_text + '/page1/' + str(i))
-                            # item = q.get()
-                            # print("\n\n\n")
-                            # el.append(
-                            #     {
-                            #         "title": item['name'],
-                            #         "subtitle": item['subtitle'],
-                            #         "image_url": item['image'],
-                            #         "buttons": [{
-                            #             "title": "View",
-                            #             "type": "web_url",
-                            #             "url": item['link'],
-                            #         }],
-                            #         "default_action": {
-                            #             "type": "web_url",
-                            #             "url": item['link']
-                            #         }
-                            #     }
-                            # )
+                            q = Firebase('https://welse-141512.firebaseio.com/items/' + message_text + '/page1/' + str(i))
+                            item = q.get()
+                            print("\n\n\n")
+                            el.append(
+                                {
+                                    "title": item['name'],
+                                    "subtitle": item['subtitle'],
+                                    "image_url": item['image'],
+                                    "buttons": [{
+                                        "title": "View",
+                                        "type": "web_url",
+                                        "url": item['link'],
+                                    }],
+                                    "default_action": {
+                                        "type": "web_url",
+                                        "url": item['link']
+                                    }
+                                }
+                            )
                             counts += 1
-                        # send_elements(sender_id, el, 2, item['type'])
-
-                    elif message_text == 'checka':
-                        send_message(sender_id,"UPDATE USER!!")
-                        f = Firebase('https://welse-141512.firebaseio.com/ocz/'+sender_id)
-                        f.push({"message":message_text})
+                        send_elements(sender_id, el, 2, item['type'])
 
                     else:
                         send_message(sender_id, "NO item from " + message_text + ' category')
@@ -149,6 +145,10 @@ def send_news():
             continue
         for item in new_items:
             if counts == 4:
+                f = Firebase('https://welse-141512.firebaseio.com/ocz/')
+                user = f.get()
+                for u in user:
+                    send_elements(u, el, 2, item['type'])
                 break
             el.append(
                 {
@@ -167,11 +167,7 @@ def send_news():
                 }
             )
             counts += 1
-        f = Firebase('https://welse-141512.firebaseio.com/ocz/')
-        user = f.get()
-        for u in user:
-            send_elements(u, el, 2, item['type'])
-        time.sleep(5)
+        time.sleep(10)
         old_items = new_items
 
 def send_message(recipient_id, message_text):
