@@ -55,28 +55,28 @@ def webhook():
                         for i in items_array:
                             if counts == 4 :
                                 break
-                            log(i)
-                            q = Firebase('https://welse-141512.firebaseio.com/items/' + message_text + '/page1/' + str(i))
-                            item = q.get()
-                            print("\n\n\n")
-                            el.append(
-                                {
-                                    "title": item['name'],
-                                    "subtitle": item['subtitle'],
-                                    "image_url": item['image'],
-                                    "buttons": [{
-                                        "title": "View",
-                                        "type": "web_url",
-                                        "url": item['link'],
-                                    }],
-                                    "default_action": {
-                                        "type": "web_url",
-                                        "url": item['link']
-                                    }
-                                }
-                            )
+                            log('https://welse-141512.firebaseio.com/items/' + message_text + '/page1/' + str(i))
+                            # q = Firebase('https://welse-141512.firebaseio.com/items/' + message_text + '/page1/' + str(i))
+                            # item = q.get()
+                            # print("\n\n\n")
+                            # el.append(
+                            #     {
+                            #         "title": item['name'],
+                            #         "subtitle": item['subtitle'],
+                            #         "image_url": item['image'],
+                            #         "buttons": [{
+                            #             "title": "View",
+                            #             "type": "web_url",
+                            #             "url": item['link'],
+                            #         }],
+                            #         "default_action": {
+                            #             "type": "web_url",
+                            #             "url": item['link']
+                            #         }
+                            #     }
+                            # )
                             counts += 1
-                        send_elements(sender_id, el, 2, item['type'])
+                        # send_elements(sender_id, el, 2, item['type'])
 
                     elif message_text == 'checka':
                         send_message(sender_id,"UPDATE USER!!")
