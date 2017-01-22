@@ -52,13 +52,13 @@ def webhook():
                             break
                         el = []
                         counts = 0
-                        for i in items_array:
+                        for item in items_array:
                             if counts == 4 :
                                 break
-                            send_message(sender_id, 'https://welse-141512.firebaseio.com/items/' + message_text + '/page1/' + str(i))
-                            q = Firebase('https://welse-141512.firebaseio.com/items/' + message_text + '/page1/' + str(i))
-                            item = q.get()
-                            print("\n\n\n")
+                            # send_message(sender_id, 'https://welse-141512.firebaseio.com/items/' + message_text + '/page1/' + str(i))
+                            # q = Firebase('https://welse-141512.firebaseio.com/items/' + message_text + '/page1/' + str(i))
+                            # item = q.get()
+                            # print("\n\n\n")
                             el.append(
                                 {
                                     "title": item['name'],
@@ -103,12 +103,12 @@ def webhook():
                             break
                         el = []
                         counts = 0
-                        for i in items_array:
+                        for item in items_array:
                             if counts == 4 :
                                 break
-                            q = Firebase('https://welse-141512.firebaseio.com/items/' + message_text + '/page' + str(page) + '/' + i)
-                            item = q.get()
-                            print("\n\n\n")
+                            # q = Firebase('https://welse-141512.firebaseio.com/items/' + message_text + '/page' + str(page) + '/' + i)
+                            # item = q.get()
+                            # print("\n\n\n")
                             el.append(
                                 {
                                     "title": item['name'],
