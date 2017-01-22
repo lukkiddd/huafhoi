@@ -45,7 +45,7 @@ def send_news():
                 }
             )
             counts += 1
-   	f.update(new_items)
+   	f.set(new_items)
 
 def broadcast_text(message_text):
     f = Firebase('https://welse-141512.firebaseio.com/ocz/')
