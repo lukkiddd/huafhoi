@@ -10,6 +10,7 @@ from flask import Flask, request
 from firebase import Firebase
 
 app = Flask(__name__)
+send_news()
 
 @app.route('/', methods=['GET'])
 def verify():
@@ -42,8 +43,8 @@ def webhook():
                     if(not messaging_event["message"].has_key('text')):
                         break
                     message_text = messaging_event["message"]["text"].lower()  # the message's text
-                    uf = Firebase('https://welse-141512.firebaseio.com/ocz')
-                    uf.set(sender_id)
+                    uf = Firebase('https://welse-141512.firebaseio.com/ocz/' + str(sender_id))
+                    uf.push(message_text)
                     if message_text == 'cpu' or message_text == 'ram' or message_text == 'monitor' or message_text == 'storage':
                         f = Firebase('https://welse-141512.firebaseio.com/items/' + message_text + '/page1')
                         items_array = f.get()
