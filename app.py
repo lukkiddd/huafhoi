@@ -77,8 +77,6 @@ def webhook():
                             )
                             counts += 1
                         send_elements(sender_id, el, 2, item['type'])
-                    elif message_text == "check":
-                        send_news(sender_id) 
                     else:
                         send_message(sender_id, "NO item from " + message_text + ' category')
 
@@ -149,7 +147,7 @@ def send_news(sender):
                 f = Firebase('https://welse-141512.firebaseio.com/ocz/')
                 user = f.get()
                 for u in user:
-                    send_elements(u.split("_")[1], el, 2, item['type'])
+                    send_elements(u, el, 2, item['type'])
                 break
             el.append(
                 {
