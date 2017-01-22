@@ -80,7 +80,9 @@ def webhook():
                         send_message(sender_id, "Subcribe!!")
                         while(1):
                             allItem = scrap()
+                            print len(allItem)
                             new_items = getNew(allItem)
+                            print len(new_items)
                             if( len(new_items) == 0 ):
                                 continue
                             for item in new_items:
