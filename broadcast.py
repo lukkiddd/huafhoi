@@ -19,13 +19,14 @@ def send_news():
     new_send = getNew(old_items, new_items)
     counts = 0
     el = []
-    broadcast_text("Checking:: " + str(len(old_items)) + " | " + str(len(new_items)))
-    broadcast_text(str(len(new_send)) + ' อัพเดทใหม่จ้า')
+    # broadcast_text("Checking:: " + str(len(old_items)) + " | " + str(len(new_items)))
+    # broadcast_text(str(len(new_send)) + ' อัพเดทใหม่จ้า')
     if( len(new_items) == len(old_items) ):
         pass
     else:
+        broadcast_text('ใหม่!! ' + str(len(new_send)) + ' กระทู้่เช็คด่วน!!')
         for item in new_send:
-            if(counts % 10 or item['name'] == new_send[-1]['name']):
+            if((counts % 10 and counts != 0) or item['name'] == new_send[-1]['name']):
                 broadcast_generic(el)
                 el = []
             el.append(
