@@ -24,50 +24,27 @@ def send_news():
     if( len(new_items) == len(old_items) ):
         pass
     else:
-        if(len(new_send) > 1):
-            for item in new_send:
-                if(counts == 2):
-                    broadcast_element(el)
-                    counts = 0
-                    el = []
-                el.append(
-                    {
-                        "title": item['name'],
-                        "subtitle": item['subtitle'],
-                        "image_url": item['image'],
-                        "buttons": [{
-                            "title": "View",
-                            "type": "web_url",
-                            "url": item['link'],
-                        }],
-                        "default_action": {
-                            "type": "web_url",
-                            "url": item['link']
-                        }
-                    }
-                )
-                counts += 1
-        else:
-            for item in new_send:
-                el.append(
-                    {
-                        "title": item['name'],
-                        "subtitle": item['subtitle'],
-                        "image_url": item['image'],
-                        "buttons": [{
-                            "title": "View",
-                            "type": "web_url",
-                            "url": item['link'],
-                        }],
-                        "default_action": {
-                            "type": "web_url",
-                            "url": item['link']
-                        }
-                    }
-                )
+        for item in new_send:
+            if(counts % 4 or item['name'] == new_send[-1]['name']):
                 broadcast_generic(el)
                 el = []
-
+            el.append(
+                {
+                    "title": item['name'],
+                    "subtitle": item['subtitle'],
+                    "image_url": item['image'],
+                    "buttons": [{
+                        "title": "View",
+                        "type": "web_url",
+                        "url": item['link'],
+                    }],
+                    "default_action": {
+                        "type": "web_url",
+                        "url": item['link']
+                    }
+                }
+            )
+            counts += 1
     fb.set(new_items)
 
 def broadcast_text(message_text):
@@ -295,11 +272,6 @@ def getNew(old,new):
     for n in new:
         if n not in old:
             new_i.append(n)
-            # print n['name']
-    # for n in new:
-        # if n not in old:
-            # print n['name']
-            # new_i.append(n)
     return new_i
 
 if __name__ == '__main__':
