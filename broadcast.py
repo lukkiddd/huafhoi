@@ -290,9 +290,16 @@ def scrap():
 
 def getNew(old,new):
     new_i = []
+    print len(old)
+    print len(new)
     for n in new:
         if n not in old:
             new_i.append(n)
+            # print n['name']
+    # for n in new:
+        # if n not in old:
+            # print n['name']
+            # new_i.append(n)
     return new_i
 
 if __name__ == '__main__':
