@@ -314,8 +314,7 @@ def scrap():
             data = r.text
             soup = BeautifulSoup(data)
             for item in soup.find_all('div', {'class':'inner'}):
-                if("Today" in item.find_all('span',{'class':'label'})[0].get_text() or
-                    "Yesterday" in item.find_all('span',{'class':'label'})[0].get_text()):
+                if("Today" in item.find_all('span',{'class':'label'})[0].get_text()):
                     for title in item.find_all('a', {'class':'title'}):
                         items.append(
                             {
