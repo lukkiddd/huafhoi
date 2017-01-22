@@ -25,8 +25,8 @@ def send_news():
         broadcast_text("ยังไม่มีของใหม่นะ")
     else:
         for item in new_items:
-            if counts == 1:
-                broadcast_element(el, 2, item['type'])
+            if counts == 4 or item['name'] == new_items[:-1]['name']:
+                broadcast_element(el)
                 counts = 0
                 el = []
             el.append(
@@ -54,11 +54,11 @@ def broadcast_text(message_text):
     for u in user:
         send_message(u, message_text)
 
-def broadcast_element(elements, page, item_type):
+def broadcast_element(elements):
     f = Firebase('https://welse-141512.firebaseio.com/ocz/')
     user = f.get()
     for u in user:
-        send_elements(u, elements, page, item_type)
+        send_elements(u, elements)
 
 def send_message(recipient_id, message_text):
     params = {
@@ -103,7 +103,7 @@ def send_message(recipient_id, message_text):
         log(r.status_code)
         log(r.text)
 
-def send_elements(recipient_id, elements, page, item_type):
+def send_elements(recipient_id, elements):
     params = {
         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
     }
@@ -120,14 +120,7 @@ def send_elements(recipient_id, elements, page, item_type):
                 "payload": {
                     "template_type": "list",
                     "top_element_style": "compact",
-                    "elements": elements,
-                    "buttons": [
-                        {
-                            "title": "View More",
-                            "type": "postback",
-                            "payload": item_type+","+str(page)                        
-                        }
-                    ]  
+                    "elements": elements
                 }
             },
             "quick_replies":[
