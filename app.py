@@ -55,6 +55,7 @@ def webhook():
                         for i in items_array:
                             if counts == 4 :
                                 break
+                            log(i)
                             q = Firebase('https://welse-141512.firebaseio.com/items/' + message_text + '/page1/' + str(i))
                             item = q.get()
                             print("\n\n\n")
