@@ -18,12 +18,15 @@ def send_news():
     new_items = scrap()
     new_items = getNew(old_items, new_items)
     counts = 0
+    el = []
+    broadcast_text("Checking:: " + str(len(old_items)) + " | " + str(len(new_items)))
     if( len(new_items) == 0 ):
-        broadcast_text("Checking:: " + str(len(old_items)) + " | " + str(len(new_items)))
+        broadcast_text("NO ITEM NEW")
     else:
         for item in new_items:
             if counts == 4:
                 broadcast_element(el, 2, item['type'])
+                el = []
             el.append(
                 {
                     "title": item['name'],
