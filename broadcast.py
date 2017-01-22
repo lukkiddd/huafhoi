@@ -9,16 +9,16 @@ from bs4 import BeautifulSoup
 from flask import Flask, request
 from firebase import Firebase
 
-def send_news(sender):
+def send_news():
     f = Firebase('https://welse-141512.firebaseio.com/item_list')
     old_items = f.get()
     if(old_items == None):
-    old_items = scrap()
+        old_items = scrap()
 
     new_items = scrap()
     new_items = getNew(old_items, new_items)
     counts = 0
-    if( len(new_items) == 0 )
+    if( len(new_items) == 0 ):
         broadcast_text("Checking:: " + str(len(old_items)) + " | " + str(len(new_items)))
     else:
         for item in new_items:
