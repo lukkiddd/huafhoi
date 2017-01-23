@@ -54,6 +54,7 @@ def webhook():
                                     print "send elements"
                                     send_elements(sender_id, el, 2, item['type'])
                                 else:
+                                    print len(el)
                                     print "send generic"
                                     send_generic(sender_id, el, 2, item['type'])
                                 el = []
