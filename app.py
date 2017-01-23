@@ -141,7 +141,7 @@ def webhook():
                         for item in items_array:
                             if (len(el) % 4 == 0 and len(el) != 0)  or item['name'] == items_array[-1]['name']:
                                 next_page = int(page) + 1
-                                if len(el) > 1:
+                                if len(el) <= 4:
                                     print "send elements"
                                     send_elements(sender_id, el, next_page, item['type'])
                                 else:
