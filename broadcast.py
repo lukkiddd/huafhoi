@@ -84,6 +84,7 @@ def send_news():
 
                         if(counts >= 9 or new_send[-1]['name'] == item['name']):
                             send_generic(u, el)
+                            counts = 0
                             el = []
                             break
                         counts += 1
