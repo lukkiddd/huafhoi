@@ -221,40 +221,49 @@ def initial_conversation(recipient_id, message_text):
                 "payload": {
                     "template_type": "generic",
                     "elements": [{
-                        "title": "Ram มือสอง",
+                        "title": "ตลาด Ram",
                         "subtitle": "ตลาดแรมเด็ดๆ จาก ocz",
                         "image_url": "http://dc.lnwfile.com/ezq63n.jpg",
                         "buttons": [{
-                            "title": "ติดตาม Ram",
+                            "title": "ดูตลาด Ram",
                             "type": "postback",
                             "payload": "sub,1,ram"
                         }]
                     },{
-                        "title": "CPU มือสอง",
+                        "title": "ตลาด CPU",
                         "subtitle": "ตลาดซีพียูเด็ดๆ จาก ocz",
                         "image_url": "http://www.videoeditingsage.com/images/Computer12.jpg",
                         "buttons": [{
-                            "title": "ติดตาม CPU",
+                            "title": "ดูตลาด CPU",
                             "type": "postback",
                             "payload": "sub,1,cpu"
                         }]
                     },{
-                        "title": "Monitor มือสอง",
+                        "title": "ตลาด Monitor",
                         "subtitle": "ตลาดจอเด็ดๆ จาก ocz",
                         "image_url": "http://pisces.bbystatic.com/BestBuy_US/store/ee/2016/com/misc/flex_all_monitors5029703.jpg;maxHeight=460;maxWidth=460",
                         "buttons": [{
-                            "title": "ติดตาม Monitor",
+                            "title": "ดูตลาด Monitor",
                             "type": "postback",
                             "payload": "sub,1,monitor"
                         }]
                     },{
-                        "title": "Storage มือสอง",
+                        "title": "ตลาด Storage",
                         "subtitle": "ตลาด HDD, SSD เด็ดๆ จาก ocz",
                         "image_url": "http://topicstock.pantip.com/wahkor/topicstock/2008/11/X7197552/X7197552-0.jpg",
                         "buttons": [{
-                            "title": "ติดตาม Storage",
+                            "title": "ดูตลาด Storage",
                             "type": "postback",
                             "payload": "sub,1,storage"
+                        }]
+                    },{
+                        "title": "ตลาด Macbook",
+                        "subtitle": "ซื้อ ขาย แลกเปลี่ยน MacBook ทุกรุ่น MacBook, MacBook Pro, MacBook Air",
+                        "image_url": "https://support.apple.com/content/dam/edam/applecare/images/en_US/macbook/psp-mini-hero-macbook_2x.png",
+                        "buttons": [{
+                            "title": "ดูตลาด Macbook",
+                            "type": "postback",
+                            "payload": "sub,1,macbook"
                         }]
                     }]
                 }

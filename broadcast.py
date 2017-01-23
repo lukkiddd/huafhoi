@@ -32,6 +32,11 @@ type_item = [
         'slug': 'storage',
         'value': '96-Storage',
         'image': 'http://pngwebicons.com/upload/small/hard_disk_png9158.png'
+    },
+    {
+        'slug': 'macbook',
+        'value': '162-MacBook',
+        'image': 'https://support.apple.com/content/dam/edam/applecare/images/en_US/macbook/psp-mini-hero-macbook_2x.png'
     }
 ]
 
