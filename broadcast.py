@@ -99,7 +99,7 @@ def send_news():
                         counts += 1
                 else:
                     r = random.uniform(0, 1)
-                    if r > 0.9:
+                    if r > 0.98:
                         send_message(u, 'ตลาดเงียบเหงาโคตร แต่ไม่ต้องกลัว ฝอยคอยจับตาดูให้อยู่ตลอด')
     fb.set(new_items)
 
