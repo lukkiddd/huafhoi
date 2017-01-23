@@ -92,7 +92,6 @@ def send_news():
                     r = random.uniform(0, 1)
                     if r > 0.9:
                         send_message(u, 'ตลาดเงียบเหงาโคตร แต่ไม่ต้องกลัว ฝอยคอยจับตาดูให้อยู่ตลอด')
-
     fb.set(new_items)
 
 def send_generic(recipient_id, elements):
