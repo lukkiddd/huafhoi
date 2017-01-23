@@ -49,8 +49,12 @@ def webhook():
                         el = []
                         counts = 0
                         for item in items_array:
-                            if counts % 4 == 0 or item['name'] == items_array[-1]['name']:
-                                send_elements(sender_id, el, 2, item['type'])
+                            if len(el) % 4 == 0 or item['name'] == items_array[-1]['name']:
+                                if len(el) > 1:
+                                    send_elements(sender_id, el, next_page, item['type'])
+                                else:
+                                    send_generic(sender_id, el, next_page, item['type'])
+                                el = []
                                 break
                             el.append(
                                 {
@@ -133,8 +137,12 @@ def webhook():
                         el = []
                         counts = 0
                         for item in items_array:
-                            if counts % 4 == 0 or item['name'] == items_array[-1]['name']:
-                                send_elements(sender_id, el, next_page, item['type'])
+                            if len(el) % 4 == 0 or item['name'] == items_array[-1]['name']:
+                                if len(el) > 1:
+                                    send_elements(sender_id, el, next_page, item['type'])
+                                else:
+                                    send_generic(sender_id, el, next_page, item['type'])
+                                el = []
                                 break
                             el.append(
                                 {
@@ -397,6 +405,38 @@ def send_elements(recipient_id, elements, page, item_type):
         log(r.status_code)
         log(r.text)
 
+def send_generic(recipient_id, elements, page, item_type):
+    params = {
+        "access_token": os.environ["PAGE_ACCESS_TOKEN"]
+    }
+    headers = {
+        "Content-Type": "application/json"
+    }
+    data = json.dumps({
+            "recipient": {
+            "id": recipient_id
+        },
+        "message": {
+            "attachment": {
+                "type": "template",
+                "payload": {
+                    "template_type": "generic",
+                    "elements": elements,
+                    "buttons": [
+                        {
+                            "title": "ดูอีก",
+                            "type": "postback",
+                            "payload": item_type+","+str(page)                        
+                        }
+                    ]  
+                }
+            },
+        }
+    })
+    r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
+    if r.status_code != 200:
+        log(r.status_code)
+        log(r.text)
 
 def log(message):  
     print str(message)

@@ -190,11 +190,14 @@ def getNew(old,new):
         new_i[t['slug']] = []
         for n in new[t['slug']]:
             found = 0
-            for o in old[t['slug']]:
-                if o:
-                    if n['name'] == o['name']:
-                        found = 1
-            if not found:
+            if old.has_key(t['slug']):
+                for o in old[t['slug']]:
+                    if o:
+                        if n['name'] == o['name']:
+                            found = 1
+                if not found:
+                    new_i[t['slug']].append(n)
+            else:
                 new_i[t['slug']].append(n)
     return new_i
 
