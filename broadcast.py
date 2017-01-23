@@ -57,11 +57,13 @@ def send_news():
             if(user_data[type_u]['subcribe'] == "1"):
                 if len(new_send[type_u]) != 0:
                     send_message(u, 'ใหม่!! ' + str(len(new_send)) + ' กระทู้ฝอยจัดให้!!')
+                    el = []
                     r = random.uniform(0, 1)
                     if r > 0.6:
                         send_message(u, 'พิมพ์แปป ใจเย็นหนุ่ม')
 
                     for item in new_send[type_u]:
+                        print item['name']
                         el.append({
                                 "title": item['name'],
                                 "subtitle": item['subtitle'],
@@ -82,6 +84,7 @@ def send_news():
 
                         if(counts >= 9 or new_send[-1]['name'] == item['name']):
                             send_generic(u, el)
+                            el = []
                             break
                         counts += 1
                 else:
