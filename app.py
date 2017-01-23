@@ -395,15 +395,47 @@ def send_elements(recipient_id, elements, page, item_type):
                             "title": "ดูอีก",
                             "type": "postback",
                             "payload": item_type+","+str(page)                        
-                        },
-                        {
-                            "title": "ดูอย่างอื่น",
-                            "type": "postback",
-                            "payload": "other"
                         }
                     ]  
                 }
-            }
+            },
+            "quick_replies":[
+              {
+                "content_type":"text",
+                "title":"Ram",
+                "payload":"ram,1"
+              },
+              {
+                "content_type":"text",
+                "title":"Monitor",
+                "payload":"monitor,1"
+              },
+              {
+                "content_type":"text",
+                "title":"Cpu",
+                "payload":"cpu,1"
+              },
+              {
+                "content_type":"text",
+                "title":"Storage",
+                "payload":"storage,1"
+              },
+              {
+                "content_type":"text",
+                "title":"Macbook",
+                "payload":"macbook,1"
+              },
+              {
+                "content_type":"text",
+                "title":"Monitor",
+                "payload":"monitor,1"
+              },
+              {
+                "content_type":"text",
+                "title":"Toys",
+                "payload":"toys,1"
+              }
+            ]
         }
     })
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
@@ -437,6 +469,43 @@ def send_generic(recipient_id, elements, page, item_type):
                     ]  
                 }
             },
+            "quick_replies":[
+              {
+                "content_type":"text",
+                "title":"Ram",
+                "payload":"ram,1"
+              },
+              {
+                "content_type":"text",
+                "title":"Monitor",
+                "payload":"monitor,1"
+              },
+              {
+                "content_type":"text",
+                "title":"Cpu",
+                "payload":"cpu,1"
+              },
+              {
+                "content_type":"text",
+                "title":"Storage",
+                "payload":"storage,1"
+              },
+              {
+                "content_type":"text",
+                "title":"Macbook",
+                "payload":"macbook,1"
+              },
+              {
+                "content_type":"text",
+                "title":"Monitor",
+                "payload":"monitor,1"
+              },
+              {
+                "content_type":"text",
+                "title":"Toys",
+                "payload":"toys,1"
+              }
+            ]
         }
     })
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
