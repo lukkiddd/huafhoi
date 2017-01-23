@@ -275,7 +275,7 @@ def initial_conversation(recipient_id, message_text):
                                 "type": "cpu"
                             }
                         }]
-                    }{
+                    },{
                         "title": "Monitor มือสอง",
                         "subtitle": "ตลาดจอเด็ดๆ จาก ocz",
                         "image_url": "http://pisces.bbystatic.com/BestBuy_US/store/ee/2016/com/misc/flex_all_monitors5029703.jpg;maxHeight=460;maxWidth=460",
