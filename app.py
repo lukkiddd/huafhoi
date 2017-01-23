@@ -90,6 +90,13 @@ def webhook():
                     if(messaging_event['postback']['payload'] == "done"):
                         send_message(sender_id, "โอเค อยากได้อะไรคราวหน้าบอกฝอยละกัน")
                         send_message(sender_id, "ใคร ๆ ก็รู้ ตลาดนี้ ฝอยคุม ง่อววว!")
+                        uf = Firebase('https://welse-141512.firebaseio.com/ocz/' + str(sender_id))
+                        uf.remove()
+                        break
+
+                    if(messaging_event['postback']['payload'] == "menu"):
+                        initial_conversation(sender_id, "หาไรอยู่ มีให้เลือกตามนี้ จิ้มเลย เดะฝอยจะเช็คตลาดให้")
+                        break
 
                     if(messaging_event["postback"]["payload"] == 'hey'):
                         send_message(sender_id, "เฮ้ โย่ว หวัดเด")
@@ -100,6 +107,10 @@ def webhook():
                     message_text = messaging_event["postback"]["payload"].split(",")[0].lower()
                     if(message_text == "sub"):
                         sub = messaging_event["postback"]["payload"].split(",")[1].lower()
+                        if sub == "0":
+                            uf = Firebase('https://welse-141512.firebaseio.com/ocz/' + str(sender_id))
+                            uf.remove()
+                            break
                         sub_type = messaging_event["postback"]["payload"].split(",")[2].lower()
                         uf = Firebase('https://welse-141512.firebaseio.com/ocz/' + str(sender_id) + "/" + sub_type)
                         uf.set({"subcribe": sub})
