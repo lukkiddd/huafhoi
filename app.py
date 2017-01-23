@@ -40,7 +40,7 @@ def webhook():
                     message_text = messaging_event["message"]["text"].lower()  # the message's text
 
                     if Firebase('https://welse-141512.firebaseio.com/items/' + message_text).get() != None:
-                        f = Firebase('https://welse-141512.firebaseio.com/items/' + message_text + '/page' + str(page))
+                        f = Firebase('https://welse-141512.firebaseio.com/items/' + message_text + '/page1')
                         items_array = f.get()
                         if items_array == None:
                             send_message(sender_id, "หมดแล้ว!! บ๋อแบ๋")
