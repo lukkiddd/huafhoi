@@ -163,29 +163,7 @@ def send_image(recipient_id, image):
               "payload":{
                 "url": image
               }
-            },
-            # "quick_replies":[
-            #   {
-            #     "content_type":"text",
-            #     "title":"Ram",
-            #     "payload": "ram,1"
-            #   },
-            #   {
-            #     "content_type":"text",
-            #     "title":"Monitor",
-            #     "payload": "monitor,1"
-            #   },
-            #   {
-            #     "content_type":"text",
-            #     "title":"CPU",
-            #     "payload": "cpu,1"
-            #   },
-            #   {
-            #     "content_type":"text",
-            #     "title":"Storage",
-            #     "payload": "storage,1"
-            #   }
-            # ]
+            }
         }
     })
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
@@ -206,29 +184,7 @@ def send_message(recipient_id, message_text):
             "id": recipient_id
         },
         "message": {
-            "text": message_text,
-            "quick_replies":[
-              {
-                "content_type":"text",
-                "title":"Ram",
-                "payload": "ram,1"
-              },
-              {
-                "content_type":"text",
-                "title":"Monitor",
-                "payload": "monitor,1"
-              },
-              {
-                "content_type":"text",
-                "title":"CPU",
-                "payload": "cpu,1"
-              },
-              {
-                "content_type":"text",
-                "title":"Storage",
-                "payload": "storage,1"
-              }
-            ]
+            "text": message_text
         }
     })
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
@@ -258,7 +214,7 @@ def initial_conversation(recipient_id, message_text):
                         "subtitle": "ตลาดแรมเด็ดๆ จาก ocz",
                         "image_url": "http://dc.lnwfile.com/ezq63n.jpg",
                         "buttons": [{
-                            "title": "ติดตาม",
+                            "title": "ติดตาม Ram",
                             "type": "postback",
                             "payload": "sub,1,ram"
                         }]
@@ -267,7 +223,7 @@ def initial_conversation(recipient_id, message_text):
                         "subtitle": "ตลาดซีพียูเด็ดๆ จาก ocz",
                         "image_url": "http://www.videoeditingsage.com/images/Computer12.jpg",
                         "buttons": [{
-                            "title": "ติดตาม",
+                            "title": "ติดตาม CPU",
                             "type": "postback",
                             "payload": "sub,1,cpu"
                         }]
@@ -276,7 +232,7 @@ def initial_conversation(recipient_id, message_text):
                         "subtitle": "ตลาดจอเด็ดๆ จาก ocz",
                         "image_url": "http://pisces.bbystatic.com/BestBuy_US/store/ee/2016/com/misc/flex_all_monitors5029703.jpg;maxHeight=460;maxWidth=460",
                         "buttons": [{
-                            "title": "ติดตาม",
+                            "title": "ติดตาม Monitor",
                             "type": "postback",
                             "payload": "sub,1,monitor"
                         }]
@@ -285,7 +241,7 @@ def initial_conversation(recipient_id, message_text):
                         "subtitle": "ตลาด HDD, SSD เด็ดๆ จาก ocz",
                         "image_url": "http://topicstock.pantip.com/wahkor/topicstock/2008/11/X7197552/X7197552-0.jpg",
                         "buttons": [{
-                            "title": "ติดตาม",
+                            "title": "ติดตาม Storage",
                             "type": "postback",
                             "payload": "sub,1,storage"
                         }]
@@ -325,29 +281,7 @@ def send_elements(recipient_id, elements, page, item_type):
                         }
                     ]  
                 }
-            },
-            "quick_replies":[
-              {
-                "content_type":"text",
-                "title":"Ram",
-                "payload": "ram,1"
-              },
-              {
-                "content_type":"text",
-                "title":"Monitor",
-                "payload": "monitor,1"
-              },
-              {
-                "content_type":"text",
-                "title":"CPU",
-                "payload": "cpu,1"
-              },
-              {
-                "content_type":"text",
-                "title":"Storage",
-                "payload": "storage,1"
-              }
-            ]
+            }
         }
     })
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
