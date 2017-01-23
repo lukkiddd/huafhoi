@@ -25,6 +25,16 @@ type_item = [
         'slug': 'storage',
         'value': '96-Storage',
         'image': 'http://pngwebicons.com/upload/small/hard_disk_png9158.png'
+    },
+    {
+        'slug': 'macbook',
+        'value': '162-MacBook',
+        'image': 'https://support.apple.com/content/dam/edam/applecare/images/en_US/macbook/psp-mini-hero-macbook_2x.png'
+    },
+    {
+        'slug': 'toys',
+        'value': '109-Toys',
+        'image': 'http://www.gadgetguysnc.com/wp-content/uploads/2016/01/consoles.jpg'
     }
 ]
 
@@ -35,14 +45,46 @@ def convert(content):
     ret = re.sub("[\s]+", " ", ret);
     return ret
 
+def sort_scrap_item(items):
+    today_list = {}
+    yesterday_list = {}
+    totald = {}
+    for key in items:
+        today_list[key] = []
+        yesterday_list[key] = []
+        for o in items[key]:
+            if "Today" in o['time']:
+                today_list[key].append(o)
+            else:
+                yesterday_list[key].append(o)
+        ntd = sorted(today_list[key], key=lambda k: k['time'], reverse=True)
+        nyd = sorted(yesterday_list[key], key=lambda k: k['time'], reverse=True)
+        totald[key] = ntd + nyd
+    return totald
+
+def create_item_page(items):
+    new_list = {}
+    for key in items:
+        count = 0
+        page = 1
+        new_list[key] = {}
+        new_list[key]["page"+str(page)] = []
+        for item in items[key]:
+            if(count % 4 == 0 and count != 0):
+                count = 0
+                page += 1
+                new_list[key]["page"+str(page)] = []
+            new_list[key]["page"+str(page)].append(item)
+            count += 1
+    return new_list
+
 def scrap():
     items = {}
     for slug in type_item:
         c = 0
         page = 1
         print "Loading:",slug['slug']
-        items[slug['slug']] = {}
-        items[slug['slug']]['page'+str(page)] = []
+        items[slug['slug']] = []
         for i in xrange(1,5):
             url = "https://www.overclockzone.com/forums/forumdisplay.php/"+slug['value']+"/page" + str(i) + "?prefixid=Sell"
             r  = requests.get(url)
@@ -52,22 +94,15 @@ def scrap():
                 if("Today" in item.find_all('span',{'class':'label'})[0].get_text() or
                     "Yesterday" in item.find_all('span',{'class':'label'})[0].get_text()):
                     for title in item.find_all('a', {'class':'title'}):
-                        if c % 4 == 0 and c != 0:
-                            c = 0
-                            page += 1
-                        if(not items[slug['slug']].has_key('page'+str(page))):
-                            items[slug['slug']]['page'+str(page)] = []
-                        # f = Firebase('https://welse-141512.firebaseio.com/items/'+slug['slug']+'/page'+str(page))
-                        items[slug['slug']]['page'+str(page)].append(
-                            {
+                        item_data = {
                             'name': convert(title.get_text()),
                             'subtitle': item.find_all('span', {'class':'label'})[0].get_text(),
                             'link': "https://www.overclockzone.com/forums/" +title['href'],
                             'type': slug['slug'],
                             'time': item.find_all('span', {'class':'label'})[0].get_text().split(",")[1],
                             'image': slug['image']
-                            },
-                            )
+                            }
+                        items[slug['slug']].append(item_data)
                         c += 1
     return items
 
@@ -82,26 +117,7 @@ def clear_firebase():
 f = Firebase('https://welse-141512.firebaseio.com/items');
 clear_firebase()
 items = scrap()
-# if f.get() == None:
-f.set(items)
-# else:
-    # f.update(items)
-# time.sleep(1)
-# oldlen = 0
-# count = 0
-# c = 0
-# page = 1
-# new_item = []
-# while(1):
-#     items = scrap()
-#     if(oldlen != len(items)):
-#         for i in items:
-#             if i not in new_item:
-#                   f = Firebase('https://welse-141512.firebaseio.com/items/'+i['type']+'/page'+str(page))
-#             	  f.push(i)
-#             	  print(i['name'])
-#                   c += 1
-#             	  new_item.append(i)
-#         oldlen = len(items)
-#     time.sleep(1)
-#     count += 1
+sorted_item = sort_scrap_item(items)
+paged_item = create_item_page(sorted_item)
+f.set(paged_item)
+

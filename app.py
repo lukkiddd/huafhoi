@@ -39,8 +39,8 @@ def webhook():
                         break
                     message_text = messaging_event["message"]["text"].lower()  # the message's text
 
-                    if message_text == 'cpu' or message_text == 'ram' or message_text == 'monitor' or message_text == 'storage':
-                        f = Firebase('https://welse-141512.firebaseio.com/items/' + message_text + '/page1')
+                    if Firebase('https://welse-141512.firebaseio.com/items/' + message_text).get() != None:
+                        f = Firebase('https://welse-141512.firebaseio.com/items/' + message_text + '/page' + str(page))
                         items_array = f.get()
                         if items_array == None:
                             send_message(sender_id, "หมดแล้ว!! บ๋อแบ๋")
@@ -50,12 +50,12 @@ def webhook():
                         counts = 0
                         for item in items_array:
                             if counts == 4 :
+                                send_elements(sender_id, el, 2, item['type'])
                                 break
                             el.append(
                                 {
                                     "title": item['name'],
                                     "subtitle": item['subtitle'],
-                                    "image_url": item['image'],
                                     "buttons": [{
                                         "title": "View",
                                         "type": "web_url",
@@ -68,7 +68,6 @@ def webhook():
                                 }
                             )
                             counts += 1
-                        send_elements(sender_id, el, 2, item['type'])
                     else:
                         pass
                         # send_message(sender_id, "เลือกตามเมนูดิเห้ย !! เดี๋ยวตบหัวฟ่ำ!!")
@@ -92,6 +91,7 @@ def webhook():
                         send_message(sender_id, "ใคร ๆ ก็รู้ ตลาดนี้ ฝอยคุม ง่อววว!")
                         uf = Firebase('https://welse-141512.firebaseio.com/ocz/' + str(sender_id))
                         uf.remove()
+                        send_message(sender_id, "เอาเป็นว่าคราวหน้า ถ้าอยากได้อะไรก็ทักฝอยได้เลย")
                         break
 
                     if(messaging_event['postback']['payload'] == "menu"):
@@ -101,7 +101,7 @@ def webhook():
                     if(messaging_event["postback"]["payload"] == 'hey'):
                         send_message(sender_id, "เฮ้ โย่ว หวัดเด")
                         send_image(sender_id, "https://media.tenor.co/images/a4932ffb7bd04392cfd220e4cbd325f1/raw")
-                        initial_conversation(sender_id, "หาไรอยู่ มีให้เลือกตามนี้ จิ้มเลย เดะฝอยจะเช็คตลาดให้")
+                        send_message(sender_id, "หาไรอยู่ บอกเลย!! เดะฝอยจะเช็คตลาดให้")
                         break
 
                     message_text = messaging_event["postback"]["payload"].split(",")[0].lower()
@@ -117,19 +117,24 @@ def webhook():
                         if(sub == "1"):
                             send_message(sender_id, "EZ มาก เดะฝอยดูตลาดให้")
                             send_message(sender_id, "ของมาปั๊บ ทักหาทันที สวย ๆ อยากได้ไรเพิ่มบอกฝอย!!")
+                            send_message(sender_id, "อยากดูอะไรเพิ่มอีกก็บอกฝอยได้เลยนะจ๊ะ")
                             
-                    page = messaging_event["postback"]["payload"].split(",")[1] 
-                    if message_text == 'cpu' or message_text == 'ram' or message_text == 'monitor' or message_text == 'storage':
+                    page = messaging_event["postback"]["payload"].split(",")[1]
+                    if not page:
+                        break
+                    if Firebase('https://welse-141512.firebaseio.com/items/' + message_text).get() != None:
                         f = Firebase('https://welse-141512.firebaseio.com/items/' + message_text + '/page' + str(page))
                         items_array = f.get()
                         if items_array == None:
                             send_message(sender_id, "หมดแล้ว!! บ๋อแบ๋")
                             send_image(sender_id, "https://media.tenor.co/images/ab096f70ea512a3881e85756d3175c26/raw")
+                            send_message(sender_id, "อยากดูอะไรเพิ่มอีกก็บอกฝอยได้เลยนะจ๊ะ")
                             break
                         el = []
                         counts = 0
                         for item in items_array:
                             if counts == 4 :
+                                send_elements(sender_id, el, next_page, item['type'])
                                 break
                             el.append(
                                 {
@@ -147,8 +152,10 @@ def webhook():
                                 }
                             )
                             counts += 1
+
                         next_page = int(page) + 1
-                        send_elements(sender_id, el, next_page, item['type'])
+                        if(next_page == 4):
+                            send_subscribe(sender_id, message_text)
                     else:
                         pass
                         # send_message(sender_id, "เลือกตามเมนูดิเห้ย !! เดี๋ยวตบหัวฟ่ำ!!")
@@ -195,7 +202,78 @@ def send_message(recipient_id, message_text):
             "id": recipient_id
         },
         "message": {
-            "text": message_text
+            "text": message_text,
+            "quick_replies":[
+              {
+                "content_type":"text",
+                "title":"Ram",
+                "payload":"ram,1"
+              },
+              {
+                "content_type":"text",
+                "title":"Monitor",
+                "payload":"monitor,1"
+              },
+              {
+                "content_type":"text",
+                "title":"Cpu",
+                "payload":"cpu,1"
+              },
+              {
+                "content_type":"text",
+                "title":"Storage",
+                "payload":"storage,1"
+              },
+              {
+                "content_type":"text",
+                "title":"Macbook",
+                "payload":"macbook,1"
+              },
+              {
+                "content_type":"text",
+                "title":"Monitor",
+                "payload":"monitor,1"
+              },
+              {
+                "content_type":"text",
+                "title":"Toys",
+                "payload":"toys,1"
+              }
+            ]
+        }
+    })
+    r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
+    if r.status_code != 200:
+        log(r.status_code)
+        log(r.text)
+
+def send_subscribe(recipient_id, message_text):
+    params = {
+        "access_token": os.environ["PAGE_ACCESS_TOKEN"]
+    }
+    headers = {
+        "Content-Type": "application/json"
+    }
+
+    data = json.dumps({
+        "recipient": {
+            "id": recipient_id
+        },
+        "message": {
+            "attachment":{
+              "type":"template",
+              "payload":{
+                "template_type":"button",
+                "text": "ดู " + message_text + " เยอะขนาดนี้ ให้ฝอยช่วยดูของให้ไหม ของใหม่มา ทักหาทันที" ,
+                "buttons":[
+                  {
+                    "type":"postback",
+                    "title":"สนใจ",
+                    "payload": "sub,1," + message_text
+                  }
+                ]
+              }
+            }
         }
     })
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
@@ -305,7 +383,7 @@ def send_elements(recipient_id, elements, page, item_type):
                     "elements": elements,
                     "buttons": [
                         {
-                            "title": "View More",
+                            "title": "ดูอีก",
                             "type": "postback",
                             "payload": item_type+","+str(page)                        
                         }
