@@ -56,10 +56,10 @@ def send_news():
         for type_u in user_data:
             if(user_data[type_u]['subcribe'] == "1"):
                 if len(new_send[type_u]) != 0:
-                    send_message('ใหม่!! ' + str(len(new_send)) + ' กระทู้ฝอยจัดให้!!')
+                    send_message(u, 'ใหม่!! ' + str(len(new_send)) + ' กระทู้ฝอยจัดให้!!')
                     r = random.uniform(0, 1)
                     if r > 0.6:
-                        send_message('พิมพ์แปป ใจเย็นหนุ่ม')
+                        send_message(u, 'พิมพ์แปป ใจเย็นหนุ่ม')
 
                     for item in new_send[type_u]:
                         el.append({
@@ -87,7 +87,7 @@ def send_news():
                 else:
                     r = random.uniform(0, 1)
                     if r > 0.9:
-                        send_message('ตลาดเงียบเหงาโคตร แต่ไม่ต้องกลัว ฝอยคอยจับตาดูให้อยู่ตลอด')
+                        send_message(u, 'ตลาดเงียบเหงาโคตร แต่ไม่ต้องกลัว ฝอยคอยจับตาดูให้อยู่ตลอด')
 
     fb.set(new_items)
 
