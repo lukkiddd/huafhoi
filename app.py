@@ -273,7 +273,7 @@ def send_subscribe(recipient_id, message_text):
               "type":"template",
               "payload":{
                 "template_type":"button",
-                "text": "ดู " + message_text + " เยอะขนาดนี้ ให้ฝอยช่วยดูของให้ไหม ของใหม่มา ทักหาทันที" ,
+                "text": u"ดู " + message_text + u" เยอะขนาดนี้ ให้ฝอยช่วยดูของให้ไหม ของใหม่มา ทักหาทันที" ,
                 "buttons":[
                   {
                     "type":"postback",
