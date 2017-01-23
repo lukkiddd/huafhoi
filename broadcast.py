@@ -63,7 +63,6 @@ def send_news():
                         send_message(u, 'พิมพ์แปป ใจเย็นหนุ่ม')
 
                     for item in new_send[type_u]:
-                        print item['name']
                         el.append({
                                 "title": item['name'],
                                 "subtitle": item['subtitle'],
