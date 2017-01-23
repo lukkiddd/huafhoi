@@ -82,7 +82,7 @@ def send_news():
                             }
                         })
 
-                        if(counts >= 9 or new_send[-1]['name'] == item['name']):
+                        if(counts >= 9 or new_send[type_u][-1]['name'] == item['name']):
                             send_generic(u, el)
                             counts = 0
                             el = []
