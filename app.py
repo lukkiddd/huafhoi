@@ -104,7 +104,7 @@ def webhook():
                         uf.set({"subcribe": sub})
                         if(sub == "1"):
                             send_message(sender_id, "EZ มาก เดะฝอยดูตลาดให้")
-                            initial_conversation(sender_id, "ของมาปั๊บ ทักหาทันที สวย ๆ อยากได้ไรเพิ่มบอกฝอย!!")
+                            send_message(sender_id, "ของมาปั๊บ ทักหาทันที สวย ๆ อยากได้ไรเพิ่มบอกฝอย!!")
                             
                     page = messaging_event["postback"]["payload"].split(",")[1] 
                     if message_text == 'cpu' or message_text == 'ram' or message_text == 'monitor' or message_text == 'storage':
@@ -138,8 +138,9 @@ def webhook():
                         next_page = int(page) + 1
                         send_elements(sender_id, el, next_page, item['type'])
                     else:
-                        send_message(sender_id, "เลือกตามเมนูดิเห้ย !! เดี๋ยวตบหัวฟ่ำ!!")
-                        send_image(sender_id, "https://media.tenor.co/images/98c01672f3f5e6868d28d47ad4971a22/raw")
+                        pass
+                        # send_message(sender_id, "เลือกตามเมนูดิเห้ย !! เดี๋ยวตบหัวฟ่ำ!!")
+                        # send_image(sender_id, "https://media.tenor.co/images/98c01672f3f5e6868d28d47ad4971a22/raw")
 
     return "ok", 200
 
