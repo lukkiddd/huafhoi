@@ -103,7 +103,7 @@ def webhook():
                         uf = Firebase('https://welse-141512.firebaseio.com/ocz/' + str(sender_id) + "/" + sub_type)
                         uf.set({"subcribe": sub})
                         if(sub == "1"):
-                            send_message(sender_id, "EZ มาก เดะฝอยดูตลาด " + sub_type + "ให้")
+                            send_message(sender_id, "EZ มาก เดะฝอยดูตลาดให้")
                             initial_conversation(sender_id, "ของมาปั๊บ ทักหาทันที สวย ๆ อยากได้ไรเพิ่มบอกฝอย!!")
                             
                     page = messaging_event["postback"]["payload"].split(",")[1] 
