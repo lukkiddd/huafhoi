@@ -71,8 +71,6 @@ def webhook():
                                     }
                                 }
                             )
-                            print item['name']
-                            print el
                             counts += 1
                     else:
                         pass
