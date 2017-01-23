@@ -70,8 +70,9 @@ def webhook():
                             counts += 1
                         send_elements(sender_id, el, 2, item['type'])
                     else:
-                        send_message(sender_id, "เลือกตามเมนูดิเห้ย !! เดี๋ยวตบหัวฟ่ำ!!")
-                        send_image(sender_id, "https://media.tenor.co/images/98c01672f3f5e6868d28d47ad4971a22/raw")
+                        pass
+                        # send_message(sender_id, "เลือกตามเมนูดิเห้ย !! เดี๋ยวตบหัวฟ่ำ!!")
+                        # send_image(sender_id, "https://media.tenor.co/images/98c01672f3f5e6868d28d47ad4971a22/raw")
 
 
                 if messaging_event.get("delivery"):  # delivery confirmation
