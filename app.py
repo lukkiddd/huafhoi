@@ -49,7 +49,7 @@ def webhook():
                         el = []
                         counts = 0
                         for item in items_array:
-                            if counts == 4 :
+                            if counts % 4 == 0 or item['name'] == items_array[-1]['name']:
                                 send_elements(sender_id, el, 2, item['type'])
                                 break
                             el.append(
@@ -133,7 +133,7 @@ def webhook():
                         el = []
                         counts = 0
                         for item in items_array:
-                            if counts == 4 :
+                            if counts % 4 == 0 or item['name'] == items_array[-1]['name']:
                                 send_elements(sender_id, el, next_page, item['type'])
                                 break
                             el.append(
