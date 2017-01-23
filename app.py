@@ -51,9 +51,9 @@ def webhook():
                         for item in items_array:
                             if len(el) % 4 == 0 or item['name'] == items_array[-1]['name']:
                                 if len(el) > 1:
-                                    send_elements(sender_id, el, next_page, item['type'])
+                                    send_elements(sender_id, el, 2, item['type'])
                                 else:
-                                    send_generic(sender_id, el, next_page, item['type'])
+                                    send_generic(sender_id, el, 2, item['type'])
                                 el = []
                                 break
                             el.append(
