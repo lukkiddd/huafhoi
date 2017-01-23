@@ -60,6 +60,7 @@ def webhook():
                                 {
                                     "title": item['name'],
                                     "subtitle": item['subtitle'],
+                                    "image_url": item['image'],
                                     "buttons": [{
                                         "title": "View",
                                         "type": "web_url",
@@ -155,6 +156,7 @@ def webhook():
                                 {
                                     "title": item['name'],
                                     "subtitle": item['subtitle'],
+                                    "image_url": item['image'],
                                     "buttons": [{
                                         "title": "View",
                                         "type": "web_url",
