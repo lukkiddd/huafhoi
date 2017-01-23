@@ -137,7 +137,7 @@ def webhook():
                         el = []
                         counts = 0
                         for item in items_array:
-                            if len(el) % 4 == 0 or item['name'] == items_array[-1]['name']:
+                            if (len(el) % 4 == 0 and len(el) != 0)  or item['name'] == items_array[-1]['name']:
                                 next_page = int(page) + 1
                                 if len(el) > 1:
                                     if(next_page == 4):
