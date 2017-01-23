@@ -95,6 +95,7 @@ def send_news():
     fb.set(new_items)
 
 def send_generic(recipient_id, elements):
+    print "sending to " + str(recipient_id)
     params = {
         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
     }
