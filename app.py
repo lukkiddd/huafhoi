@@ -225,7 +225,7 @@ def send_message(recipient_id, message_text):
               },
               {
                 "content_type":"text",
-                "title":"Cpu",
+                "title":"CPU",
                 "payload":"cpu,1"
               },
               {
@@ -245,7 +245,7 @@ def send_message(recipient_id, message_text):
               },
               {
                 "content_type":"text",
-                "title":"Toys",
+                "title":"ของเล่น Gadgets",
                 "payload":"toys,1"
               }
             ]
@@ -412,7 +412,7 @@ def send_elements(recipient_id, elements, page, item_type):
               },
               {
                 "content_type":"text",
-                "title":"Cpu",
+                "title":"CPU",
                 "payload":"cpu,1"
               },
               {
@@ -432,7 +432,7 @@ def send_elements(recipient_id, elements, page, item_type):
               },
               {
                 "content_type":"text",
-                "title":"Toys",
+                "title":"ของเล่น Gadgets",
                 "payload":"toys,1"
               }
             ]
@@ -482,7 +482,7 @@ def send_generic(recipient_id, elements, page, item_type):
               },
               {
                 "content_type":"text",
-                "title":"Cpu",
+                "title":"CPU",
                 "payload":"cpu,1"
               },
               {
@@ -502,7 +502,7 @@ def send_generic(recipient_id, elements, page, item_type):
               },
               {
                 "content_type":"text",
-                "title":"Toys",
+                "title":"ของเล่น Gadgets",
                 "payload":"toys,1"
               }
             ]
