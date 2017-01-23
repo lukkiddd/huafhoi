@@ -85,12 +85,6 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     if(not messaging_event["postback"].has_key('payload')):
                         break
-                    if(messaging_event['postback']['payload'].has_key('subcribe')):
-                        uf = Firebase('https://welse-141512.firebaseio.com/ocz/' + str(sender_id) + "/" + messaging_event['postback']['payload']['type'])
-                        uf.set({"subcribe": messaging_event['postback']['payload']['subcribe']})
-                        if(messaging_event['postback']['payload']['subcribe'] == 1):
-                            send_message(sender_id, "EZ มาก เดะฝอยดูตลาด " + messaging_event['postback']['payload']['type'] + "ให้")
-                            send_message_with_buttons(sender_id, "ของมาปั๊บ ทักหาทันที สวย ๆ อยากได้ไรเพิ่มบอกฝอย!!")
 
                     if(messaging_event['postback']['payload'] == "done"):
                         send_message(sender_id, "โอเค อยากได้อะไรคราวหน้าบอกฝอยละกัน")
@@ -101,6 +95,13 @@ def webhook():
                         send_image(sender_id, "https://media.tenor.co/images/a4932ffb7bd04392cfd220e4cbd325f1/raw")
                         send_message_with_buttons(sender_id, "หาไรอยู่ มีให้เลือกตามนี้ จิ้มเลย เดะฝอยจะเช็คตลาดให้")
                         break
+
+                    if(isinstance(messaging_event['postback']['payload'], 'dict') and messaging_event['postback']['payload'].has_key('subcribe')):
+                        uf = Firebase('https://welse-141512.firebaseio.com/ocz/' + str(sender_id) + "/" + messaging_event['postback']['payload']['type'])
+                        uf.set({"subcribe": messaging_event['postback']['payload']['subcribe']})
+                        if(messaging_event['postback']['payload']['subcribe'] == 1):
+                            send_message(sender_id, "EZ มาก เดะฝอยดูตลาด " + messaging_event['postback']['payload']['type'] + "ให้")
+                            send_message_with_buttons(sender_id, "ของมาปั๊บ ทักหาทันที สวย ๆ อยากได้ไรเพิ่มบอกฝอย!!")
 
 
                     message_text = messaging_event["postback"]["payload"].split(",")[0].lower()
