@@ -93,7 +93,7 @@ def webhook():
                     if(messaging_event["postback"]["payload"] == 'hey'):
                         send_message(sender_id, "เฮ้ โย่ว หวัดเด")
                         send_image(sender_id, "https://media.tenor.co/images/a4932ffb7bd04392cfd220e4cbd325f1/raw")
-                        send_message_with_buttons(sender_id, "หาไรอยู่ มีให้เลือกตามนี้ จิ้มเลย เดะฝอยจะเช็คตลาดให้")
+                        initial_conversation(sender_id, "หาไรอยู่ มีให้เลือกตามนี้ จิ้มเลย เดะฝอยจะเช็คตลาดให้")
                         break
 
                     if(isinstance(messaging_event['postback']['payload'], 'dict') and messaging_event['postback']['payload'].has_key('subcribe')):
@@ -101,7 +101,7 @@ def webhook():
                         uf.set({"subcribe": messaging_event['postback']['payload']['subcribe']})
                         if(messaging_event['postback']['payload']['subcribe'] == 1):
                             send_message(sender_id, "EZ มาก เดะฝอยดูตลาด " + messaging_event['postback']['payload']['type'] + "ให้")
-                            send_message_with_buttons(sender_id, "ของมาปั๊บ ทักหาทันที สวย ๆ อยากได้ไรเพิ่มบอกฝอย!!")
+                            initial_conversation(sender_id, "ของมาปั๊บ ทักหาทันที สวย ๆ อยากได้ไรเพิ่มบอกฝอย!!")
 
 
                     message_text = messaging_event["postback"]["payload"].split(",")[0].lower()
@@ -234,7 +234,7 @@ def send_message(recipient_id, message_text):
         log(r.status_code)
         log(r.text)
 
-def send_message_with_buttons(recipient_id, message_text):
+def initial_conversation(recipient_id, message_text):
     params = {
         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
     }
@@ -247,51 +247,60 @@ def send_message_with_buttons(recipient_id, message_text):
             "id": recipient_id
         },
         "message": {
-            "attachment":{
-              "type":"template",
-              "payload":{
-                "template_type":"button",
-                "text": message_text,
-                "buttons":[
-                  {
-                    "type":"postback",
-                    "title":"Ram",
-                    "payload": {
-                        "subcribe": 1,
-                        "type": "ram"
-                    }
-                  },
-                  {
-                    "type":"postback",
-                    "title":"CPU",
-                    "payload": {
-                        "subcribe": 1,
-                        "type": "cpu"
-                    }
-                  },
-                  {
-                    "type":"postback",
-                    "title":"Monitor",
-                    "payload": {
-                        "subcribe": 1,
-                        "type": "monitor"
-                    }
-                  },
-                  {
-                    "type":"postback",
-                    "title":"Storage",
-                    "payload": {
-                        "subcribe": 1,
-                        "type": "storage"
-                    }
-                  },
-                  {
-                    "type":"postback",
-                    "title":"ยังไม่อยากได้",
-                    "payload": "done"
-                  },
-                ]
-              }
+            "attachment": {
+                "type": "template",
+                "payload": {
+                    "template_type": "generic",
+                    "elements": [{
+                        "title": "Ram มือสอง",
+                        "subtitle": "ตลาดแรมเด็ดๆ จาก ocz",
+                        "image_url": "http://dc.lnwfile.com/ezq63n.jpg",
+                        "buttons": [{
+                            "title": "ติดตาม",
+                            "type": "postback",
+                            "payload": {
+                                "subcribe": 1,
+                                "type": "ram"
+                            }
+                        }]
+                    },{
+                        "title": "CPU มือสอง",
+                        "subtitle": "ตลาดซีพียูเด็ดๆ จาก ocz",
+                        "image_url": "http://www.videoeditingsage.com/images/Computer12.jpg",
+                        "buttons": [{
+                            "title": "ติดตาม",
+                            "type": "postback",
+                            "payload": {
+                                "subcribe": 1,
+                                "type": "cpu"
+                            }
+                        }]
+                    }{
+                        "title": "Monitor มือสอง",
+                        "subtitle": "ตลาดจอเด็ดๆ จาก ocz",
+                        "image_url": "http://pisces.bbystatic.com/BestBuy_US/store/ee/2016/com/misc/flex_all_monitors5029703.jpg;maxHeight=460;maxWidth=460",
+                        "buttons": [{
+                            "title": "ติดตาม",
+                            "type": "postback",
+                            "payload": {
+                                "subcribe": 1,
+                                "type": "monitor"
+                            }
+                        }]
+                    },{
+                        "title": "Storage มือสอง",
+                        "subtitle": "ตลาด HDD, SSD เด็ดๆ จาก ocz",
+                        "image_url": "http://topicstock.pantip.com/wahkor/topicstock/2008/11/X7197552/X7197552-0.jpg",
+                        "buttons": [{
+                            "title": "ติดตาม",
+                            "type": "postback",
+                            "payload": {
+                                "subcribe": 1,
+                                "type": "storage"
+                            }
+                        }]
+                    }]
+                }
             }
         }
     })
