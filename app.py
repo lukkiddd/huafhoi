@@ -73,9 +73,7 @@ def webhook():
                             )
                             counts += 1
                     else:
-                        pass
-                        # send_message(sender_id, "เลือกตามเมนูดิเห้ย !! เดี๋ยวตบหัวฟ่ำ!!")
-                        # send_image(sender_id, "https://media.tenor.co/images/98c01672f3f5e6868d28d47ad4971a22/raw")
+                        send_message(sender_id, "ฝอยไม่เข้าใจคำนี้อะ พิมที่เข้าใจหน่อยเด้")
 
 
                 if messaging_event.get("delivery"):  # delivery confirmation
@@ -96,6 +94,10 @@ def webhook():
                         uf = Firebase('https://welse-141512.firebaseio.com/ocz/' + str(sender_id))
                         uf.remove()
                         send_message(sender_id, "เอาเป็นว่าคราวหน้า ถ้าอยากได้อะไรก็ทักฝอยได้เลย")
+                        break
+
+                    if(messaging_event['postback']['payload'] == "other"):
+                        send_message(sender_id, "หาอะไรอยู่ บอกฝอยเลย ไม่ว่าจะเป็น ram, monitor, cpu ก็ตาม เดะจัดให้")
                         break
 
                     if(messaging_event['postback']['payload'] == "menu"):
@@ -140,13 +142,13 @@ def webhook():
                             if (len(el) % 4 == 0 and len(el) != 0)  or item['name'] == items_array[-1]['name']:
                                 next_page = int(page) + 1
                                 if len(el) > 1:
-                                    if(next_page == 4):
-                                        send_subscribe(sender_id, message_text)
                                     print "send elements"
                                     send_elements(sender_id, el, next_page, item['type'])
                                 else:
                                     print "send generic"
                                     send_generic(sender_id, el, next_page, item['type'])
+                                if(next_page == 4):
+                                    send_subscribe(sender_id, message_text)
                                 el = []
                                 break
                             el.append(
@@ -166,9 +168,7 @@ def webhook():
                             )
                             counts += 1
                     else:
-                        pass
-                        # send_message(sender_id, "เลือกตามเมนูดิเห้ย !! เดี๋ยวตบหัวฟ่ำ!!")
-                        # send_image(sender_id, "https://media.tenor.co/images/98c01672f3f5e6868d28d47ad4971a22/raw")
+                        send_message(sender_id, "ฝอยไม่เข้าใจคำนี้อะ พิมที่เข้าใจหน่อยเด้")
 
     return "ok", 200
 
@@ -395,6 +395,11 @@ def send_elements(recipient_id, elements, page, item_type):
                             "title": "ดูอีก",
                             "type": "postback",
                             "payload": item_type+","+str(page)                        
+                        },
+                        {
+                            "title": "ดูอย่างอื่น",
+                            "type": "postback",
+                            "payload": "other"
                         }
                     ]  
                 }
