@@ -96,16 +96,16 @@ def webhook():
                         initial_conversation(sender_id, "หาไรอยู่ มีให้เลือกตามนี้ จิ้มเลย เดะฝอยจะเช็คตลาดให้")
                         break
 
-                    if(isinstance(messaging_event['postback']['payload'], 'dict') and messaging_event['postback']['payload'].has_key('subcribe')):
-                        uf = Firebase('https://welse-141512.firebaseio.com/ocz/' + str(sender_id) + "/" + messaging_event['postback']['payload']['type'])
-                        uf.set({"subcribe": messaging_event['postback']['payload']['subcribe']})
-                        if(messaging_event['postback']['payload']['subcribe'] == 1):
-                            send_message(sender_id, "EZ มาก เดะฝอยดูตลาด " + messaging_event['postback']['payload']['type'] + "ให้")
-                            initial_conversation(sender_id, "ของมาปั๊บ ทักหาทันที สวย ๆ อยากได้ไรเพิ่มบอกฝอย!!")
-
-
                     message_text = messaging_event["postback"]["payload"].split(",")[0].lower()
-
+                    if(message_text == "sub"):
+                        sub = messaging_event["postback"]["payload"].split(",")[1].lower()
+                        sub_type = messaging_event["postback"]["payload"].split(",")[2].lower()
+                        uf = Firebase('https://welse-141512.firebaseio.com/ocz/' + str(sender_id) + "/" + sub_type)
+                        uf.set({"subcribe": sub})
+                        if(sub == "1"):
+                            send_message(sender_id, "EZ มาก เดะฝอยดูตลาด " + sub_type + "ให้")
+                            initial_conversation(sender_id, "ของมาปั๊บ ทักหาทันที สวย ๆ อยากได้ไรเพิ่มบอกฝอย!!")
+                            
                     page = messaging_event["postback"]["payload"].split(",")[1] 
                     if message_text == 'cpu' or message_text == 'ram' or message_text == 'monitor' or message_text == 'storage':
                         f = Firebase('https://welse-141512.firebaseio.com/items/' + message_text + '/page' + str(page))
@@ -258,10 +258,7 @@ def initial_conversation(recipient_id, message_text):
                         "buttons": [{
                             "title": "ติดตาม",
                             "type": "postback",
-                            "payload": {
-                                "subcribe": 1,
-                                "type": "ram"
-                            }
+                            "payload": "sub,1,ram"
                         }]
                     },{
                         "title": "CPU มือสอง",
@@ -270,10 +267,7 @@ def initial_conversation(recipient_id, message_text):
                         "buttons": [{
                             "title": "ติดตาม",
                             "type": "postback",
-                            "payload": {
-                                "subcribe": 1,
-                                "type": "cpu"
-                            }
+                            "payload": "sub,1,cpu"
                         }]
                     },{
                         "title": "Monitor มือสอง",
@@ -282,10 +276,7 @@ def initial_conversation(recipient_id, message_text):
                         "buttons": [{
                             "title": "ติดตาม",
                             "type": "postback",
-                            "payload": {
-                                "subcribe": 1,
-                                "type": "monitor"
-                            }
+                            "payload": "sub,1,monitor"
                         }]
                     },{
                         "title": "Storage มือสอง",
@@ -294,10 +285,7 @@ def initial_conversation(recipient_id, message_text):
                         "buttons": [{
                             "title": "ติดตาม",
                             "type": "postback",
-                            "payload": {
-                                "subcribe": 1,
-                                "type": "storage"
-                            }
+                            "payload": "sub,1,storage"
                         }]
                     }]
                 }
