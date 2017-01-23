@@ -37,6 +37,11 @@ type_item = [
         'slug': 'macbook',
         'value': '162-MacBook',
         'image': 'https://support.apple.com/content/dam/edam/applecare/images/en_US/macbook/psp-mini-hero-macbook_2x.png'
+    },
+    {
+        'slug': 'toys',
+        'value': '109-Toys',
+        'image': 'http://www.gadgetguysnc.com/wp-content/uploads/2016/01/consoles.jpg'
     }
 ]
 

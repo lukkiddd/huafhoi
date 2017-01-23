@@ -265,6 +265,16 @@ def initial_conversation(recipient_id, message_text):
                             "type": "postback",
                             "payload": "sub,1,macbook"
                         }]
+                    },
+                    {
+                        "title": "ตลาดของเล่น",
+                        "subtitle": "ซื้อ ขาย แลกเปลี่ยน ของเล่น เกมส์ และอุปกรณ์ที่เกี่ยวข้อง ทุกชนิด",
+                        "image_url": "http://www.gadgetguysnc.com/wp-content/uploads/2016/01/consoles.jpg",
+                        "buttons": [{
+                            "title": "ดูตลาดของเล่น",
+                            "type": "postback",
+                            "payload": "sub,1,toys"
+                        }]
                     }]
                 }
             }
