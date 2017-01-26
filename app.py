@@ -74,7 +74,8 @@ def webhook():
                             )
                             counts += 1
                     else:
-                        send_message(sender_id, "ฝอยไม่เข้าใจคำนี้อะ พิมที่เข้าใจหน่อยเด้")
+                        pass
+                        # send_message(sender_id, "ฝอยไม่เข้าใจคำนี้อะ พิมที่เข้าใจหน่อยเด้")
 
 
                 if messaging_event.get("delivery"):  # delivery confirmation
@@ -170,7 +171,8 @@ def webhook():
                             )
                             counts += 1
                     else:
-                        send_message(sender_id, "ฝอยไม่เข้าใจคำนี้อะ พิมที่เข้าใจหน่อยเด้")
+                        pass
+                        # send_message(sender_id, "ฝอยไม่เข้าใจคำนี้อะ พิมที่เข้าใจหน่อยเด้")
 
     return "ok", 200
 

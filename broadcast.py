@@ -91,16 +91,16 @@ def send_news():
                             send_message(u, 'ใหม่!! ' + str(len(el)) + ' กระทู้ฝอยจัดให้!!')
                             send_generic(u, el)
                             r = random.uniform(0, 1)
-                            if r > 0.6:
-                                send_message(u, 'ของใหม่มา เดะฝอยทักไปหาใหม่นะ')
+                            # if r > 0.6:
+                                # send_message(u, 'ของใหม่มา เดะฝอยทักไปหาใหม่นะ')
                             counts = 0
                             el = []
                             break
                         counts += 1
                 else:
                     r = random.uniform(0, 1)
-                    if r > 0.98:
-                        send_message(u, 'ตลาดเงียบเหงาโคตร แต่ไม่ต้องกลัว ฝอยคอยจับตาดูให้อยู่ตลอด')
+                    # if r > 0.98:
+                        # send_message(u, 'ตลาดเงียบเหงาโคตร แต่ไม่ต้องกลัว ฝอยคอยจับตาดูให้อยู่ตลอด')
     fb.set(new_items)
 
 def send_generic(recipient_id, elements):
