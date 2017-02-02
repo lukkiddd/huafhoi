@@ -267,8 +267,11 @@
 	  firebase.initializeApp(config);
 	</script>
 	<script>
+
 		if(firebase.auth()) {
 			window.location = "/beta";
+		} else {
+			firebase.auth().signOut();
 		}
 	  function subscribe(type) {
 	  	var database = firebase.database();
