@@ -6,7 +6,7 @@ import requests
 import re
 import time
 from bs4 import BeautifulSoup
-from flask import Flask, request
+from flask import Flask, request, render_template
 from firebase import Firebase
 
 app = Flask(__name__, static_url_path='')
@@ -17,12 +17,12 @@ def verify():
         if not request.args.get("hub.verify_token") == os.environ["VERIFY_TOKEN"]:
             return "Verification token mismatch", 403
         return request.args["hub.challenge"], 200
-    return app.send_static_file('index.html')
+    return render_template('index.html')
     # return "Hello world", 200
 
 @app.route('/beta', methods=['GET'])
 def beta():
-    return app.send_static_file('beta.html')
+    return render_template('beta.html')
 
 @app.route('/', methods=['POST'])
 def webhook():
