@@ -7,7 +7,7 @@
 </head>
 <body>
 	<div class="bg-primary">
-		<div class="container paddingTop-xxl paddingBottom-l">
+		<div class="container paddingTop-xxl paddingBottom-xl">
 			<div class="row">
 				<div class="col-sm-offset-3 col-sm-6 textAlign-center">
 					<img src="{{ url_for('static', filename='assets/images/logo.svg') }}">
@@ -109,15 +109,15 @@
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="row">
-			<div class="col-xs-12 textAlign-center">
-				<div class="button-messenger" style="margin-bottom: -25px">
-					<a href="#package">
-						<img src="{{ url_for('static', filename='assets/images/messenger-white.svg') }}" alt="">
-					</a>
+<!-- 			<div class="row" >
+				<div class="col-xs-12 textAlign-center">
+					<div class="button-messenger" style="margin-bottom: -45px">
+						<a href="#package">
+							<img src="{{ url_for('static', filename='assets/images/messenger-white.svg') }}" alt="">
+						</a>
+					</div>
 				</div>
-			</div>
+			</div> -->
 		</div>
 	</div>
 	<div class="container marginTop-xl">
@@ -142,7 +142,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="row">
+<!-- 		<div class="row">
 			<div class="col-xs-12 textAlign-center marginBottom-xxl">
 				<div class="button-messenger">
 					<a href="#package">
@@ -150,10 +150,10 @@
 					</a>
 				</div>
 			</div>
-		</div>
+		</div> -->
 	</div>
 	<div class="bg-primary paddingBottom-xxl">
-		<div class="container paddingTopBottom-xxl">
+		<div class="container paddingTopBottom-xxl xs-padding-0">
 			<div class="row marginTop-xxl">
 				<div class="col-xs-12 textAlign-center">
 					<div class="fontSize-xl c-white fontFamily-thaiSans">
@@ -163,68 +163,47 @@
 			</div>
 			<div class="row centered marginTop-l width-100" style="max-width: 650px;">
 				<div class="col-xs-12">
-					<table id="package" class="table width-100 c-grey bg-white">
-						<tr>
-							<td></td>
-							<td>ฟรี!</td>
-							<td>99 บาท/เดือน</td>
-						</tr>
+					<table id="package" class="table width-100 c-grey">
 						<tr>
 							<td>
-								แจ้งเมื่อสินค้าใหม่ลงขาย
-							</td>
-							<td>
-								ทุก 30 นาที
-							</td>
-							<td>
-								ทันทีทันใด
-							</td>
-						</tr>
-						<tr>
-							<td>
-								ฝากติดตามสินค้า
-							</td>
-							<td>
-								6 หมวดหมู่
-							</td>
-							<td>
-								ทุกหมวดหมู่
-							</td>
-						</tr>
-						<tr>
-							<td>
-								แหล่งข้อมูล
-							</td>
-							<td>
-								1 แหล่ง
-							</td>
-							<td>
-								ทั้งหมดในระบบ
-							</td>
-						</tr>
-						<tr>
-							<td>
-								เลือกสินค้าตามแบรนด์, ยี่ห้อ, รุ่น
-							</td>
-							<td>
-								- 
-							</td>
-							<td>
-								<i class="fa fa-check"></i>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								
-							</td>
-							<td>
-								<div class="button button-border-secondary button-s margin-s display-inline-block" onclick="subscribe('free')">
-									สมัคร
+								<div class="fontSize-xxl fontFamily-thaiSans c-secondary">
+									ฟรี !!
+								</div>
+								<div>
+									ตลอดชีพ
 								</div>
 							</td>
 							<td>
-								<div class="button button-border-white c-primary button-s margin-s display-inline-block" onclick="subscribe('pay')">
-									สมัคร
+								<div class="fontSize-xxl fontFamily-thaiSans c-white">
+									99
+								</div>
+								<div>
+									บาท/เดือน
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								- แจ้งสินค้าใหม่ทุก 30 นาที</br>
+								- ติดตามสินค้าได้สูงสุด 6 หมวด</br>
+								- 1 แหล่งข้อมูล
+							</td>
+							<td>
+								- แจ้งสินค้าใหม่ทันทีที่ลงขาย</br>
+								- ติดตามสินค้าไม่จำกัดหมวดหมู่</br>
+								- รวบรวมสินค้าให้ไม่จำกัดแหล่งที่มา</br>
+								- เลือกสินค้าตามแบรนด์, ยี่ห้อ, รุ่น
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="button button-border-secondary paddingLeftRight-xm button-s margin-s display-inline-block" onclick="subscribe('free')">
+									ใช้งาน
+								</div>
+							</td>
+							<td>
+								<div class="button button-white c-secondary paddingLeftRight-xm button-s margin-s display-inline-block" style="color: #0084FF" onclick="subscribe('pay')">
+									ใช้งาน
 								</div>
 							</td>
 						</tr>
@@ -234,19 +213,44 @@
 		</div>
 	</div>
 	<style>
-		td {
-			border: 1px solid #e0e0e0;
-			padding: 10px;
+		tr:first-child td:first-child {
+			border-top-left-radius: 5px;
 		}
-		td:first-child {
-			min-width: 150px;
+		tr:first-child td:last-child {
+			border-top-right-radius: 5px;
 		}
-		td:nth-child(3) {
-			color: #ffffff;
+		tr:last-child td:first-child {
+			border-bottom-left-radius: 5px;
+		}
+		tr:last-child td:last-child {
+			border-bottom-right-radius: 5px;
+		}
+		tr:not(:last-child) td:first-child {
+			border-bottom: 1px solid #ddd;
+		}
+		tr:not(:last-child) td:last-child {
+			border-bottom: 1px solid #006acc;
+		}
+		tr td:not(:last-child) {
+			border-right: 1px solid #ddd;
+		}
+		tr td:last-child {
 			background-color: #0084FF;
+			color: #ffffff;
 		}
-		td:not(:nth-child(1)) {
+ 		td {
+			padding: 10px;
+			background: #ffffff;
 			text-align: center;
+			width: 50%;
+		}
+		tr:nth-child(2) td {
+			text-align: left;
+			padding: 20px;
+			line-height: 2;
+		}
+		tr:first-child td {
+			font-weight: 700;
 		}
 	</style>
 
