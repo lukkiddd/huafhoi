@@ -24,6 +24,11 @@ def verify():
 def beta():
     return render_template('beta.html')
 
+@app.route('/policy', methods=['GET'])
+def beta():
+    return render_template('policy.html')
+
+
 @app.route('/', methods=['POST'])
 def webhook():
 
