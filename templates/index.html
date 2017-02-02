@@ -268,17 +268,11 @@
 	</script>
 	<script>
 
-		// if(firebase.auth()) {
-		// 	window.location = "/beta";
-		// } else {
-		// 	firebase.auth().signOut();
-		// }
 	  function subscribe(type) {
 	  	var database = firebase.database();
 	  	var provider = new firebase.auth.FacebookAuthProvider();
 			firebase.auth().signInWithPopup(provider).then(function(result) {
 				var user = result.user;
-				console.log(user);
 				userType = database.ref('users/'+ type).push()
 
 				userType.set({
