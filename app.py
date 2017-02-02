@@ -17,9 +17,14 @@ def verify():
         if not request.args.get("hub.verify_token") == os.environ["VERIFY_TOKEN"]:
             return "Verification token mismatch", 403
         return request.args["hub.challenge"], 200
+    content = get_file('index.html')
+    return Response(content, mimetype="text/html")
+    # return "Hello world", 200
 
-    return "Hello world", 200
-
+@app.route('/beta', methods=['GET'])
+def beta():
+    content = get_file('beta.html')
+    return Response(content, mimetype="text/html")
 
 @app.route('/', methods=['POST'])
 def webhook():
