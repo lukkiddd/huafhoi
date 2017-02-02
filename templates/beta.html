@@ -24,7 +24,7 @@
 			<div class="row marginTop-l">
 				<div class="col-xs-12 textAlign-center">
 					<div class="button-messenger">
-						<div id="subscribe" class="button button-secondary button-m margin-s display-inline-block">
+						<div class="button button-secondary button-m margin-s display-inline-block" onclick="subscribe()">
 							ลงชื่อด้วย Facebook
 						</div>
 						<!-- Begin MailChimp Signup Form -->
@@ -61,10 +61,11 @@
 	  firebase.initializeApp(config);
 	</script>
 	<script>
-	  document.getElementById('subscribe').click(function() {
+	  function subscribe() {
 	  	var provider = new firebase.auth.FacebookAuthProvider();
 			firebase.auth().signInWithPopup(provider);
-	  })
+			// console.log('s');
+	  }
 	</script>
 
 </body>
