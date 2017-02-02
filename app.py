@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 from flask import Flask, request
 from firebase import Firebase
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
 
 @app.route('/', methods=['GET'])
 def verify():
@@ -17,14 +17,12 @@ def verify():
         if not request.args.get("hub.verify_token") == os.environ["VERIFY_TOKEN"]:
             return "Verification token mismatch", 403
         return request.args["hub.challenge"], 200
-    content = get_file('index.html')
-    return Response(content, mimetype="text/html")
+    return app.send_static_file('index.html')
     # return "Hello world", 200
 
 @app.route('/beta', methods=['GET'])
 def beta():
-    content = get_file('beta.html')
-    return Response(content, mimetype="text/html")
+    return app.send_static_file('beta.html')
 
 @app.route('/', methods=['POST'])
 def webhook():
