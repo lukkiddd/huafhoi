@@ -10,47 +10,19 @@
 		<div class="container paddingTop-xxl paddingBottom-l">
 			<div class="row">
 				<div class="col-sm-offset-3 col-sm-6 textAlign-center marginBottom-xm">
-					<img style="max-width: 400px;" class="width-100" src="{{ url_for('static', filename='assets/images/logo-body.svg') }}">
+					<img style="max-width: 250px;" class="width-100" src="{{ url_for('static', filename='assets/images/logo-body.svg') }}">
 				</div>
 				<div class="col-sm-offset-3 col-sm-6 textAlign-center">
 					<div class="fontSize-xl c-white fontFamily-thaiSans">
 						ตอนนี้ หัวฝอย กำลังพัฒนา
 					</div>
 					<div class="c-white fontFamily-thonburi fontSize-s">
-						สนใจอยากทดลองใช้ กรอกอีเมลล์ทิ้งไว้ได้เลยจ้าา
-					</div>
-				</div>
-			</div>
-			<div class="row marginTop-l">
-				<div class="col-xs-12 textAlign-center">
-					<div class="button-messenger">
-						<div class="button button-secondary button-m margin-s display-inline-block" onclick="subscribe()">
-							ลงชื่อด้วย Facebook
-						</div>
+						พร้อมใช้เมื่อไหร่จะติดต่อไปทันทีจ้า!!!
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
-	<script src="https://www.gstatic.com/firebasejs/3.6.8/firebase.js"></script>
-	<script>
-	  var config = {
-	    apiKey: "AIzaSyDVdYJ5-2abtGbhxetlgecHrJ6MZ_t0j9A",
-	    authDomain: "huafhoi.firebaseapp.com",
-	    databaseURL: "https://huafhoi.firebaseio.com",
-	    storageBucket: "huafhoi.appspot.com",
-	    messagingSenderId: "276889281585"
-	  };
-	  firebase.initializeApp(config);
-	</script>
-	<script>
-	  function subscribe() {
-	  	var provider = new firebase.auth.FacebookAuthProvider();
-			firebase.auth().signInWithPopup(provider);
-			// console.log('s');
-	  }
-	</script>
 
 </body>
 </html>

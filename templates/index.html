@@ -113,7 +113,7 @@
 		<div class="row">
 			<div class="col-xs-12 textAlign-center">
 				<div class="button-messenger" style="margin-bottom: -25px">
-					<a href="/beta">
+					<a href="#package">
 						<img src="{{ url_for('static', filename='assets/images/messenger-white.svg') }}" alt="">
 					</a>
 				</div>
@@ -142,16 +142,155 @@
 				</div>
 			</div>
 		</div>
-		<div class="row marginBottom-xxl">
+		<div class="row">
 			<div class="col-xs-12 textAlign-center marginBottom-xxl">
-				<div class="button-messenger marginBottom-xxl">
-					<a href="/beta">
+				<div class="button-messenger">
+					<a href="#package">
 						<img src="{{ url_for('static', filename='assets/images/messenger-white.svg') }}" alt="">
 					</a>
 				</div>
 			</div>
 		</div>
 	</div>
+	<div class="bg-primary paddingBottom-xxl">
+		<div class="container paddingTopBottom-xxl">
+			<div class="row marginTop-xxl">
+				<div class="col-xs-12 textAlign-center">
+					<div class="fontSize-xl c-white fontFamily-thaiSans">
+						แพคเกจหัวฝอย
+					</div>
+				</div>
+			</div>
+			<div class="row centered marginTop-l width-100" style="max-width: 650px;">
+				<div class="col-xs-12">
+					<table id="package" class="table width-100 c-grey bg-white">
+						<tr>
+							<td></td>
+							<td>ฟรี!</td>
+							<td>99 บาท/เดือน</td>
+						</tr>
+						<tr>
+							<td>
+								แจ้งเมื่อสินค้าใหม่ลงขาย
+							</td>
+							<td>
+								ทุก 30 นาที
+							</td>
+							<td>
+								ทันทีทันใด
+							</td>
+						</tr>
+						<tr>
+							<td>
+								ฝากติดตามสินค้า
+							</td>
+							<td>
+								6 หมวดหมู่
+							</td>
+							<td>
+								ทุกหมวดหมู่
+							</td>
+						</tr>
+						<tr>
+							<td>
+								เลือกสินค้าตามแบรนด์, ยี่ห้อ, รุ่น
+							</td>
+							<td>
+								- 
+							</td>
+							<td>
+								<i class="fa fa-check"></i>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								แหล่งข้อมูล
+							</td>
+							<td>
+								1 แหล่ง
+							</td>
+							<td>
+								ทั้งหมดในระบบ
+							</td>
+						</tr>
+						<tr>
+							<td>
+								เลือกสินค้าตามแบรนด์, ยี่ห้อ, รุ่น
+							</td>
+							<td>
+								- 
+							</td>
+							<td>
+								<i class="fa fa-check"></i>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								
+							</td>
+							<td>
+								<div class="button button-border-secondary button-s margin-s display-inline-block" onclick="subscribe('free')">
+									สมัคร
+								</div>
+							</td>
+							<td>
+								<div class="button button-border-white c-primary button-s margin-s display-inline-block" onclick="subscribe('pay')">
+									สมัคร
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<style>
+		td {
+			border: 1px solid #e0e0e0;
+			padding: 10px;
+		}
+		td:first-child {
+			min-width: 150px;
+		}
+		td:nth-child(3) {
+			color: #ffffff;
+			background-color: #0084FF;
+		}
+		td:not(:nth-child(1)) {
+			text-align: center;
+		}
+	</style>
 
+	<script src="https://www.gstatic.com/firebasejs/3.6.8/firebase.js"></script>
+	<script>
+	  var config = {
+	    apiKey: "AIzaSyDVdYJ5-2abtGbhxetlgecHrJ6MZ_t0j9A",
+	    authDomain: "huafhoi.firebaseapp.com",
+	    databaseURL: "https://huafhoi.firebaseio.com",
+	    storageBucket: "huafhoi.appspot.com",
+	    messagingSenderId: "276889281585"
+	  };
+	  firebase.initializeApp(config);
+	</script>
+	<script>
+	  function subscribe(type) {
+	  	var database = firebase.database();
+	  	var provider = new firebase.auth.FacebookAuthProvider();
+			firebase.auth().signInWithPopup(provider).then(function(result) {
+				var user = result.user;
+				console.log(user);
+				userType = database.ref('users/'+ type).push()
+
+				userType.set({
+					email: user.email,
+					photoURL: user.photoURL,
+					name: user.displayName
+				}).then(function() {
+			  	window.location = "/beta";
+			  });
+
+			});
+	  }
+	</script>
 </body>
 </html>
