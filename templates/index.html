@@ -267,7 +267,9 @@
 	  firebase.initializeApp(config);
 	</script>
 	<script>
-
+		if(firebase.auth().currentUser) {
+			window.location = "/beta";
+		}
 	  function subscribe(type) {
 	  	var database = firebase.database();
 	  	var provider = new firebase.auth.FacebookAuthProvider();
