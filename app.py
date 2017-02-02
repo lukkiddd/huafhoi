@@ -25,7 +25,7 @@ def beta():
     return render_template('beta.html')
 
 @app.route('/policy', methods=['GET'])
-def beta():
+def policy():
     return render_template('policy.html')
 
 
