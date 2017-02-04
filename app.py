@@ -90,7 +90,7 @@ def webhook():
                             else:
                                 pass
                                 # send_message(sender_id, "ฝอยไม่เข้าใจคำนี้อะ พิมที่เข้าใจหน่อยเด้")
-                    if(not Found):
+                    if(not found):
                         if u"หมวดหมู่" in message_text:
                             send_message(sender_id, "ตอนนี้ฝอยคุมตลาด ram, monitor, cpu, storage, macbook, toys (พวก Gadgets)")
                             send_message(sender_id, "ตลาดอื่น ๆ เดี๋ยวฝอยจะไปคุมให้ เร็ว ๆ นี้")
