@@ -47,6 +47,20 @@ def webhook():
                     message_text = messaging_event["message"]["text"].lower()  # the message's text
 
                     found = False
+                    
+                    if u"จอ" in message_text:
+                        message_text = "monitor"
+                    if u"แรม" in message_text:
+                        message_text = "ram"
+                    if u"hdd" in message_text or u"ssd" in message_text:
+                        message_text = "storage"
+                    if u"แมค" in message_text or u"mac" in message_text or u"แมก" in message_text:
+                        message_text = "macbook"
+                    if u"ซีพียู" in message_text:
+                        message_text = "cpu"
+                    if u"3ds" in message_text or u"play4" in message_text or u"playstation" in message_text or u"nintendo" in message_text or u"นินเทนโด" in message_text:
+                        message_text = "toys"
+
                     categories = Firebase('https://welse-141512.firebaseio.com/items/').get();
                     for c in categories:
                         if c in message_text:
