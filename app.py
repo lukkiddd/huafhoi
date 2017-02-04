@@ -46,8 +46,10 @@ def webhook():
                         break
                     message_text = messaging_event["message"]["text"].lower()  # the message's text
 
+                    history = Firebase('https://huafhoi.firebaseio.com/history/' + str(sender_id) + '/text')
+                    history.push({'text':message_text})
+
                     found = False
-                    
                     if u"จอ" in message_text:
                         message_text = "monitor"
                     if u"แรม" in message_text:
@@ -60,6 +62,8 @@ def webhook():
                         message_text = "cpu"
                     if u"3ds" in message_text or u"play4" in message_text or u"playstation" in message_text or u"nintendo" in message_text or u"นินเทนโด" in message_text:
                         message_text = "toys"
+                    if u"มือถือ" in message_text or u"iphone" in message_text:
+                        message_text = "mobile"
 
                     categories = Firebase('https://welse-141512.firebaseio.com/items/').get();
                     for c in categories:
@@ -101,6 +105,9 @@ def webhook():
                                         }
                                     )
                                     counts += 1
+                                    
+                                history_count = Firebase('https://huafhoi.firebaseio.com/history/' + str(sender_id) + '/count')
+                                history_count.push({'count':message_text})
                             else:
                                 pass
                                 # send_message(sender_id, "ฝอยไม่เข้าใจคำนี้อะ พิมที่เข้าใจหน่อยเด้")
@@ -273,6 +280,11 @@ def send_message(recipient_id, message_text):
                 "content_type":"text",
                 "title":"Toys",
                 "payload":"toys,1"
+              },
+              {
+                "content_type":"text",
+                "title":"Mobile",
+                "payload":"mobile,1"
               }
             ]
         }
@@ -380,6 +392,16 @@ def initial_conversation(recipient_id, message_text):
                         }]
                     },
                     {
+                        "title": "ตลาด มือถือ",
+                        "subtitle": "ตลาดมือถือ iPhone, Samsung, HTC และ อีกมากมาย",
+                        "image_url": "http://spyapps.net/wp-content/uploads/2016/11/How-to-spy-on-a-mobile-phone.jpg",
+                        "buttons": [{
+                            "title": "ดูตลาดมือถือ",
+                            "type": "postback",
+                            "payload": "sub,1,mobile"
+                        }]
+                    },
+                    {
                         "title": "ตลาดของเล่น",
                         "subtitle": "ซื้อ ขาย แลกเปลี่ยน ของเล่น เกมส์ และอุปกรณ์ที่เกี่ยวข้อง ทุกชนิด",
                         "image_url": "http://www.gadgetguysnc.com/wp-content/uploads/2016/01/consoles.jpg",
@@ -455,6 +477,11 @@ def send_elements(recipient_id, elements, page, item_type):
                 "content_type":"text",
                 "title":"Toys",
                 "payload":"toys,1"
+              },
+              {
+                "content_type":"text",
+                "title":"Mobile",
+                "payload":"mobile,1"
               }
             ]
         }
@@ -520,6 +547,11 @@ def send_generic(recipient_id, elements, page, item_type):
                 "content_type":"text",
                 "title":"Toys",
                 "payload":"toys,1"
+              },
+              {
+                "content_type":"text",
+                "title":"Mobile",
+                "payload":"mobile,1"
               }
             ]
         }
