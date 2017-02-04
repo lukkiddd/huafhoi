@@ -46,9 +46,11 @@ def webhook():
                         break
                     message_text = messaging_event["message"]["text"].lower()  # the message's text
 
+                    found = False
                     categories = Firebase('https://welse-141512.firebaseio.com/items/').get();
                     for c in categories:
                         if c in message_text:
+                            found = True
                             if Firebase('https://welse-141512.firebaseio.com/items/' + c).get() != None:
                                 f = Firebase('https://welse-141512.firebaseio.com/items/' + c + '/page1')
                                 items_array = f.get()
@@ -88,6 +90,10 @@ def webhook():
                             else:
                                 pass
                                 # send_message(sender_id, "ฝอยไม่เข้าใจคำนี้อะ พิมที่เข้าใจหน่อยเด้")
+                    if(not Found):
+                        if u"หมวดหมู่" in message_text:
+                            send_message(sender_id, "ตอนนี้ฝอยคุมตลาด ram, monitor, cpu, storage, macbook, toys (พวก Gadgets)")
+                            send_message(sender_id, "ตลาดอื่น ๆ เดี๋ยวฝอยจะไปคุมให้ เร็ว ๆ นี้")
 
                 if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
