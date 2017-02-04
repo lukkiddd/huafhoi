@@ -58,7 +58,7 @@ def webhook():
                                     break
                                 el = []
                                 counts = 0
-                                send_message(sender_id, "หา " + c + " หรอ? รอแปป เดี๋ยวฝอยเช็คก่อน...")
+                                send_message(sender_id, u"หา " + c + u" หรอ? รอแปป เดี๋ยวฝอยเช็คก่อน...")
                                 for item in items_array:
                                     if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == items_array[-1]['name']:
                                         if len(el) <= 4:
@@ -88,13 +88,6 @@ def webhook():
                             else:
                                 pass
                                 # send_message(sender_id, "ฝอยไม่เข้าใจคำนี้อะ พิมที่เข้าใจหน่อยเด้")
-
-
-                if messaging_event.get("delivery"):  # delivery confirmation
-                    pass
-
-                if messaging_event.get("optin"):  # optin confirmation
-                    pass
 
                 if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
