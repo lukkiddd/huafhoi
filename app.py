@@ -94,6 +94,8 @@ def webhook():
                         if u"หมวดหมู่" in message_text:
                             send_message(sender_id, "ตอนนี้ฝอยคุมตลาด ram, monitor, cpu, storage, macbook, toys (พวก Gadgets)")
                             send_message(sender_id, "ตลาดอื่น ๆ เดี๋ยวฝอยจะไปคุมให้ เร็ว ๆ นี้")
+                            send_image(sender_id, "https://media.tenor.co/images/fdd5dbcc25782675259f821fc18de50d/raw")
+                            
 
                 if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
