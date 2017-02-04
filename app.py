@@ -28,7 +28,6 @@ def beta():
 def policy():
     return render_template('policy.html')
 
-
 @app.route('/', methods=['POST'])
 def webhook():
 
