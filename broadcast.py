@@ -42,6 +42,41 @@ type_item = [
         'slug': 'toys',
         'value': '109-Toys',
         'image': 'http://www.gadgetguysnc.com/wp-content/uploads/2016/01/consoles.jpg'
+    },
+    {
+        'slug':'mobile',
+        'value': '208-iPhone',
+        'image': 'http://spyapps.net/wp-content/uploads/2016/11/How-to-spy-on-a-mobile-phone.jpg'
+    },
+    {
+        'slug': 'mobile',
+        'value': '210-ASUS',
+        'image': 'http://spyapps.net/wp-content/uploads/2016/11/How-to-spy-on-a-mobile-phone.jpg'
+    },
+    {
+        'slug': 'mobile',
+        'value': '166-SAMSUNG',
+        'image': 'http://spyapps.net/wp-content/uploads/2016/11/How-to-spy-on-a-mobile-phone.jpg'
+    },
+    {
+        'slug': 'mobile',
+        'value': '167-HTC',
+        'image': 'http://spyapps.net/wp-content/uploads/2016/11/How-to-spy-on-a-mobile-phone.jpg'
+    },
+    {
+        'slug': 'mobile',
+        'value': '168-LG',
+        'image': 'http://spyapps.net/wp-content/uploads/2016/11/How-to-spy-on-a-mobile-phone.jpg'
+    },
+    {
+        'slug': 'mobile',
+        'value': '169-Motorola',
+        'image': 'http://spyapps.net/wp-content/uploads/2016/11/How-to-spy-on-a-mobile-phone.jpg'
+    },
+    {
+        'slug': 'mobile',
+        'value': '172-Sony',
+        'image': 'http://spyapps.net/wp-content/uploads/2016/11/How-to-spy-on-a-mobile-phone.jpg'
     }
 ]
 
@@ -164,7 +199,8 @@ def scrap():
     items = {}
     for slug in type_item:
         print "Loading:",slug['slug']
-        items[slug['slug']] = []
+        if not items.has_key('mobile'):
+            items[slug['slug']] = []
         for i in xrange(1,3):
             url = "https://www.overclockzone.com/forums/forumdisplay.php/"+slug['value']+"/page" + str(i) + "?prefixid=Sell"
             r  = requests.get(url)

@@ -105,7 +105,7 @@ def webhook():
                                         }
                                     )
                                     counts += 1
-                                    
+
                                 history_count = Firebase('https://huafhoi.firebaseio.com/history/' + str(sender_id) + '/count')
                                 history_count.push({'count':message_text})
                             else:
@@ -164,6 +164,10 @@ def webhook():
                     page = messaging_event["postback"]["payload"].split(",")[1]
                     if not page:
                         break
+
+                    history_count = Firebase('https://huafhoi.firebaseio.com/history/' + str(sender_id) + '/count')
+                    history_count.push({'count':message_text})
+                    
                     if Firebase('https://welse-141512.firebaseio.com/items/' + message_text).get() != None:
                         f = Firebase('https://welse-141512.firebaseio.com/items/' + message_text + '/page' + str(page))
                         items_array = f.get()
