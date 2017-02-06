@@ -37,6 +37,11 @@ type_item = [
         'image': 'http://www.gadgetguysnc.com/wp-content/uploads/2016/01/consoles.jpg'
     },
     {
+        'slug': 'gpu',
+        'value': '97-Display',
+        'image': 'http://di.lnwfile.com/_/di/_raw/pd/eg/76.jpg',
+    },
+    {
         'slug':'mobile',
         'value': '208-iPhone',
         'image': 'http://spyapps.net/wp-content/uploads/2016/11/How-to-spy-on-a-mobile-phone.jpg'
@@ -70,11 +75,6 @@ type_item = [
         'slug': 'mobile',
         'value': '172-Sony',
         'image': 'http://spyapps.net/wp-content/uploads/2016/11/How-to-spy-on-a-mobile-phone.jpg'
-    },
-    {
-        'slug': 'gpu',
-        'value': '97-Display',
-        'image': 'http://di.lnwfile.com/_/di/_raw/pd/eg/76.jpg',
     }
 ]
 

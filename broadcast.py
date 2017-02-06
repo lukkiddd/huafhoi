@@ -44,6 +44,11 @@ type_item = [
         'image': 'http://www.gadgetguysnc.com/wp-content/uploads/2016/01/consoles.jpg'
     },
     {
+        'slug': 'gpu',
+        'value': '97-Display',
+        'image': 'http://di.lnwfile.com/_/di/_raw/pd/eg/76.jpg',
+    },
+    {
         'slug':'mobile',
         'value': '208-iPhone',
         'image': 'http://spyapps.net/wp-content/uploads/2016/11/How-to-spy-on-a-mobile-phone.jpg'
@@ -123,11 +128,9 @@ def send_news():
                         })
 
                         if(counts >= 9 or new_send[type_u][-1]['name'] == item['name']):
-                            send_message(u, 'ใหม่!! ' + str(len(el)) + ' กระทู้ฝอยจัดให้!!')
+                            send_message(u, 'ใหม่!! ' + str(type_u) + ' ' + str(len(el)) + ' กระทู้ฝอยจัดให้!!')
                             send_generic(u, el)
                             r = random.uniform(0, 1)
-                            # if r > 0.6:
-                                # send_message(u, 'ของใหม่มา เดะฝอยทักไปหาใหม่นะ')
                             counts = 0
                             el = []
                             break
