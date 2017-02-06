@@ -48,7 +48,7 @@ def webhook():
 
                     history = Firebase('https://huafhoi.firebaseio.com/history/' + str(sender_id) + '/text')
                     history.push({'text':message_text})
-                    
+
                     if u"filter" in message_text:
                         filtered_item = Firebase('https://huafhoi.firebaseio.com/items_filter').get();
                         ranked_item = get_item_by_rank(message_text, filtered_item)
@@ -80,6 +80,7 @@ def webhook():
                                 }
                             )
                             counts += 1
+
                     else:    
                         found = False
                         if u"จอ" in message_text:
@@ -96,7 +97,8 @@ def webhook():
                             message_text = "toys"
                         if u"มือถือ" in message_text or u"iphone" in message_text:
                             message_text = "mobile"
-
+                        if u"การ์ดจอ" in message_text or u"กาดจอ" in message_text:
+                            message_text = "gpu"
                         categories = Firebase('https://welse-141512.firebaseio.com/items/').get();
                         for c in categories:
                             if c in message_text:
@@ -321,6 +323,11 @@ def send_message(recipient_id, message_text):
                 "content_type":"text",
                 "title":"Mobile",
                 "payload":"mobile,1"
+              },
+              {
+                "content_type": "text",
+                "title": "GPU",
+                "payload":"gpu,1"
               }
             ]
         }
@@ -438,6 +445,16 @@ def initial_conversation(recipient_id, message_text):
                         }]
                     },
                     {
+                        "title": "ตลาด Graphic Card",
+                        "subtitle": "ตลาด GPU",
+                        "image_url": "http://di.lnwfile.com/_/di/_raw/pd/eg/76.jpg",
+                        "buttons": [{
+                            "title": "ดูตลาด GPU",
+                            "type": "postback",
+                            "payload": "sub,1,gpu"
+                        }]
+                    },
+                    {
                         "title": "ตลาดของเล่น",
                         "subtitle": "ซื้อ ขาย แลกเปลี่ยน ของเล่น เกมส์ และอุปกรณ์ที่เกี่ยวข้อง ทุกชนิด",
                         "image_url": "http://www.gadgetguysnc.com/wp-content/uploads/2016/01/consoles.jpg",
@@ -518,6 +535,11 @@ def send_elements(recipient_id, elements, page, item_type):
                 "content_type":"text",
                 "title":"Mobile",
                 "payload":"mobile,1"
+              },
+              {
+                "content_type": "text",
+                "title": "GPU",
+                "payload":"gpu,1"
               }
             ]
         }
@@ -588,6 +610,11 @@ def send_generic(recipient_id, elements, page, item_type):
                 "content_type":"text",
                 "title":"Mobile",
                 "payload":"mobile,1"
+              },
+              {
+                "content_type": "text",
+                "title": "GPU",
+                "payload":"gpu,1"
               }
             ]
         }
