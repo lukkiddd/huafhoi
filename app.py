@@ -83,22 +83,23 @@ def webhook():
 
                     else:    
                         found = False
-                        if u"จอ" in message_text:
+                        if u"การ์ดจอ" in message_text or u"กาดจอ" in message_text:
+                            message_text = "gpu"
+                        elif u"จอ" in message_text:
                             message_text = "monitor"
+                            
                         if u"แรม" in message_text:
                             message_text = "ram"
                         if u"hdd" in message_text or u"ssd" in message_text:
                             message_text = "storage"
                         if u"แมค" in message_text or u"mac" in message_text or u"แมก" in message_text:
                             message_text = "macbook"
-                        if u"ซีพียู" in message_text:
+                        if u"ซีพียู" in message_text or u"หน่วยประมวลผล" in message_text or u"ตัวประมวลผลกลาง" in message_text:
                             message_text = "cpu"
                         if u"3ds" in message_text or u"play4" in message_text or u"playstation" in message_text or u"nintendo" in message_text or u"นินเทนโด" in message_text:
                             message_text = "toys"
                         if u"มือถือ" in message_text or u"iphone" in message_text:
                             message_text = "mobile"
-                        if u"การ์ดจอ" in message_text or u"กาดจอ" in message_text:
-                            message_text = "gpu"
                         categories = Firebase('https://welse-141512.firebaseio.com/items/').get();
                         for c in categories:
                             if c in message_text:

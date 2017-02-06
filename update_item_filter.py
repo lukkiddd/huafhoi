@@ -11,7 +11,7 @@ type_item = [
         'slug': 'cpu',
         'value': '93-CPU',
         'image': 'https://www.iconexperience.com/_img/g_collection_png/standard/512x512/cpu2.png',
-        'keywords': [ u"cpu", u"ซีพียู"]
+        'keywords': [ u"cpu", u"ซีพียู",u"หน่วยประมวลผล",u"ตัวประมวลผลกลาง"]
     },
     {
         'slug': 'monitor',
@@ -147,7 +147,7 @@ def clear_firebase():
 	a = f.get()
 	if a != None:
 		for i in a:
-			q = Firebase('https://huafhoi.firebaseio.com/items_filter'+'/'+i)
+			q = Firebase('https://huafhoi.firebaseio.com/items_filter')
 			q.remove()
 
 
