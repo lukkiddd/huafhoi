@@ -48,6 +48,7 @@ def webhook():
 
                     history = Firebase('https://huafhoi.firebaseio.com/history/' + str(sender_id) + '/text')
                     history.push({'text':message_text})
+                    
                     if u"filter" in message_text:
                         filtered_item = Firebase('https://huafhoi.firebaseio.com/items_filter').get();
                         ranked_item = get_item_by_rank(message_text, filtered_item)
@@ -55,7 +56,7 @@ def webhook():
                         el = []
                         send_message(sender_id, u"(beta) ค้นหาตาม keywords")
                         for item in ranked_item:
-                            if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == items_array[-1]['name']:
+                            if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == ranked_item[-1]['name']:
                                 if len(el) <= 4 and len(el) > 1:
                                     send_elements(sender_id, el, 2, item['type'])
                                 else:
