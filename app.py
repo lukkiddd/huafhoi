@@ -48,74 +48,105 @@ def webhook():
 
                     history = Firebase('https://huafhoi.firebaseio.com/history/' + str(sender_id) + '/text')
                     history.push({'text':message_text})
-
-                    found = False
-                    if u"จอ" in message_text:
-                        message_text = "monitor"
-                    if u"แรม" in message_text:
-                        message_text = "ram"
-                    if u"hdd" in message_text or u"ssd" in message_text:
-                        message_text = "storage"
-                    if u"แมค" in message_text or u"mac" in message_text or u"แมก" in message_text:
-                        message_text = "macbook"
-                    if u"ซีพียู" in message_text:
-                        message_text = "cpu"
-                    if u"3ds" in message_text or u"play4" in message_text or u"playstation" in message_text or u"nintendo" in message_text or u"นินเทนโด" in message_text:
-                        message_text = "toys"
-                    if u"มือถือ" in message_text or u"iphone" in message_text:
-                        message_text = "mobile"
-
-                    categories = Firebase('https://welse-141512.firebaseio.com/items/').get();
-                    for c in categories:
-                        if c in message_text:
-                            found = True
-                            if Firebase('https://welse-141512.firebaseio.com/items/' + c).get() != None:
-                                f = Firebase('https://welse-141512.firebaseio.com/items/' + c + '/page1')
-                                items_array = f.get()
-                                if items_array == None:
-                                    send_message(sender_id, "หมดแล้ว!! บ๋อแบ๋")
-                                    send_image(sender_id, "https://media.tenor.co/images/ab096f70ea512a3881e85756d3175c26/raw")
-                                    break
+                    if u"filter" in message_text:
+                        filtered_item = Firebase('https://huafhoi.firebaseio.com/items_filter').get();
+                        ranked_item = get_item_by_rank(message_text, filtered_item)
+                        counts = 0
+                        el = []
+                        send_message(sender_id, u"(beta) ค้นหาตาม keywords")
+                        for item in ranked_item:
+                            if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == items_array[-1]['name']:
+                                if len(el) <= 4 and len(el) > 1:
+                                    send_elements(sender_id, el, 2, item['type'])
+                                else:
+                                    send_generic(sender_id, el, 2, item['type'])
                                 el = []
-                                counts = 0
-                                send_message(sender_id, u"หา " + c + u" หรอ? รอแปป เดี๋ยวฝอยเช็คก่อน...")
-                                for item in items_array:
-                                    if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == items_array[-1]['name']:
-                                        if len(el) <= 4:
+                                break
+                            el.append(
+                                {
+                                    "title": item['name'],
+                                    "subtitle": item['subtitle'],
+                                    "image_url": item['image'],
+                                    "buttons": [{
+                                        "title": "View",
+                                        "type": "web_url",
+                                        "url": item['link'],
+                                    }],
+                                    "default_action": {
+                                        "type": "web_url",
+                                        "url": item['link']
+                                    }
+                                }
+                            )
+                            counts += 1
+                    else:    
+                        found = False
+                        if u"จอ" in message_text:
+                            message_text = "monitor"
+                        if u"แรม" in message_text:
+                            message_text = "ram"
+                        if u"hdd" in message_text or u"ssd" in message_text:
+                            message_text = "storage"
+                        if u"แมค" in message_text or u"mac" in message_text or u"แมก" in message_text:
+                            message_text = "macbook"
+                        if u"ซีพียู" in message_text:
+                            message_text = "cpu"
+                        if u"3ds" in message_text or u"play4" in message_text or u"playstation" in message_text or u"nintendo" in message_text or u"นินเทนโด" in message_text:
+                            message_text = "toys"
+                        if u"มือถือ" in message_text or u"iphone" in message_text:
+                            message_text = "mobile"
 
-                                            send_elements(sender_id, el, 2, item['type'])
-                                        else:
-                                            send_generic(sender_id, el, 2, item['type'])
-                                        el = []
+                        categories = Firebase('https://welse-141512.firebaseio.com/items/').get();
+                        for c in categories:
+                            if c in message_text:
+                                found = True
+                                if Firebase('https://welse-141512.firebaseio.com/items/' + c).get() != None:
+                                    f = Firebase('https://welse-141512.firebaseio.com/items/' + c + '/page1')
+                                    items_array = f.get()
+                                    if items_array == None:
+                                        send_message(sender_id, "หมดแล้ว!! บ๋อแบ๋")
+                                        send_image(sender_id, "https://media.tenor.co/images/ab096f70ea512a3881e85756d3175c26/raw")
                                         break
-                                    el.append(
-                                        {
-                                            "title": item['name'],
-                                            "subtitle": item['subtitle'],
-                                            "image_url": item['image'],
-                                            "buttons": [{
-                                                "title": "View",
-                                                "type": "web_url",
-                                                "url": item['link'],
-                                            }],
-                                            "default_action": {
-                                                "type": "web_url",
-                                                "url": item['link']
-                                            }
-                                        }
-                                    )
-                                    counts += 1
+                                    el = []
+                                    counts = 0
+                                    send_message(sender_id, u"หา " + c + u" หรอ? รอแปป เดี๋ยวฝอยเช็คก่อน...")
+                                    for item in items_array:
+                                        if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == items_array[-1]['name']:
+                                            if len(el) <= 4:
 
-                                history_count = Firebase('https://huafhoi.firebaseio.com/history/' + str(sender_id) + '/count')
-                                history_count.push({'count':message_text})
-                            else:
-                                pass
-                                # send_message(sender_id, "ฝอยไม่เข้าใจคำนี้อะ พิมที่เข้าใจหน่อยเด้")
-                    if(not found):
-                        if u"หมวดหมู่" in message_text:
-                            send_message(sender_id, "ตอนนี้ฝอยคุมตลาด ram, monitor, cpu, storage, macbook, toys (พวก Gadgets)")
-                            send_message(sender_id, "ตลาดอื่น ๆ เดี๋ยวฝอยจะไปคุมให้ เร็ว ๆ นี้")
-                            send_image(sender_id, "https://media.tenor.co/images/fdd5dbcc25782675259f821fc18de50d/raw")
+                                                send_elements(sender_id, el, 2, item['type'])
+                                            else:
+                                                send_generic(sender_id, el, 2, item['type'])
+                                            el = []
+                                            break
+                                        el.append(
+                                            {
+                                                "title": item['name'],
+                                                "subtitle": item['subtitle'],
+                                                "image_url": item['image'],
+                                                "buttons": [{
+                                                    "title": "View",
+                                                    "type": "web_url",
+                                                    "url": item['link'],
+                                                }],
+                                                "default_action": {
+                                                    "type": "web_url",
+                                                    "url": item['link']
+                                                }
+                                            }
+                                        )
+                                        counts += 1
+
+                                    history_count = Firebase('https://huafhoi.firebaseio.com/history/' + str(sender_id) + '/count')
+                                    history_count.push({'count':message_text})
+                                else:
+                                    pass
+                                    # send_message(sender_id, "ฝอยไม่เข้าใจคำนี้อะ พิมที่เข้าใจหน่อยเด้")
+                        if(not found):
+                            if u"หมวดหมู่" in message_text:
+                                send_message(sender_id, "ตอนนี้ฝอยคุมตลาด ram, monitor, cpu, storage, macbook, toys (พวก Gadgets)")
+                                send_message(sender_id, "ตลาดอื่น ๆ เดี๋ยวฝอยจะไปคุมให้ เร็ว ๆ นี้")
+                                send_image(sender_id, "https://media.tenor.co/images/fdd5dbcc25782675259f821fc18de50d/raw")
                             
 
                 if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
@@ -564,6 +595,17 @@ def send_generic(recipient_id, elements, page, item_type):
     if r.status_code != 200:
         log(r.status_code)
         log(r.text)
+
+def get_item_by_rank(query,items):
+    query_string = re.sub('\s+','',query)
+    i = items[:]
+    for item in i:
+        item['rank'] = 0
+        for k in item['keywords']:
+            if k in query:
+                item['rank'] += 1
+    ranked_item = sorted(i, key=lambda k: (k['rank'],k['time']), reverse=True)
+    return ranked_item
 
 def log(message):  
     print str(message)
