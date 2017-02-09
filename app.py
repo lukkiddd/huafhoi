@@ -233,7 +233,7 @@ def webhook():
                     if items != None:
                         ranked_item = get_item_by_rank(message_text, items)
                         temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id))
-                        temp.push(ranked_item[5:])
+                        temp.push(items[5:])
                         counts = 0
                         el = []
                         for item in ranked_item:
