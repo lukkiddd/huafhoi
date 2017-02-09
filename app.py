@@ -66,7 +66,6 @@ def webhook():
                             break
 
                         for item in ranked_item:
-                            send_message(sender_id, item['name'])
                             el.append(
                                 {
                                     "title": item['name'],
@@ -645,7 +644,7 @@ def get_item_by_rank(query,items):
                 item['rank'] += 1
     ranked = []
     for item in i:
-        if item['rank'] >= len(query.split(" ")) - 1:
+        if item['rank'] >= len(query.split(" ")):
             ranked.append(item)
     ranked_item = sorted(ranked, key=lambda k: (k['rank'],k['time']), reverse=True)
     return ranked_item
