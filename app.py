@@ -64,6 +64,7 @@ def webhook():
                         el = []
                         send_message(sender_id, u"(beta) ค้นหาตาม keywords")
                         send_message(sender_id, str(len(ranked_item)))
+        
                         for item in ranked_item:
                             send_message(sender_id, item['name'])
                             if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == ranked_item[-1]['name']:
@@ -74,7 +75,7 @@ def webhook():
                                         {
                                             "title": "ดูอีก",
                                             "type": "postback",
-                                            "payload": item_type+","+str(page)                        
+                                            "payload": item_type+","+str(2)                        
                                         }
                                     ])
                                 else:
@@ -649,6 +650,8 @@ def send_generic(recipient_id, elements, page, item_type):
         log(r.text)
 
 def get_item_by_rank(query,items):
+    if len(items) <= 0:
+        return None
     i = items[:]
     for item in i:
         item['rank'] = 0
