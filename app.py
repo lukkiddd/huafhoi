@@ -83,7 +83,7 @@ def webhook():
                                     }
                                 }
                             )
-                            if (len(el) % 4 == 0 and len(el) != 0):
+                            if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == ranked_item[-1]['name']:
                                 if len(el) <= 4 and len(el) > 1:
                                     print "el"
                                     send_message(sender_id, u"send el")
