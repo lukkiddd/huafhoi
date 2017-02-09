@@ -95,12 +95,13 @@ def webhook():
                             else:
                                 send_generic(sender_id, el, 2, item['type'])
                             el = []
-
-                    next_items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id)).get();
-                    if next_items != None:
-                        temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).remove();
-                    temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id))
-                    temp.push(ranked_item[5:])
+                            next_items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id)).get();
+                            if next_items != None:
+                                temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).remove();
+                            temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id))
+                            temp.push(ranked_item[5:])
+                            return "ok", 200
+                            
                     return "ok", 200
                         
                 if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
