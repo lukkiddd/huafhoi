@@ -228,6 +228,7 @@ def webhook():
                         return "ok", 200
                     else:
                         items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).get();
+                        print len(items)
                         remove = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).remove();
                     if items != None:
                         ranked_item = get_item_by_rank(message_text, items)
