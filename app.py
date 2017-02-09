@@ -66,7 +66,13 @@ def webhook():
                         for item in ranked_item:
                             if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == ranked_item[-1]['name']:
                                 if len(el) <= 4 and len(el) > 1:
-                                    send_elements(sender_id, el, 2, item['type'])
+                                    send_elements(sender_id, el, 2, item['type'], [
+                                        {
+                                            "title": "ดูอีก",
+                                            "type": "postback",
+                                            "payload": item_type+","+str(page)                        
+                                        }
+                                    ])
                                 else:
                                     send_generic(sender_id, el, 2, item['type'])
                                 el = []
@@ -125,7 +131,13 @@ def webhook():
                                     for item in items_array:
                                         if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == items_array[-1]['name']:
                                             if len(el) <= 4:
-                                                send_elements(sender_id, el, 2, item['type'])
+                                                send_elements(sender_id, el, 2, item['type'],[
+                                                    {
+                                                        "title": "ดูอีก",
+                                                        "type": "postback",
+                                                        "payload": item_type+","+str(page)                        
+                                                    }
+                                                ])
                                             else:
                                                 send_generic(sender_id, el, 2, item['type'])
                                             el = []
@@ -209,28 +221,32 @@ def webhook():
 
                     history_count = Firebase('https://huafhoi.firebaseio.com/history/' + str(sender_id) + '/count')
                     history_count.push({'count':message_text})
-                    
-                    if Firebase('https://welse-141512.firebaseio.com/items/' + message_text).get() != None:
-                        f = Firebase('https://welse-141512.firebaseio.com/items/' + message_text + '/page' + str(page))
-                        items_array = f.get()
-                        if items_array == None:
-                            send_message(sender_id, "หมดแล้ว!! บ๋อแบ๋")
+
+                    next_items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id)).get();
+                        if next_items == None:
+                            send_message(sender_id, "หมดแล้ว!!")
                             send_image(sender_id, "https://media.tenor.co/images/ab096f70ea512a3881e85756d3175c26/raw")
-                            send_message(sender_id, "อยากดูอะไรเพิ่มอีกก็บอกฝอยได้เลยนะจ๊ะ")
-                            break
-                        el = []
+                        else:
+                            next_items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).get();
+                            Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).remove();
+
+                        ranked_item = get_item_by_rank(message_text, next_items)
+                        Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id)).push(ranked_item[5:])
                         counts = 0
-                        for item in items_array:
-                            if (len(el) % 4 == 0 and len(el) != 0)  or item['name'] == items_array[-1]['name']:
-                                next_page = int(page) + 1
-                                if len(el) <= 4:
-                                    print "send elements"
-                                    send_elements(sender_id, el, next_page, item['type'])
+                        el = []
+                        send_message(sender_id, u"(beta) ค้นหาตาม keywords")
+                        for item in ranked_item:
+                            if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == ranked_item[-1]['name']:
+                                if len(el) <= 4 and len(el) > 1:
+                                    send_elements(sender_id, el, 2, item['type'], [
+                                        {
+                                            "title": "ดูอีก",
+                                            "type": "postback",
+                                            "payload": item_type+","+str(page)                        
+                                        }
+                                    ])
                                 else:
-                                    print "send generic"
-                                    send_generic(sender_id, el, next_page, item['type'])
-                                if(next_page == 4):
-                                    send_subscribe(sender_id, message_text)
+                                    send_generic(sender_id, el, 2, item['type'])
                                 el = []
                                 break
                             el.append(
@@ -250,6 +266,46 @@ def webhook():
                                 }
                             )
                             counts += 1
+                    # if Firebase('https://welse-141512.firebaseio.com/items/' + message_text).get() != None:
+                    #     f = Firebase('https://welse-141512.firebaseio.com/items/' + message_text + '/page' + str(page))
+                    #     items_array = f.get()
+                    #     if items_array == None:
+                    #         send_message(sender_id, "หมดแล้ว!! บ๋อแบ๋")
+                    #         send_image(sender_id, "https://media.tenor.co/images/ab096f70ea512a3881e85756d3175c26/raw")
+                    #         send_message(sender_id, "อยากดูอะไรเพิ่มอีกก็บอกฝอยได้เลยนะจ๊ะ")
+                    #         break
+                    #     el = []
+                    #     counts = 0
+                    #     for item in items_array:
+                    #         if (len(el) % 4 == 0 and len(el) != 0)  or item['name'] == items_array[-1]['name']:
+                    #             next_page = int(page) + 1
+                    #             if len(el) <= 4:
+                    #                 print "send elements"
+                    #                 send_elements(sender_id, el, next_page, item['type'])
+                    #             else:
+                    #                 print "send generic"
+                    #                 send_generic(sender_id, el, next_page, item['type'])
+                    #             if(next_page == 4):
+                    #                 send_subscribe(sender_id, message_text)
+                    #             el = []
+                    #             break
+                    #         el.append(
+                    #             {
+                    #                 "title": item['name'],
+                    #                 "subtitle": item['subtitle'],
+                    #                 "image_url": item['image'],
+                    #                 "buttons": [{
+                    #                     "title": "View",
+                    #                     "type": "web_url",
+                    #                     "url": item['link'],
+                    #                 }],
+                    #                 "default_action": {
+                    #                     "type": "web_url",
+                    #                     "url": item['link']
+                    #                 }
+                    #             }
+                    #         )
+                    #         counts += 1
                     else:
                         pass
                         # send_message(sender_id, "ฝอยไม่เข้าใจคำนี้อะ พิมที่เข้าใจหน่อยเด้")
@@ -481,7 +537,7 @@ def initial_conversation(recipient_id, message_text):
         log(r.status_code)
         log(r.text)
 
-def send_elements(recipient_id, elements, page, item_type):
+def send_elements(recipient_id, elements, page, item_type, buttons):
     params = {
         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
     }
@@ -499,13 +555,7 @@ def send_elements(recipient_id, elements, page, item_type):
                     "template_type": "list",
                     "top_element_style": "compact",
                     "elements": elements,
-                    "buttons": [
-                        {
-                            "title": "ดูอีก",
-                            "type": "postback",
-                            "payload": item_type+","+str(page)                        
-                        }
-                    ]  
+                    "buttons": buttons
                 }
             },
             "quick_replies":[
