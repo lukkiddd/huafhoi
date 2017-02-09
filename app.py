@@ -222,10 +222,6 @@ def webhook():
                             send_message(sender_id, "ของมาปั๊บ ทักหาทันที สวย ๆ อยากได้ไรเพิ่มบอกฝอย!!")
                             send_message(sender_id, "อยากดูอะไรเพิ่มอีกก็บอกฝอยได้เลยนะจ๊ะ")
                             
-                    page = messaging_event["postback"]["payload"].split(",")[1]
-                    if not page:
-                        break
-
                     history_count = Firebase('https://huafhoi.firebaseio.com/history/' + str(sender_id) + '/count')
                     history_count.push({'count':message_text})
 
