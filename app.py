@@ -50,8 +50,16 @@ def webhook():
                     history.push({'text':message_text})
 
                     if u"filter" in message_text:
-                        filtered_item = Firebase('https://huafhoi.firebaseio.com/items_filter').get();
+                        next_items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id)).get();
+                        if next_items == None:
+                            filtered_item = Firebase('https://huafhoi.firebaseio.com/items_filter').get();
+                        else:
+                            next_items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).get();
+                            Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).remove();
+                            filtered_item = next_items
+
                         ranked_item = get_item_by_rank(message_text, filtered_item)
+                        Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id)).push(ranked_item[5:])
                         counts = 0
                         el = []
                         send_message(sender_id, u"(beta) ค้นหาตาม keywords")
@@ -117,7 +125,6 @@ def webhook():
                                     for item in items_array:
                                         if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == items_array[-1]['name']:
                                             if len(el) <= 4:
-
                                                 send_elements(sender_id, el, 2, item['type'])
                                             else:
                                                 send_generic(sender_id, el, 2, item['type'])
@@ -634,7 +641,7 @@ def get_item_by_rank(query,items):
                 item['rank'] += 1
     ranked = []
     for item in i:
-        if item['rank'] >= len(query.split("\s+")):
+        if item['rank'] >= len(query.split(" ")):
             ranked.append(item)
     ranked_item = sorted(ranked, key=lambda k: (k['rank'],k['time']), reverse=True)
     return ranked_item
