@@ -59,11 +59,14 @@ def webhook():
                             filtered_item = next_items
 
                         ranked_item = get_item_by_rank(message_text, filtered_item)
-                        temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id)).push(ranked_item[5:])
+                        temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id))
+                        temp.push(ranked_item[5:])
                         counts = 0
                         el = []
                         send_message(sender_id, u"(beta) ค้นหาตาม keywords")
-                        send_message(sender_id, str(len(ranked_item)))
+                        if(len(ranked_item) == 0):
+                            send_message(sender_id, "หาไม่เจอเลย~ แย่จางงงง")
+                            break
 
                         for item in ranked_item:
                             send_message(sender_id, item['name'])
@@ -85,18 +88,15 @@ def webhook():
                             )
                             if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == ranked_item[-1]['name']:
                                 if len(el) <= 4 and len(el) > 1:
-                                    print "el"
                                     send_message(sender_id, u"send el")
                                     send_elements(sender_id, el, 2, item['type'], [
                                         {
                                             "title": "ดูอีก",
                                             "type": "postback",
-                                            "payload": item['type']+","+str(2)                        
+                                            "payload": "filter"                        
                                         }
                                     ])
                                 else:
-                                    print len(el)
-                                    print "generic"
                                     send_generic(sender_id, el, 2, item['type'])
                                 el = []
                                 break
@@ -241,21 +241,7 @@ def webhook():
                     Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id)).push(ranked_item[5:])
                     counts = 0
                     el = []
-                    send_message(sender_id, u"(beta) ค้นหาตาม keywords")
                     for item in ranked_item:
-                        if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == ranked_item[-1]['name']:
-                            if len(el) <= 4 and len(el) > 1:
-                                send_elements(sender_id, el, 2, item['type'], [
-                                    {
-                                        "title": "ดูอีก",
-                                        "type": "postback",
-                                        "payload": item['type']+","+str(2)                        
-                                    }
-                                ])
-                            else:
-                                send_generic(sender_id, el, 2, item['type'])
-                            el = []
-                            break
                         el.append(
                             {
                                 "title": item['name'],
@@ -272,6 +258,19 @@ def webhook():
                                 }
                             }
                         )
+                        if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == ranked_item[-1]['name']:
+                            if len(el) <= 4 and len(el) > 1:
+                                send_elements(sender_id, el, 2, item['type'], [
+                                    {
+                                        "title": "ดูอีก",
+                                        "type": "postback",
+                                        "payload": "filter"                        
+                                    }
+                                ])
+                            else:
+                                send_generic(sender_id, el, 2, item['type'])
+                            el = []
+                            break
                         counts += 1
                     else:
                         pass
@@ -653,7 +652,7 @@ def get_item_by_rank(query,items):
                 item['rank'] += 1
     ranked = []
     for item in i:
-        if item['rank'] >= len(query.split(" ")):
+        if item['rank'] >= len(query.split(" ")) - 1:
             ranked.append(item)
     ranked_item = sorted(ranked, key=lambda k: (k['rank'],k['time']), reverse=True)
     return ranked_item
