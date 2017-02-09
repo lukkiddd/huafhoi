@@ -51,12 +51,9 @@ def webhook():
 
                     if u"filter" in message_text:
                         next_items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id)).get();
-                        if next_items == None:
-                            filtered_item = Firebase('https://huafhoi.firebaseio.com/items_filter').get();
-                        else:
-                            next_items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).get();
+                        if next_items != None:
                             temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).remove();
-                            filtered_item = next_items
+                        filtered_item = Firebase('https://huafhoi.firebaseio.com/items_filter').get();
 
                         ranked_item = get_item_by_rank(message_text, filtered_item)
                         temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id))
