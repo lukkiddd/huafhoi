@@ -626,14 +626,17 @@ def send_generic(recipient_id, elements, page, item_type):
         log(r.text)
 
 def get_item_by_rank(query,items):
-    query_string = re.sub('\s+','',query)
     i = items[:]
     for item in i:
         item['rank'] = 0
         for k in item['keywords']:
             if k in query:
                 item['rank'] += 1
-    ranked_item = sorted(i, key=lambda k: (k['rank'],k['time']), reverse=True)
+    ranked = []
+    for item in i:
+        if item['rank'] >= len(query.split("\s+")) - 1:
+            ranked.append(item)
+    ranked_item = sorted(ranked, key=lambda k: (k['rank'],k['time']), reverse=True)
     return ranked_item
 
 def log(message):  
