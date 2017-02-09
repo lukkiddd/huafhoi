@@ -55,11 +55,11 @@ def webhook():
                             filtered_item = Firebase('https://huafhoi.firebaseio.com/items_filter').get();
                         else:
                             next_items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).get();
-                            Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).remove();
+                            temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).remove();
                             filtered_item = next_items
 
                         ranked_item = get_item_by_rank(message_text, filtered_item)
-                        Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id)).push(ranked_item[5:])
+                        temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id)).push(ranked_item[5:])
                         counts = 0
                         el = []
                         send_message(sender_id, u"(beta) ค้นหาตาม keywords")
@@ -68,6 +68,7 @@ def webhook():
                             send_message(sender_id, item['name'])
                             if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == ranked_item[-1]['name']:
                                 if len(el) <= 4 and len(el) > 1:
+                                    print "el"
                                     send_message(sender_id, u"send el")
                                     send_elements(sender_id, el, 2, item['type'], [
                                         {
@@ -77,6 +78,7 @@ def webhook():
                                         }
                                     ])
                                 else:
+                                    print "generic"
                                     send_generic(sender_id, el, 2, item['type'])
                                 el = []
                                 break
