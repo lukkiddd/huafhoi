@@ -75,7 +75,7 @@ def webhook():
                                         {
                                             "title": "ดูอีก",
                                             "type": "postback",
-                                            "payload": item_type+","+str(2)                        
+                                            "payload": item['type']+","+str(2)                        
                                         }
                                     ])
                                 else:
