@@ -223,49 +223,49 @@ def webhook():
                     history_count.push({'count':message_text})
 
                     next_items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id)).get();
-                        if next_items == None:
-                            send_message(sender_id, "หมดแล้ว!!")
-                            send_image(sender_id, "https://media.tenor.co/images/ab096f70ea512a3881e85756d3175c26/raw")
-                        else:
-                            next_items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).get();
-                            Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).remove();
+                    if next_items == None:
+                        send_message(sender_id, "หมดแล้ว!!")
+                        send_image(sender_id, "https://media.tenor.co/images/ab096f70ea512a3881e85756d3175c26/raw")
+                    else:
+                        next_items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).get();
+                        Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).remove();
 
-                        ranked_item = get_item_by_rank(message_text, next_items)
-                        Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id)).push(ranked_item[5:])
-                        counts = 0
-                        el = []
-                        send_message(sender_id, u"(beta) ค้นหาตาม keywords")
-                        for item in ranked_item:
-                            if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == ranked_item[-1]['name']:
-                                if len(el) <= 4 and len(el) > 1:
-                                    send_elements(sender_id, el, 2, item['type'], [
-                                        {
-                                            "title": "ดูอีก",
-                                            "type": "postback",
-                                            "payload": item_type+","+str(page)                        
-                                        }
-                                    ])
-                                else:
-                                    send_generic(sender_id, el, 2, item['type'])
-                                el = []
-                                break
-                            el.append(
-                                {
-                                    "title": item['name'],
-                                    "subtitle": item['subtitle'],
-                                    "image_url": item['image'],
-                                    "buttons": [{
-                                        "title": "View",
-                                        "type": "web_url",
-                                        "url": item['link'],
-                                    }],
-                                    "default_action": {
-                                        "type": "web_url",
-                                        "url": item['link']
+                    ranked_item = get_item_by_rank(message_text, next_items)
+                    Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id)).push(ranked_item[5:])
+                    counts = 0
+                    el = []
+                    send_message(sender_id, u"(beta) ค้นหาตาม keywords")
+                    for item in ranked_item:
+                        if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == ranked_item[-1]['name']:
+                            if len(el) <= 4 and len(el) > 1:
+                                send_elements(sender_id, el, 2, item['type'], [
+                                    {
+                                        "title": "ดูอีก",
+                                        "type": "postback",
+                                        "payload": item_type+","+str(page)                        
                                     }
+                                ])
+                            else:
+                                send_generic(sender_id, el, 2, item['type'])
+                            el = []
+                            break
+                        el.append(
+                            {
+                                "title": item['name'],
+                                "subtitle": item['subtitle'],
+                                "image_url": item['image'],
+                                "buttons": [{
+                                    "title": "View",
+                                    "type": "web_url",
+                                    "url": item['link'],
+                                }],
+                                "default_action": {
+                                    "type": "web_url",
+                                    "url": item['link']
                                 }
-                            )
-                            counts += 1
+                            }
+                        )
+                        counts += 1
                     # if Firebase('https://welse-141512.firebaseio.com/items/' + message_text).get() != None:
                     #     f = Firebase('https://welse-141512.firebaseio.com/items/' + message_text + '/page' + str(page))
                     #     items_array = f.get()
