@@ -49,7 +49,7 @@ def webhook():
                     history = Firebase('https://huafhoi.firebaseio.com/history/' + str(sender_id) + '/text')
                     history.push({'text':message_text})
 
-                    if u"filter" in message_text:
+                    if u"filter" not in message_text:
                         next_items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id)).get();
                         if next_items != None:
                             temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).remove();
@@ -100,11 +100,12 @@ def webhook():
 
                     else:    
                         found = False
-                        if u"การ์ดจอ" in message_text or u"กาดจอ" in message_text:
-                            message_text = "gpu"
-                        elif u"จอ" in message_text:
-                            message_text = "monitor"
-                            
+                        gpu_keys = [u"กาดจอ", u"การ์ดจอ"]
+                        for key in gpu_keys:
+                            message_text = re.sub(key, "gpu", message_text);
+
+                        message_text = re.sub(u"จอ", "monitor จอ", message_text);
+                        message_text = re.sub(u"แรม", "ram แรม", message_text);
                         if u"แรม" in message_text:
                             message_text = "ram"
                         if u"hdd" in message_text or u"ssd" in message_text:
