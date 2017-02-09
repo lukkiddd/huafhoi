@@ -63,6 +63,7 @@ def webhook():
                         counts = 0
                         el = []
                         send_message(sender_id, u"(beta) ค้นหาตาม keywords")
+                        send_message(sender_id, str(len(ranked_item)))
                         for item in ranked_item:
                             send_message(sender_id, item['name'])
                             if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == ranked_item[-1]['name']:
