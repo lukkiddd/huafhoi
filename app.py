@@ -64,8 +64,10 @@ def webhook():
                         el = []
                         send_message(sender_id, u"(beta) ค้นหาตาม keywords")
                         for item in ranked_item:
+                            send_message(sender_id, item['name'])
                             if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == ranked_item[-1]['name']:
                                 if len(el) <= 4 and len(el) > 1:
+                                    send_message(sender_id, u"send el")
                                     send_elements(sender_id, el, 2, item['type'], [
                                         {
                                             "title": "ดูอีก",
@@ -130,7 +132,7 @@ def webhook():
                                     send_message(sender_id, u"หา " + c + u" หรอ? รอแปป เดี๋ยวฝอยเช็คก่อน...")
                                     for item in items_array:
                                         if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == items_array[-1]['name']:
-                                            if len(el) <= 4:
+                                            if len(el) <= 4 and len(el) > 1:
                                                 send_elements(sender_id, el, 2, item['type'],[
                                                     {
                                                         "title": "ดูอีก",
@@ -266,46 +268,6 @@ def webhook():
                             }
                         )
                         counts += 1
-                    # if Firebase('https://welse-141512.firebaseio.com/items/' + message_text).get() != None:
-                    #     f = Firebase('https://welse-141512.firebaseio.com/items/' + message_text + '/page' + str(page))
-                    #     items_array = f.get()
-                    #     if items_array == None:
-                    #         send_message(sender_id, "หมดแล้ว!! บ๋อแบ๋")
-                    #         send_image(sender_id, "https://media.tenor.co/images/ab096f70ea512a3881e85756d3175c26/raw")
-                    #         send_message(sender_id, "อยากดูอะไรเพิ่มอีกก็บอกฝอยได้เลยนะจ๊ะ")
-                    #         break
-                    #     el = []
-                    #     counts = 0
-                    #     for item in items_array:
-                    #         if (len(el) % 4 == 0 and len(el) != 0)  or item['name'] == items_array[-1]['name']:
-                    #             next_page = int(page) + 1
-                    #             if len(el) <= 4:
-                    #                 print "send elements"
-                    #                 send_elements(sender_id, el, next_page, item['type'])
-                    #             else:
-                    #                 print "send generic"
-                    #                 send_generic(sender_id, el, next_page, item['type'])
-                    #             if(next_page == 4):
-                    #                 send_subscribe(sender_id, message_text)
-                    #             el = []
-                    #             break
-                    #         el.append(
-                    #             {
-                    #                 "title": item['name'],
-                    #                 "subtitle": item['subtitle'],
-                    #                 "image_url": item['image'],
-                    #                 "buttons": [{
-                    #                     "title": "View",
-                    #                     "type": "web_url",
-                    #                     "url": item['link'],
-                    #                 }],
-                    #                 "default_action": {
-                    #                     "type": "web_url",
-                    #                     "url": item['link']
-                    #                 }
-                    #             }
-                    #         )
-                    #         counts += 1
                     else:
                         pass
                         # send_message(sender_id, "ฝอยไม่เข้าใจคำนี้อะ พิมที่เข้าใจหน่อยเด้")
