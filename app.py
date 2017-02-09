@@ -62,6 +62,7 @@ def webhook():
                     el = []
                     send_message(sender_id, u"(beta) ค้นหาตาม keywords")
                     if(len(ranked_item) == 0):
+                        send_message(sender_id, "ฝอยลองหาแล้วนะ เมื่อวานกับวันนี้อะ")
                         send_message(sender_id, "หาไม่เจอเลย~ แย่จางงงง")
                         return "ok", 200
 
