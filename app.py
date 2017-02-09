@@ -135,7 +135,7 @@ def webhook():
                                                     {
                                                         "title": "ดูอีก",
                                                         "type": "postback",
-                                                        "payload": item_type+","+str(page)                        
+                                                        "payload": item['type']+","+str(2)                        
                                                     }
                                                 ])
                                             else:
@@ -242,7 +242,7 @@ def webhook():
                                     {
                                         "title": "ดูอีก",
                                         "type": "postback",
-                                        "payload": item_type+","+str(page)                        
+                                        "payload": item['type']+","+str(2)                        
                                     }
                                 ])
                             else:
