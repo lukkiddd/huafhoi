@@ -67,23 +67,6 @@ def webhook():
 
                         for item in ranked_item:
                             send_message(sender_id, item['name'])
-                            if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == ranked_item[-1]['name']:
-                                if len(el) <= 4 and len(el) > 1:
-                                    print "el"
-                                    send_message(sender_id, u"send el")
-                                    send_elements(sender_id, el, 2, item['type'], [
-                                        {
-                                            "title": "ดูอีก",
-                                            "type": "postback",
-                                            "payload": item['type']+","+str(2)                        
-                                        }
-                                    ])
-                                else:
-                                    print len(el)
-                                    print "generic"
-                                    send_generic(sender_id, el, 2, item['type'])
-                                el = []
-                                break
                             el.append(
                                 {
                                     "title": item['name'],
@@ -100,6 +83,23 @@ def webhook():
                                     }
                                 }
                             )
+                            if (len(el) % 4 == 0 and len(el) != 0):
+                                if len(el) <= 4 and len(el) > 1:
+                                    print "el"
+                                    send_message(sender_id, u"send el")
+                                    send_elements(sender_id, el, 2, item['type'], [
+                                        {
+                                            "title": "ดูอีก",
+                                            "type": "postback",
+                                            "payload": item['type']+","+str(2)                        
+                                        }
+                                    ])
+                                else:
+                                    print len(el)
+                                    print "generic"
+                                    send_generic(sender_id, el, 2, item['type'])
+                                el = []
+                                break
                             counts += 1
 
                     else:    
@@ -136,19 +136,6 @@ def webhook():
                                     counts = 0
                                     send_message(sender_id, u"หา " + c + u" หรอ? รอแปป เดี๋ยวฝอยเช็คก่อน...")
                                     for item in items_array:
-                                        if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == items_array[-1]['name']:
-                                            if len(el) <= 4 and len(el) > 1:
-                                                send_elements(sender_id, el, 2, item['type'],[
-                                                    {
-                                                        "title": "ดูอีก",
-                                                        "type": "postback",
-                                                        "payload": item['type']+","+str(2)                        
-                                                    }
-                                                ])
-                                            else:
-                                                send_generic(sender_id, el, 2, item['type'])
-                                            el = []
-                                            break
                                         el.append(
                                             {
                                                 "title": item['name'],
@@ -165,6 +152,19 @@ def webhook():
                                                 }
                                             }
                                         )
+                                        if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == items_array[-1]['name']:
+                                            if len(el) <= 4 and len(el) > 1:
+                                                send_elements(sender_id, el, 2, item['type'],[
+                                                    {
+                                                        "title": "ดูอีก",
+                                                        "type": "postback",
+                                                        "payload": item['type']+","+str(2)                        
+                                                    }
+                                                ])
+                                            else:
+                                                send_generic(sender_id, el, 2, item['type'])
+                                            el = []
+                                            break
                                         counts += 1
 
                                     history_count = Firebase('https://huafhoi.firebaseio.com/history/' + str(sender_id) + '/count')
