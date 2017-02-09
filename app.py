@@ -230,44 +230,44 @@ def webhook():
                         send_message(sender_id, "หมดแล้ว!!")
                         send_image(sender_id, "https://media.tenor.co/images/ab096f70ea512a3881e85756d3175c26/raw")
                     else:
-                        next_items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).get();
-                        Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).remove();
-
-                    ranked_item = get_item_by_rank(message_text, next_items)
-                    Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id)).push(ranked_item[5:])
-                    counts = 0
-                    el = []
-                    for item in ranked_item:
-                        el.append(
-                            {
-                                "title": item['name'],
-                                "subtitle": item['subtitle'],
-                                "image_url": item['image'],
-                                "buttons": [{
-                                    "title": "View",
-                                    "type": "web_url",
-                                    "url": item['link'],
-                                }],
-                                "default_action": {
-                                    "type": "web_url",
-                                    "url": item['link']
-                                }
-                            }
-                        )
-                        if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == ranked_item[-1]['name']:
-                            if len(el) <= 4 and len(el) > 1:
-                                send_elements(sender_id, el, 2, item['type'], [
-                                    {
-                                        "title": "ดูอีก",
-                                        "type": "postback",
-                                        "payload": "filter"                        
+                        items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).get();
+                        remove = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).remove();
+                    if items != None:
+                        ranked_item = get_item_by_rank(message_text, items)
+                        Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id)).push(ranked_item[5:])
+                        counts = 0
+                        el = []
+                        for item in ranked_item:
+                            el.append(
+                                {
+                                    "title": item['name'],
+                                    "subtitle": item['subtitle'],
+                                    "image_url": item['image'],
+                                    "buttons": [{
+                                        "title": "View",
+                                        "type": "web_url",
+                                        "url": item['link'],
+                                    }],
+                                    "default_action": {
+                                        "type": "web_url",
+                                        "url": item['link']
                                     }
-                                ])
-                            else:
-                                send_generic(sender_id, el, 2, item['type'])
-                            el = []
-                            break
-                        counts += 1
+                                }
+                            )
+                            if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == ranked_item[-1]['name']:
+                                if len(el) <= 4 and len(el) > 1:
+                                    send_elements(sender_id, el, 2, item['type'], [
+                                        {
+                                            "title": "ดูอีก",
+                                            "type": "postback",
+                                            "payload": "filter"                        
+                                        }
+                                    ])
+                                else:
+                                    send_generic(sender_id, el, 2, item['type'])
+                                el = []
+                                break
+                            counts += 1
                     else:
                         pass
                         # send_message(sender_id, "ฝอยไม่เข้าใจคำนี้อะ พิมที่เข้าใจหน่อยเด้")
