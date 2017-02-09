@@ -78,6 +78,7 @@ def webhook():
                                         }
                                     ])
                                 else:
+                                    print len(el)
                                     print "generic"
                                     send_generic(sender_id, el, 2, item['type'])
                                 el = []
