@@ -572,9 +572,10 @@ def get_item_by_rank(query,items):
         for k in item['keywords']:
             if k in query:
                 item['rank'] += 1
+
     ranked = []
     for item in i:
-        if item['rank'] >= len(query.split(" ")):
+        if item['rank'] >= len(query.split(" ")) and item['rank'] > 0:
             ranked.append(item)
     ranked_item = sorted(ranked, key=lambda k: (k['rank'],k['time']), reverse=True)
     return ranked_item
