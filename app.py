@@ -591,13 +591,6 @@ def send_generic(recipient_id, elements, page, item_type):
                 "payload": {
                     "template_type": "generic",
                     "elements": elements,
-                    "buttons": [
-                        {
-                            "title": "ดูอีก",
-                            "type": "postback",
-                            "payload": item_type+","+str(page)                        
-                        }
-                    ]  
                 }
             },
             "quick_replies":[
