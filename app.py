@@ -58,7 +58,7 @@ def webhook():
                         ranked_item = get_item_by_rank(message_text, filtered_item)
                         temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id))
                         temp.push(ranked_item[5:])
-                        counts = 0
+                        # counts = 0
                         el = []
                         send_message(sender_id, u"(beta) ค้นหาตาม keywords")
                         if(len(ranked_item) == 0):
@@ -95,7 +95,7 @@ def webhook():
                                     send_generic(sender_id, el, 2, item['type'])
                                 el = []
                                 break
-                            counts += 1
+                            # counts += 1
 
                     else:    
                         # found = False
@@ -179,7 +179,7 @@ def webhook():
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     if(not messaging_event["postback"].has_key('payload')):
-                        break
+                        return "ok", 200
 
                     if(messaging_event['postback']['payload'] == "done"):
                         send_message(sender_id, "โอเค อยากได้อะไรคราวหน้าบอกฝอยละกัน")
@@ -187,21 +187,21 @@ def webhook():
                         uf = Firebase('https://welse-141512.firebaseio.com/ocz/' + str(sender_id))
                         uf.remove()
                         send_message(sender_id, "เอาเป็นว่าคราวหน้า ถ้าอยากได้อะไรก็ทักฝอยได้เลย")
-                        break
+                        return "ok", 200
 
                     if(messaging_event['postback']['payload'] == "other"):
                         send_message(sender_id, "หาอะไรอยู่ บอกฝอยเลย ไม่ว่าจะเป็น ram, monitor, cpu ก็ตาม เดะจัดให้")
-                        break
+                        return "ok", 200
 
                     if(messaging_event['postback']['payload'] == "menu"):
                         initial_conversation(sender_id, "หาไรอยู่ มีให้เลือกตามนี้ จิ้มเลย เดะฝอยจะเช็คตลาดให้")
-                        break
+                        return "ok", 200
 
                     if(messaging_event["postback"]["payload"] == 'hey'):
                         send_message(sender_id, "เฮ้ โย่ว หวัดเด")
                         send_image(sender_id, "https://media.tenor.co/images/a4932ffb7bd04392cfd220e4cbd325f1/raw")
                         send_message(sender_id, "หาไรอยู่ บอกเลย!! เดะฝอยจะเช็คตลาดให้")
-                        break
+                        return "ok", 200
 
                     message_text = messaging_event["postback"]["payload"].split(",")[0].lower()
                     if(message_text == "sub"):
@@ -209,7 +209,7 @@ def webhook():
                         if sub == "0":
                             uf = Firebase('https://welse-141512.firebaseio.com/ocz/' + str(sender_id))
                             uf.remove()
-                            break
+                            return "ok", 200
                         sub_type = messaging_event["postback"]["payload"].split(",")[2].lower()
                         uf = Firebase('https://welse-141512.firebaseio.com/ocz/' + str(sender_id) + "/" + sub_type)
                         uf.set({"subcribe": sub})
@@ -217,23 +217,23 @@ def webhook():
                             send_message(sender_id, "EZ มาก เดะฝอยดูตลาดให้")
                             send_message(sender_id, "ของมาปั๊บ ทักหาทันที สวย ๆ อยากได้ไรเพิ่มบอกฝอย!!")
                             send_message(sender_id, "อยากดูอะไรเพิ่มอีกก็บอกฝอยได้เลยนะจ๊ะ")
+                            return "ok", 200
                             
                     history_count = Firebase('https://huafhoi.firebaseio.com/history/' + str(sender_id) + '/count')
                     history_count.push({'count':message_text})
 
                     next_items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id)).get();
                     if next_items == None:
-                        send_message(sender_id, "หมดแล้ว!!")
+                        send_message(sender_id, "หมดแล้ว!! บ๋อแบ๋")
                         send_image(sender_id, "https://media.tenor.co/images/ab096f70ea512a3881e85756d3175c26/raw")
                         return "ok", 200
                     else:
                         items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).get();
-                        print len(items)
                         remove = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).remove();
                     if items != None:
                         temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id))
                         temp.push(items[5:])
-                        counts = 0
+                        # counts = 0
                         el = []
                         for item in items:
                             el.append(
@@ -252,7 +252,7 @@ def webhook():
                                     }
                                 }
                             )
-                            if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == ranked_item[-1]['name']:
+                            if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == items[-1]['name']:
                                 if len(el) <= 4 and len(el) > 1:
                                     send_elements(sender_id, el, 2, item['type'], [
                                         {
@@ -264,8 +264,8 @@ def webhook():
                                 else:
                                     send_generic(sender_id, el, 2, item['type'])
                                 el = []
-                                break
-                            counts += 1
+                                return "ok", 200
+                            # counts += 1
                     else:
                         pass
                         # send_message(sender_id, "ฝอยไม่เข้าใจคำนี้อะ พิมที่เข้าใจหน่อยเด้")
