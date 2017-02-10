@@ -22,12 +22,15 @@ def scrap_movie():
                     content = movie.find('div', {'class','item-content'})
                     title = content.find('a').get_text()
                     image = movie.find('img')['data-lazy-original']
+                    link = movie.find('a')['href']
                     movies.append({
                         "title": title.lower(),
                         "image": image,
-                        "imdb": imdb
+                        "imdb": imdb,
+                        "link": link
                     })
     return movies
+
 
 def clear_firebase():
 	a = f.get()

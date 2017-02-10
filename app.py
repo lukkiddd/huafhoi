@@ -46,61 +46,82 @@ def webhook():
                         return "ok", 200
 
                     message_text = messaging_event["message"]["text"].lower()  # the message's text
-
-                    history = Firebase('https://huafhoi.firebaseio.com/history/' + str(sender_id) + '/text')
-                    history.push({'text':message_text})
-
-                    if u"หมวดหมู่" in message_text:
-                        send_message(sender_id, "ตอนนี้ฝอยคุมตลาด ram, monitor, cpu, storage, macbook, toys (พวก Gadgets)")
-                        send_message(sender_id, "ตลาดอื่น ๆ เดี๋ยวฝอยจะไปคุมให้ เร็ว ๆ นี้")
-                        send_image(sender_id, "https://media.tenor.co/images/fdd5dbcc25782675259f821fc18de50d/raw")
-                        return "ok", 200
-
-                    filtered_item = Firebase('https://huafhoi.firebaseio.com/items_filter').get();
-
-                    ranked_item = get_item_by_rank(message_text, filtered_item)
-                    el = []
-                    send_message(sender_id, u"(beta) ค้นหาตาม keywords")
-                    if(len(ranked_item) == 0):
-                        send_message(sender_id, "ฝอยลองหาแล้วนะ เมื่อวานกับวันนี้อะ")
-                        send_message(sender_id, "หาไม่เจอเลย~ แย่จางงงง")
-                        return "ok", 200
-
-                    for item in ranked_item:
-                        el.append(
-                            {
-                                "title": item['name'],
-                                "subtitle": item['subtitle'],
-                                "image_url": item['image'],
-                                "buttons": [{
-                                    "title": "View",
-                                    "type": "web_url",
-                                    "url": item['link'],
-                                }],
-                                "default_action": {
-                                    "type": "web_url",
-                                    "url": item['link']
-                                }
-                            }
-                        )
-                        if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == ranked_item[-1]['name']:
-                            if len(el) <= 4 and len(el) > 1:
-                                send_elements(sender_id, el, 2, item['type'], [
-                                    {
-                                        "title": "ดูอีก",
-                                        "type": "postback",
-                                        "payload": "filter"                        
-                                    }
-                                ])
-                            else:
-                                send_generic(sender_id, el, 2, item['type'])
+                    if u"หนัง" in message_text:
+                        movies = Firebase('https://welse-141512.firebaseio.com/movies').get();
+                        if movies != None:
                             el = []
-                            next_items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id)).get();
-                            if next_items != None:
-                                temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).remove();
-                            temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id))
-                            temp.push(ranked_item[5:])
+                            for m in movies:
+                                el.append({
+                                    "title": m['title'],
+                                    "subtitle": str(m['imdb']),
+                                    "image_url": m['image'],
+                                    "buttons": [{
+                                        "title": u"ดู",
+                                        "type": "web_url",
+                                        "url": m['link'],
+                                    }],
+                                    "default_action": {
+                                        "type": "web_url",
+                                        "url": m['link']
+                                    }})
+                                if len(el) == 10 or m['title'] == movies[-1]['title']:
+                                    send_generic(sender_id, el, 2, m['type'])
+                                    return "ok", 200
+                    else:    
+                        history = Firebase('https://huafhoi.firebaseio.com/history/' + str(sender_id) + '/text')
+                        history.push({'text':message_text})
+
+                        if u"หมวดหมู่" in message_text:
+                            send_message(sender_id, "ตอนนี้ฝอยคุมตลาด ram, monitor, cpu, storage, macbook, toys (พวก Gadgets)")
+                            send_message(sender_id, "ตลาดอื่น ๆ เดี๋ยวฝอยจะไปคุมให้ เร็ว ๆ นี้")
+                            send_image(sender_id, "https://media.tenor.co/images/fdd5dbcc25782675259f821fc18de50d/raw")
                             return "ok", 200
+
+                        filtered_item = Firebase('https://huafhoi.firebaseio.com/items_filter').get();
+
+                        ranked_item = get_item_by_rank(message_text, filtered_item)
+                        el = []
+                        send_message(sender_id, u"(beta) ค้นหาตาม keywords")
+                        if(len(ranked_item) == 0):
+                            send_message(sender_id, "ฝอยลองหาแล้วนะ เมื่อวานกับวันนี้อะ")
+                            send_message(sender_id, "หาไม่เจอเลย~ แย่จางงงง")
+                            return "ok", 200
+
+                        for item in ranked_item:
+                            el.append(
+                                {
+                                    "title": item['name'],
+                                    "subtitle": item['subtitle'],
+                                    "image_url": item['image'],
+                                    "buttons": [{
+                                        "title": "View",
+                                        "type": "web_url",
+                                        "url": item['link'],
+                                    }],
+                                    "default_action": {
+                                        "type": "web_url",
+                                        "url": item['link']
+                                    }
+                                }
+                            )
+                            if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == ranked_item[-1]['name']:
+                                if len(el) <= 4 and len(el) > 1:
+                                    send_elements(sender_id, el, 2, item['type'], [
+                                        {
+                                            "title": "ดูอีก",
+                                            "type": "postback",
+                                            "payload": "filter"                        
+                                        }
+                                    ])
+                                else:
+                                    send_generic(sender_id, el, 2, item['type'])
+                                el = []
+                                next_items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id)).get();
+                                if next_items != None:
+                                    temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).remove();
+                                temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id))
+                                temp.push(ranked_item[5:])
+                                return "ok", 200
                             
                     return "ok", 200
                         
