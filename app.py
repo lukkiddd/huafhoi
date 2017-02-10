@@ -47,14 +47,33 @@ def webhook():
 
                     message_text = messaging_event["message"]["text"].lower()  # the message's text
                     if u"เลิกติดตามหนัง" in message_text:
-                        movies = Firebase('https://welse-141512.firebaseio.com/submovies' + str(sender_id));
+                        movies = Firebase('https://welse-141512.firebaseio.com/submovies/' + str(sender_id));
                         movies.remove();
                         return "ok", 200
 
                     if u"ตามหนัง" in message_text:
-                        movie_name = message_text.split(" ")[1]
-                        movies = Firebase('https://welse-141512.firebaseio.com/submovies' + str(sender_id));
-                        movies.push({"name": movie_name})
+                        movie_name = message_text.split(" ")[1].lower()
+                        movies = Firebase('https://welse-141512.firebaseio.com/movies').get();
+                        el = []
+                        for m in movies:
+                            if movie_name in m['title']:
+                                el.append({
+                                    "title": m['title'],
+                                    "subtitle": str(m['imdb']),
+                                    "image_url": m['image'],
+                                    "buttons": [{
+                                        "title": u"ดู",
+                                        "type": "web_url",
+                                        "url": m['link'],
+                                    }],
+                                    "default_action": {
+                                        "type": "web_url",
+                                        "url": m['link']
+                                    }})
+                                send_generic(sender_id, el, 2, m['link'])
+                        else:
+                            movies_sub = Firebase('https://welse-141512.firebaseio.com/submovies/' + str(sender_id));
+                            movies_sub.push({"name": movie_name})
                         return "ok", 200
 
                     if u"หนัง" in message_text:
