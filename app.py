@@ -79,8 +79,17 @@ def webhook():
                     #         movies_sub.push({"name": movie_name})
                     #     return "ok", 200
                     if u"หนังไก่" in message_text or u"หนังหี" in message_text or u"หนังหมู" in message_text \
-                    or u"หนัง ไก่" in message_text:
+                    or u"หนัง ไก่" in message_text or u"หนังสือ" in message_text or u"หนัง สือ" in message_text \
+                    or u"หนังเหี่ยว" in message_text or u"หนัง เหี่ยว" in message_text:
                         send_message(sender_id, "ไม่ได้แดกกูหรอก :D")
+                        return "ok", 200
+
+                    if u"โป้" in message_text or u"xxx" in message_text or u"porn" in message_text:
+                        send_message(sender_id, "เฮ้อ ก็แบบนี้ตลอด เหนื่อยใจ")
+                        return "ok", 200
+
+                    if u"มีถั่วไหม" in message_text:
+                        send_message(sender_id, "ถามบังหน้าบ้านดิ!")
                         return "ok", 200
 
                     if u"หนัง" in message_text:
