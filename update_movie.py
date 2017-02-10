@@ -8,7 +8,7 @@ from firebase import Firebase
 
 def scrap_movie():
     movies = []
-    for page in range(1,6):
+    for page in range(1,4):
         url = "http://www.moviehd-master.com/page/" + str(page)
         r  = requests.get(url)
         data = r.text
