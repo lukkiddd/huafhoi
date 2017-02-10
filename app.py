@@ -62,7 +62,7 @@ def webhook():
                             print rest
                             el.append({
                                 "title": rest['title'],
-                                "subtitle": u"Rating: " + str(rest['rating']),
+                                "subtitle": u"Rating: " + str(rest['rating']).encode('utf8'),
                                 "image_url": rest['image'],
                                 "buttons": [{
                                     "title": u"แผนที่",
