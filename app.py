@@ -78,10 +78,10 @@ def webhook():
                     #         movies_sub = Firebase('https://welse-141512.firebaseio.com/submovies/' + str(sender_id));
                     #         movies_sub.push({"name": movie_name})
                     #     return "ok", 200
-
+                    if u"หนังไก่" in message_text or u"หนังหี" in message_text:
+                        send_message(sender_id, "ไม่ได้แดกกูหรอก :D")
                     if u"หนัง" in message_text:
                         movies = Firebase('https://welse-141512.firebaseio.com/movies').get();
-
                         if len(message_text.split(" ")) > 1:
                             print "ranked"
                             movies = get_movie(message_text.lower(), movies)
@@ -374,8 +374,8 @@ def send_message(recipient_id, message_text):
               },
               {
                 "content_type":"text",
-                "title":"PS 4",
-                "payload":"playstation 4"
+                "title":"ps4",
+                "payload":"ps4"
               },
               {
                 "content_type":"text",
@@ -585,8 +585,8 @@ def send_elements(recipient_id, elements, page, item_type, buttons):
               },
               {
                 "content_type":"text",
-                "title":"PS 4",
-                "payload":"playstation 4"
+                "title":"PS4",
+                "payload":"ps4"
               },
               {
                 "content_type":"text",
@@ -658,8 +658,8 @@ def send_generic(recipient_id, elements, page, item_type):
               },
               {
                 "content_type":"text",
-                "title":"PS 4",
-                "payload":"playstation 4"
+                "title":"ps4",
+                "payload":"ps4"
               },
               {
                 "content_type":"text",
