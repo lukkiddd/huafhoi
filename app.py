@@ -770,7 +770,7 @@ def get_movie(query, movies):
 def scrap_restaurant(query):
     restaurant = []
     for page in range(1,2):
-        url = "https://www.wongnai.com/businesses?q="+urllib.quote_plus(query)
+        url = "https://www.wongnai.com/businesses?q="+urllib.quote_plus(query.encode('utf8'))
         r  = requests.get(url)
         data = r.text
         soup = BeautifulSoup(data)
