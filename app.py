@@ -59,6 +59,7 @@ def webhook():
                         restaurants = scrap_restaurant(query_restaurant);
                         el = []
                         for rest in restaurants:
+                            print rest
                             el.append({
                                 "title": rest['title'],
                                 "subtitle": u"Rating: " + str(rest['rating']),
