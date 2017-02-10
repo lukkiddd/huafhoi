@@ -80,6 +80,12 @@ def webhook():
                     #     return "ok", 200
                     if u"หนังไก่" in message_text or u"หนังหี" in message_text:
                         send_message(sender_id, "ไม่ได้แดกกูหรอก :D")
+                        return "ok", 200
+
+                    if u"หนัง ไก่" in message_text:
+                        send_message(sender_id, "หิวมากไหม จัดไปหน้าปากซอย")
+                        return "ok", 200
+                        
                     if u"หนัง" in message_text:
                         movies = Firebase('https://welse-141512.firebaseio.com/movies').get();
                         if len(message_text.split(" ")) > 1:
