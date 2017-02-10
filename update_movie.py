@@ -23,12 +23,13 @@ def scrap_movie():
                 image = movie.find('img')['src']
                 resolution = movie.find('span', {'class':'calidad2'}).get_text() if movie.find('span', {'class':'calidad2'}) != None else u"ไม่ระบุ"
                 if imdb > 5:
-                    title = ' '.join([title, resolution, sound])
                     movies.append({
                         "title": title.lower(),
                         "image": image,
                         "imdb": imdb,
-                        "link": link
+                        "link": link,
+                        "resolution": resolution,
+                        "sound": sound
                     })
     return movies
 
@@ -37,7 +38,7 @@ def clear_firebase():
 	a = f.get()
 	if a != None:
 		for i in a:
-			q = Firebase('https://welse-141512.firebaseio.com/movies'+'/'+i)
+			q = Firebase('https://welse-141512.firebaseio.com/movies')
 			q.remove()
 
 f = Firebase('https://welse-141512.firebaseio.com/movies');
