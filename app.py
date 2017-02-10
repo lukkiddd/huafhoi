@@ -782,7 +782,7 @@ def scrap_restaurant(query):
             image = rest.find('a', {'class':'photoC'}).find('img')['src']
             restaurant.append({
                     "title": title,
-                    "link": link,
+                    "link": u"https://www.wongnai.com/"+link,
                     "rating": rating,
                     "image": image,
                     "map_link": map_link
