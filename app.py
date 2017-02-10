@@ -114,6 +114,13 @@ def webhook():
                                     return "ok", 200
                             return "ok", 200
                     else:    
+                        if u"หยุด" in message_text or u"พอแล้ว" in message_text or u"เลิกติดตาม" in message_text:
+                            send_message(sender_id, "โอเค อยากได้อะไรคราวหน้าบอกฝอยละกัน")
+                            send_message(sender_id, "ใคร ๆ ก็รู้ ตลาดนี้ ฝอยคุม ง่อววว!")
+                            uf = Firebase('https://welse-141512.firebaseio.com/ocz/' + str(sender_id))
+                            uf.remove()
+                            send_message(sender_id, "เอาเป็นว่าคราวหน้า ถ้าอยากได้อะไรก็ทักฝอยได้เลย")
+                            return "ok", 200
                         history = Firebase('https://huafhoi.firebaseio.com/history/' + str(sender_id) + '/text')
                         history.push({'text':message_text})
 
