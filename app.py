@@ -58,6 +58,10 @@ def webhook():
                             query_restaurant = "บุฟเฟต์"
                         restaurants = scrap_restaurant(query_restaurant);
                         el = []
+                        if len(restaurants) == 0:
+                            send_message(sender_id, "ไม่มีร้านอาหารที่หาอยู่เลย เสียใจด้วยยยยย T^T")
+                            return "ok", 200
+                            
                         for rest in restaurants:
                             print rest
                             el.append({
