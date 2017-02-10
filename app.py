@@ -57,6 +57,7 @@ def webhook():
                         el = []
                         for m in movies:
                             if movie_name in m['title']:
+                                send_message(sender_id, "จัดไป ไม่ต้องตาม มีพร้อมดู อิอิ เจี้ยมไปเลย~!!")
                                 el.append({
                                     "title": m['title'],
                                     "subtitle": str(m['imdb']),
@@ -71,6 +72,7 @@ def webhook():
                                         "url": m['link']
                                     }})
                                 send_generic(sender_id, el, 2, m['link'])
+                                break
                         else:
                             movies_sub = Firebase('https://welse-141512.firebaseio.com/submovies/' + str(sender_id));
                             movies_sub.push({"name": movie_name})
