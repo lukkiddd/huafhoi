@@ -8,8 +8,8 @@ from firebase import Firebase
 
 def scrap_movie():
     movies = []
-    for page in range(1,2):
-        url = "https://www.moviehd-master.com/page/" + str(page)
+    for page in range(1,6):
+        url = "http://www.moviehd-master.com/page/" + str(page)
         r  = requests.get(url)
         data = r.text
         soup = BeautifulSoup(data)
