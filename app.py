@@ -46,6 +46,17 @@ def webhook():
                         return "ok", 200
 
                     message_text = messaging_event["message"]["text"].lower()  # the message's text
+                    if u"เลิกติดตามหนัง" in message_text:
+                        movies = Firebase('https://welse-141512.firebaseio.com/submovies' + str(sender_id));
+                        movies.remove();
+                        return "ok", 200
+
+                    if u"ตามหนัง" in message_text:
+                        movie_name = message_text.split(" ")[1]
+                        movies = Firebase('https://welse-141512.firebaseio.com/submovies' + str(sender_id));
+                        movies.push({"name": movie_name})
+                        return "ok", 200
+
                     if u"หนัง" in message_text:
                         movies = Firebase('https://welse-141512.firebaseio.com/movies').get();
                         if movies != None:
@@ -65,8 +76,9 @@ def webhook():
                                         "url": m['link']
                                     }})
                                 if len(el) == 10 or m['title'] == movies[-1]['title']:
-                                    send_generic(sender_id, el, 2, m['type'])
+                                    send_generic(sender_id, el, 2, m['link'])
                                     return "ok", 200
+                            return "ok", 200
                     else:    
                         history = Firebase('https://huafhoi.firebaseio.com/history/' + str(sender_id) + '/text')
                         history.push({'text':message_text})
