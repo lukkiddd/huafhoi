@@ -78,7 +78,7 @@ def webhook():
                             movies_sub = Firebase('https://welse-141512.firebaseio.com/submovies/' + str(sender_id));
                             movies_sub.push({"name": movie_name})
                         return "ok", 200
-                        
+
                     if u"สุ่มหนัง" in message_text:
                         movies = Firebase('https://welse-141512.firebaseio.com/movies').get();
                         if movies != None:
@@ -106,6 +106,7 @@ def webhook():
                     if u"หนัง" in message_text:
                         movies = Firebase('https://welse-141512.firebaseio.com/movies').get();
                         if len(message_text.split(" ")) > 1:
+                            print "ranked"
                             movies = get_movie(message_text.lower(), movies)
 
                         if movies != None:

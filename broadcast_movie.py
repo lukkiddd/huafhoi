@@ -31,7 +31,7 @@ def send_news():
         for m in user_data:
             el = []
             for newMovie in new_send:
-                if m['name'] == newMovie['title']
+                if m['name'] == newMovie['title']:
                     el.append({
                     "title": newMovie['title'],
                     "subtitle": str(newMovie['imdb']),
