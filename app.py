@@ -347,43 +347,43 @@ def send_message(recipient_id, message_text):
             "quick_replies":[
               {
                 "content_type":"text",
-                "title":"Ram",
-                "payload":"ram,1"
+                "title":"แรม ddr3",
+                "payload":"แรมddr3"
               },
               {
                 "content_type":"text",
-                "title":"Monitor",
-                "payload":"monitor,1"
+                "title":"จอ",
+                "payload":"จอ"
               },
               {
                 "content_type":"text",
-                "title":"CPU",
-                "payload":"cpu,1"
-              },
-              {
-                "content_type":"text",
-                "title":"Storage",
-                "payload":"storage,1"
+                "title":"SSD",
+                "payload":"ssd"
               },
               {
                 "content_type":"text",
                 "title":"Macbook",
-                "payload":"macbook,1"
+                "payload":"macbook"
               },
               {
                 "content_type":"text",
-                "title":"Toys",
-                "payload":"toys,1"
+                "title":"PS 4",
+                "payload":"playstation 4"
               },
               {
                 "content_type":"text",
-                "title":"Mobile",
-                "payload":"mobile,1"
+                "title":"มือถือ",
+                "payload":"มือถือ"
               },
               {
                 "content_type": "text",
-                "title": "GPU",
-                "payload":"gpu,1"
+                "title": "การ์ดจอ",
+                "payload":"การ์ดจอ"
+              },
+              {
+                "content_type":"text",
+                "title":"i5",
+                "payload":"i5"
               },
               {
                 "content_type": "text",
@@ -558,43 +558,43 @@ def send_elements(recipient_id, elements, page, item_type, buttons):
             "quick_replies":[
               {
                 "content_type":"text",
-                "title":"Ram",
-                "payload":"ram,1"
+                "title":"แรม ddr3",
+                "payload":"แรมddr3"
               },
               {
                 "content_type":"text",
-                "title":"Monitor",
-                "payload":"monitor,1"
+                "title":"จอ",
+                "payload":"จอ"
               },
               {
                 "content_type":"text",
-                "title":"CPU",
-                "payload":"cpu,1"
-              },
-              {
-                "content_type":"text",
-                "title":"Storage",
-                "payload":"storage,1"
+                "title":"SSD",
+                "payload":"ssd"
               },
               {
                 "content_type":"text",
                 "title":"Macbook",
-                "payload":"macbook,1"
+                "payload":"macbook"
               },
               {
                 "content_type":"text",
-                "title":"Toys",
-                "payload":"toys,1"
+                "title":"PS 4",
+                "payload":"playstation 4"
               },
               {
                 "content_type":"text",
-                "title":"Mobile",
-                "payload":"mobile,1"
+                "title":"มือถือ",
+                "payload":"มือถือ"
               },
               {
                 "content_type": "text",
-                "title": "GPU",
-                "payload":"gpu,1"
+                "title": "การ์ดจอ",
+                "payload":"การ์ดจอ"
+              },
+              {
+                "content_type":"text",
+                "title":"i5",
+                "payload":"i5"
               },
               {
                 "content_type": "text",
@@ -631,43 +631,43 @@ def send_generic(recipient_id, elements, page, item_type):
             "quick_replies":[
               {
                 "content_type":"text",
-                "title":"Ram",
-                "payload":"ram,1"
+                "title":"แรม ddr3",
+                "payload":"แรมddr3"
               },
               {
                 "content_type":"text",
-                "title":"Monitor",
-                "payload":"monitor,1"
+                "title":"จอ",
+                "payload":"จอ"
               },
               {
                 "content_type":"text",
-                "title":"CPU",
-                "payload":"cpu,1"
-              },
-              {
-                "content_type":"text",
-                "title":"Storage",
-                "payload":"storage,1"
+                "title":"SSD",
+                "payload":"ssd"
               },
               {
                 "content_type":"text",
                 "title":"Macbook",
-                "payload":"macbook,1"
+                "payload":"macbook"
               },
               {
                 "content_type":"text",
-                "title":"Toys",
-                "payload":"toys,1"
+                "title":"PS 4",
+                "payload":"playstation 4"
               },
               {
                 "content_type":"text",
-                "title":"Mobile",
-                "payload":"mobile,1"
+                "title":"มือถือ",
+                "payload":"มือถือ"
               },
               {
                 "content_type": "text",
-                "title": "GPU",
-                "payload":"gpu,1"
+                "title": "การ์ดจอ",
+                "payload":"การ์ดจอ"
+              },
+              {
+                "content_type":"text",
+                "title":"i5",
+                "payload":"i5"
               },
               {
                 "content_type": "text",
