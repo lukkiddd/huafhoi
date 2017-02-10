@@ -97,7 +97,7 @@ def webhook():
                             for m in movies:
                                 el.append({
                                     "title": m['title'],
-                                    "subtitle": "(imdb: " + str(m['imdb']) + ")" + str(m['resolution']).encode('utf8') + " " + str(m['sound']).encode('utf8'),
+                                    "subtitle": u"(imdb: " + str(m['imdb']) + u")" + str(m['resolution']).encode('utf8') + u" " + str(m['sound']).encode('utf8'),
                                     "image_url": m['image'],
                                     "buttons": [{
                                         "title": u"ดู",
@@ -234,7 +234,7 @@ def webhook():
                             for m in movies:
                                 el.append({
                                     "title": m['title'],
-                                    "subtitle": "(imdb: " + str(m['imdb']) + ")" + str(m['resolution']).encode('utf8') + " " + str(m['sound']).encode('utf8'),
+                                    "subtitle": u"(imdb: " + str(m['imdb']) + u")" + str(m['resolution']).encode('utf8') + u" " + str(m['sound']).encode('utf8'),
                                     "image_url": m['image'],
                                     "buttons": [{
                                         "title": u"ดู",
