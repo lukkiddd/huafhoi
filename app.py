@@ -61,7 +61,7 @@ def webhook():
                         for rest in restaurants:
                             el.append({
                                 "title": rest['title'],
-                                "subtitle": "Rating: " + str(rest['rating']),
+                                "subtitle": u"Rating: " + str(rest['rating']),
                                 "image_url": rest['image'],
                                 "buttons": [{
                                     "title": u"แผนที่",
