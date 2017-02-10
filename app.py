@@ -49,44 +49,6 @@ def webhook():
 
                     message_text = messaging_event["message"]["text"].lower()  # the message's text
 
-                    if u"หาร้าน" in message_text:
-                        message_text_split = message_text.split(' ')
-                        if len(message_text_split) > 1:
-                            query_restaurant = message_text_split[1]
-                        else:
-                            send_message(sender_id, "ร้านอะไรไม่บอก บุฟเฟ่ต์ แน่ๆ จัดไป")
-                            query_restaurant = "บุฟเฟต์"
-                        restaurants = scrap_restaurant(query_restaurant);
-                        el = []
-                        if len(restaurants) == 0:
-                            send_message(sender_id, "ไม่มีร้านอาหารที่หาอยู่เลย เสียใจด้วยยยยย T^T")
-                            return "ok", 200
-                            
-                        for rest in restaurants:
-                            print rest
-                            el.append({
-                                "title": rest['title'],
-                                "subtitle": u"ร้านอาหาร",
-                                "image_url": rest['image'],
-                                "buttons": [{
-                                    "title": u"แผนที่",
-                                    "type": "web_url",
-                                    "url": rest['map_link'],
-                                },{
-                                    "title": u"รายละเอียด",
-                                    "type": "web_url",
-                                    "url": rest['link'],
-                                }
-                                ],
-                                "default_action": {
-                                    "type": "web_url",
-                                    "url": rest['link']
-                                }})
-                            if len(el) == 10 or rest['title'] == restaurants[-1]['title']:
-                                    send_generic(sender_id, el, 2, rest['link'])
-                                    send_message(sender_id, "ขอให้อิ่มหนำสำราญ~!!")
-                                    return "ok", 200
-                        return "ok", 200
                     # if u"เลิกติดตามหนัง" in message_text:
                     #     movies = Firebase('https://welse-141512.firebaseio.com/submovies/' + str(sender_id));
                     #     movies.remove();
