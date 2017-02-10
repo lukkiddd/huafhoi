@@ -80,10 +80,12 @@ def webhook():
 
                     if u"หนัง" in message_text:
                         movies = Firebase('https://welse-141512.firebaseio.com/movies').get();
-                        movies_ranked = get_movie(message_text.lower(), movies)
-                        if movies_ranked != None:
+                        if len(message_text.split(" ")) > 1:
+                            movies = get_movie(message_text.lower(), movies)
+                            
+                        if movies != None:
                             el = []
-                            for m in movies_ranked:
+                            for m in movies:
                                 el.append({
                                     "title": m['title'],
                                     "subtitle": str(m['imdb']),
@@ -97,7 +99,7 @@ def webhook():
                                         "type": "web_url",
                                         "url": m['link']
                                     }})
-                                if len(el) == 10 or m['title'] == movies_ranked[-1]['title']:
+                                if len(el) == 10 or m['title'] == movies[-1]['title']:
                                     send_generic(sender_id, el, 2, m['link'])
                                     return "ok", 200
                             return "ok", 200
