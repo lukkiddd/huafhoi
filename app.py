@@ -215,57 +215,92 @@ def webhook():
                             send_message(sender_id, "ของมาปั๊บ ทักหาทันที สวย ๆ อยากได้ไรเพิ่มบอกฝอย!!")
                             send_message(sender_id, "อยากดูอะไรเพิ่มอีกก็บอกฝอยได้เลยนะจ๊ะ")
                             return "ok", 200
-                            
-                    history_count = Firebase('https://huafhoi.firebaseio.com/history/' + str(sender_id) + '/count')
-                    history_count.push({'count':message_text})
+                    
+                    if u"หนัง" in message_text:
+                        movies = Firebase('https://welse-141512.firebaseio.com/movies').get();
 
-                    next_items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id)).get();
-                    if next_items == None:
-                        send_message(sender_id, "หมดแล้ว!! บ๋อแบ๋")
-                        send_image(sender_id, "https://media.tenor.co/images/ab096f70ea512a3881e85756d3175c26/raw")
-                        return "ok", 200
-                    else:
-                        items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).get();
-                        remove = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).remove();
-                    if items != None:
-                        temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id))
-                        temp.push(items[5:])
-                        # counts = 0
-                        el = []
-                        for item in items:
-                            el.append(
-                                {
-                                    "title": item['name'],
-                                    "subtitle": item['subtitle'],
-                                    "image_url": item['image'],
+                        if len(message_text.split(" ")) > 1:
+                            print "ranked"
+                            movies = get_movie(message_text.lower(), movies)
+
+                        if u"สุ่ม" in message_text:
+                            random.shuffle(movies)
+
+                        if movies != None:
+                            if len(movies) == 0:
+                                send_message(sender_id, "ไม่มีหนังที่หาอยู่น้า~!!")
+                                return "ok", 200
+                            el = []
+                            for m in movies:
+                                el.append({
+                                    "title": m['title'],
+                                    "subtitle": "imdb " + str(m['imdb']),
+                                    "image_url": m['image'],
                                     "buttons": [{
-                                        "title": "View",
+                                        "title": u"ดู",
                                         "type": "web_url",
-                                        "url": item['link'],
+                                        "url": m['link'],
                                     }],
                                     "default_action": {
                                         "type": "web_url",
-                                        "url": item['link']
-                                    }
-                                }
-                            )
-                            if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == items[-1]['name']:
-                                if len(el) <= 4 and len(el) > 1:
-                                    send_elements(sender_id, el, 2, item['type'], [
-                                        {
-                                            "title": "ดูอีก",
-                                            "type": "postback",
-                                            "payload": "filter"                        
-                                        }
-                                    ])
-                                else:
-                                    send_generic(sender_id, el, 2, item['type'])
-                                el = []
-                                return "ok", 200
-                            # counts += 1
+                                        "url": m['link']
+                                    }})
+                                if len(el) == 10 or m['title'] == movies[-1]['title']:
+                                    send_generic(sender_id, el, 2, m['link'])
+                                    send_message(sender_id, "เลือกดูกัน ตามสบายยย~!!")
+                                    return "ok", 200
+                            return "ok", 200
                     else:
-                        pass
-                        # send_message(sender_id, "ฝอยไม่เข้าใจคำนี้อะ พิมที่เข้าใจหน่อยเด้")
+                        history_count = Firebase('https://huafhoi.firebaseio.com/history/' + str(sender_id) + '/count')
+                        history_count.push({'count':message_text})
+
+                        next_items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id)).get();
+                        if next_items == None:
+                            send_message(sender_id, "หมดแล้ว!! บ๋อแบ๋")
+                            send_image(sender_id, "https://media.tenor.co/images/ab096f70ea512a3881e85756d3175c26/raw")
+                            return "ok", 200
+                        else:
+                            items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).get();
+                            remove = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).remove();
+                        if items != None:
+                            temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id))
+                            temp.push(items[5:])
+                            # counts = 0
+                            el = []
+                            for item in items:
+                                el.append(
+                                    {
+                                        "title": item['name'],
+                                        "subtitle": item['subtitle'],
+                                        "image_url": item['image'],
+                                        "buttons": [{
+                                            "title": "View",
+                                            "type": "web_url",
+                                            "url": item['link'],
+                                        }],
+                                        "default_action": {
+                                            "type": "web_url",
+                                            "url": item['link']
+                                        }
+                                    }
+                                )
+                                if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == items[-1]['name']:
+                                    if len(el) <= 4 and len(el) > 1:
+                                        send_elements(sender_id, el, 2, item['type'], [
+                                            {
+                                                "title": "ดูอีก",
+                                                "type": "postback",
+                                                "payload": "filter"                        
+                                            }
+                                        ])
+                                    else:
+                                        send_generic(sender_id, el, 2, item['type'])
+                                    el = []
+                                    return "ok", 200
+                                # counts += 1
+                        else:
+                            pass
+                            # send_message(sender_id, "ฝอยไม่เข้าใจคำนี้อะ พิมที่เข้าใจหน่อยเด้")
 
     return "ok", 200
 
@@ -349,6 +384,11 @@ def send_message(recipient_id, message_text):
                 "content_type": "text",
                 "title": "GPU",
                 "payload":"gpu,1"
+              },
+              {
+                "content_type": "text",
+                "title": "สุ่มหนัง",
+                "payload": "สุ่มหนัง"
               }
             ]
         }
@@ -555,6 +595,11 @@ def send_elements(recipient_id, elements, page, item_type, buttons):
                 "content_type": "text",
                 "title": "GPU",
                 "payload":"gpu,1"
+              },
+              {
+                "content_type": "text",
+                "title": "สุ่มหนัง",
+                "payload": "สุ่มหนัง"
               }
             ]
         }
@@ -623,6 +668,11 @@ def send_generic(recipient_id, elements, page, item_type):
                 "content_type": "text",
                 "title": "GPU",
                 "payload":"gpu,1"
+              },
+              {
+                "content_type": "text",
+                "title": "สุ่มหนัง",
+                "payload": "สุ่มหนัง"
               }
             ]
         }
