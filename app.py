@@ -79,36 +79,16 @@ def webhook():
                             movies_sub.push({"name": movie_name})
                         return "ok", 200
 
-                    if u"สุ่มหนัง" in message_text:
-                        movies = Firebase('https://welse-141512.firebaseio.com/movies').get();
-                        if movies != None:
-                            random.shuffle(movies)
-                            el = []
-                            for m in movies:
-                                el.append({
-                                    "title": m['title'],
-                                    "subtitle": str(m['imdb']),
-                                    "image_url": m['image'],
-                                    "buttons": [{
-                                        "title": u"ดู",
-                                        "type": "web_url",
-                                        "url": m['link'],
-                                    }],
-                                    "default_action": {
-                                        "type": "web_url",
-                                        "url": m['link']
-                                    }})
-                                if len(el) == 10 or m['title'] == movies[-1]['title']:
-                                    send_generic(sender_id, el, 2, m['link'])
-                                    return "ok", 200
-                            return "ok", 200
-
                     if u"หนัง" in message_text:
                         movies = Firebase('https://welse-141512.firebaseio.com/movies').get();
+
                         if len(message_text.split(" ")) > 1:
                             print "ranked"
                             movies = get_movie(message_text.lower(), movies)
 
+                        if u"สุ่ม" in message_text:
+                            random.shuffle(movies)
+                            
                         if movies != None:
                             el = []
                             for m in movies:
