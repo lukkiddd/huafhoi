@@ -47,37 +47,37 @@ def webhook():
                         return "ok", 200
 
                     message_text = messaging_event["message"]["text"].lower()  # the message's text
-                    if u"เลิกติดตามหนัง" in message_text:
-                        movies = Firebase('https://welse-141512.firebaseio.com/submovies/' + str(sender_id));
-                        movies.remove();
-                        return "ok", 200
+                    # if u"เลิกติดตามหนัง" in message_text:
+                    #     movies = Firebase('https://welse-141512.firebaseio.com/submovies/' + str(sender_id));
+                    #     movies.remove();
+                    #     return "ok", 200
 
-                    if u"ตามหนัง" in message_text:
-                        movie_name = message_text.split(" ")[1].lower()
-                        movies = Firebase('https://welse-141512.firebaseio.com/movies').get();
-                        el = []
-                        for m in movies:
-                            if movie_name in m['title']:
-                                el.append({
-                                    "title": m['title'],
-                                    "subtitle": "imdb " + str(m['imdb']),
-                                    "image_url": m['image'],
-                                    "buttons": [{
-                                        "title": u"ดู",
-                                        "type": "web_url",
-                                        "url": m['link'],
-                                    }],
-                                    "default_action": {
-                                        "type": "web_url",
-                                        "url": m['link']
-                                    }})
-                                send_generic(sender_id, el, 2, m['link'])
-                                send_message(sender_id, "จัดไป ไม่ต้องตาม มีพร้อมดู อิอิ เจี้ยมไปเลย~!!")
-                                break
-                        else:
-                            movies_sub = Firebase('https://welse-141512.firebaseio.com/submovies/' + str(sender_id));
-                            movies_sub.push({"name": movie_name})
-                        return "ok", 200
+                    # if u"ตามหนัง" in message_text:
+                    #     movie_name = message_text.split(" ")[1].lower()
+                    #     movies = Firebase('https://welse-141512.firebaseio.com/movies').get();
+                    #     el = []
+                    #     for m in movies:
+                    #         if movie_name in m['title']:
+                    #             el.append({
+                    #                 "title": m['title'],
+                    #                 "subtitle": "imdb " + str(m['imdb']),
+                    #                 "image_url": m['image'],
+                    #                 "buttons": [{
+                    #                     "title": u"ดู",
+                    #                     "type": "web_url",
+                    #                     "url": m['link'],
+                    #                 }],
+                    #                 "default_action": {
+                    #                     "type": "web_url",
+                    #                     "url": m['link']
+                    #                 }})
+                    #             send_generic(sender_id, el, 2, m['link'])
+                    #             send_message(sender_id, "จัดไป ไม่ต้องตาม มีพร้อมดู อิอิ เจี้ยมไปเลย~!!")
+                    #             break
+                    #     else:
+                    #         movies_sub = Firebase('https://welse-141512.firebaseio.com/submovies/' + str(sender_id));
+                    #         movies_sub.push({"name": movie_name})
+                    #     return "ok", 200
 
                     if u"หนัง" in message_text:
                         movies = Firebase('https://welse-141512.firebaseio.com/movies').get();
