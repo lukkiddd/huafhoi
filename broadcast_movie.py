@@ -18,9 +18,9 @@ def send_news():
     old_items = fb.get()
 
     if(old_items == None):
-        old_items = scrap()
+        old_items = scrap_movie()
 
-    new_items = scrap()
+    new_items = scrap_movie()
     new_send = getNew(old_items, new_items)
 
     users_fb = Firebase('https://welse-141512.firebaseio.com/submovies/')
@@ -30,7 +30,7 @@ def send_news():
         user_data = user.get()
         for m in user_data:
             el = []
-            for newMovie in new_items:
+            for newMovie in new_send:
                 if m['name'] == newMovie['title']
                     el.append({
                     "title": newMovie['title'],
@@ -45,7 +45,7 @@ def send_news():
                         "type": "web_url",
                         "url": newMovie['link']
                     }})
-                if len(el) == 10 or newMovie['title'] == new_items[-1]['title']:
+                if len(el) == 10 or newMovie['title'] == new_send[-1]['title']:
                     send_generic(sender_id, el)
                     break
     fb.set(new_items)
@@ -134,20 +134,15 @@ def scrap_movie():
     return movies
 
 def getNew(old,new):
-    new_i = {}
-    for t in type_item:
-        new_i[t['slug']] = []
-        for n in new[t['slug']]:
-            found = 0
-            if old.has_key(t['slug']):
-                for o in old[t['slug']]:
-                    if o:
-                        if n['name'] == o['name']:
-                            found = 1
-                if not found:
-                    new_i[t['slug']].append(n)
-            else:
-                new_i[t['slug']].append(n)
+    new_i = []
+    for n in new:
+        found = False
+        for o in old:
+            if n['title'] == o['title']:
+                found = True
+        if not found:
+            new_i.append(n)
+            
     return new_i
 
 if __name__ == '__main__':
