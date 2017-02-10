@@ -60,7 +60,7 @@ def webhook():
                             if movie_name in m['title']:
                                 el.append({
                                     "title": m['title'],
-                                    "subtitle": str(m['imdb']),
+                                    "subtitle": "imdb " + str(m['imdb']),
                                     "image_url": m['image'],
                                     "buttons": [{
                                         "title": u"ดู",
@@ -88,13 +88,13 @@ def webhook():
 
                         if u"สุ่ม" in message_text:
                             random.shuffle(movies)
-                            
+
                         if movies != None:
                             el = []
                             for m in movies:
                                 el.append({
                                     "title": m['title'],
-                                    "subtitle": str(m['imdb']),
+                                    "subtitle": "imdb " + str(m['imdb']),
                                     "image_url": m['image'],
                                     "buttons": [{
                                         "title": u"ดู",
