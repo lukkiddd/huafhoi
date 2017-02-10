@@ -90,6 +90,9 @@ def webhook():
                             random.shuffle(movies)
 
                         if movies != None:
+                            if len(movies) == 0:
+                                send_message(sender_id, "ไม่มีหนังที่หาอยู่น้า~!!")
+                                return "ok", 200
                             el = []
                             for m in movies:
                                 el.append({
@@ -107,6 +110,7 @@ def webhook():
                                     }})
                                 if len(el) == 10 or m['title'] == movies[-1]['title']:
                                     send_generic(sender_id, el, 2, m['link'])
+                                    send_message(sender_id, "เลือกดูกัน ตามสบายยย~!!")
                                     return "ok", 200
                             return "ok", 200
                     else:    
