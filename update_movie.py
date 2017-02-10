@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from bs4 import BeautifulSoup
 import requests
 from os import system
@@ -21,7 +22,7 @@ def scrap_movie():
                 title = movie.find('h2').get_text()
                 sound = sound.get_text().replace(" ","")
                 image = movie.find('img')['src']
-                resolution = movie.find('span', {'class':'calidad2'}).get_text() if movie.find('span', {'class':'calidad2'}) != None else u"ไม่ระบุ"
+                resolution = movie.find('span', {'class':'calidad2'}).get_text() if movie.find('span', {'class':'calidad2'}) != None else ""
                 if imdb > 5:
                     movies.append({
                         "title": title.lower(),
