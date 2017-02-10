@@ -84,7 +84,7 @@ def webhook():
                         send_message(sender_id, "ไม่ได้แดกกูหรอก :D")
                         return "ok", 200
 
-                    if u"โป้" in message_text or u"xxx" in message_text or u"porn" in message_text:
+                    if u"โป๊" in message_text or u"xxx" in message_text or u"porn" in message_text or u"แตด" in message_text:
                         send_message(sender_id, "เฮ้อ ก็แบบนี้ตลอด เหนื่อยใจ")
                         return "ok", 200
 
