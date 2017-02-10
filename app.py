@@ -9,6 +9,7 @@ from bs4 import BeautifulSoup
 from flask import Flask, request, render_template
 from firebase import Firebase
 import random
+import urllib
 
 app = Flask(__name__, static_url_path='')
 
@@ -47,6 +48,40 @@ def webhook():
                         return "ok", 200
 
                     message_text = messaging_event["message"]["text"].lower()  # the message's text
+
+                    if u"หาร้าน" in message_text:
+                        message_text_split = message_text.split(' ')
+                        if len(message_text_split) > 1:
+                            query_restaurant = message_text_split[1]
+                        else:
+                            send_message(sender_id, "ร้านอะไรไม่บอก บุฟเฟ่ต์ แน่ๆ จัดไป")
+                            query_restaurant = "บุฟเฟต์"
+                        restaurants = scrap_restaurant(query_restaurant);
+                        el = []
+                        for rest in restaurants:
+                            el.append({
+                                "title": rest['title'],
+                                "subtitle": "Rating: " + str(rest['rating']),
+                                "image_url": rest['image'],
+                                "buttons": [{
+                                    "title": u"แผนที่",
+                                    "type": "web_url",
+                                    "url": rest['map_link'],
+                                },{
+                                    "title": u"รายละเอียด",
+                                    "type": "web_url",
+                                    "url": rest['link'],
+                                }
+                                ],
+                                "default_action": {
+                                    "type": "web_url",
+                                    "url": rest['link']
+                                }})
+                            if len(el) == 10 or rest['title'] == restaurants[-1]['title']:
+                                    send_generic(sender_id, el, 2, rest['link'])
+                                    send_message(sender_id, "ขอให้อิ่มหนำสำราญ~!!")
+                                    return "ok", 200
+                        return "ok", 200
                     # if u"เลิกติดตามหนัง" in message_text:
                     #     movies = Firebase('https://welse-141512.firebaseio.com/submovies/' + str(sender_id));
                     #     movies.remove();
@@ -730,6 +765,30 @@ def get_movie(query, movies):
             ret_m.append(m)
     ret_m = sorted(ret_m, key=lambda k: (k['rank']), reverse=True)
     return ret_m
+
+def scrap_restaurant(query):
+    restaurant = []
+    for page in range(1,2):
+        url = "https://www.wongnai.com/businesses?q="+urllib.quote_plus(query)
+        r  = requests.get(url)
+        data = r.text
+        soup = BeautifulSoup(data)
+        for rest in soup.find_all('div', {'class':'top'}):
+            title = rest.find('div', {'class':'head'}).find('a').get_text()
+            link = rest['data-url']
+            rating = float(rest.find('span', {'class':'rating'}).get_text()) if rest.find('span', {'class':'rating'}) else u"ไม่ระบุ"
+            map_link = "https://www.google.co.th/maps/@"+rest.find('span', {'class':'lat'}).get_text()+","+rest.find('span', {'class':'lng'}).get_text()+",20z"
+            image = rest.find('a', {'class':'photoC'}).find('img')['src']
+            restaurant.append({
+                    "title": title,
+                    "link": link,
+                    "rating": rating,
+                    "image": image,
+                    "map_link": map_link
+                })
+            if len(restaurant) == 10:
+                break
+    return restaurant
 
 def log(message):  
     print str(message)
