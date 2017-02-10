@@ -35,11 +35,9 @@ def scrap_movie():
 
 
 def clear_firebase():
-	a = f.get()
-	if a != None:
-		for i in a:
-			q = Firebase('https://welse-141512.firebaseio.com/movies')
-			q.remove()
+	q = Firebase('https://welse-141512.firebaseio.com/movies')
+	if q != None:
+		q.remove()
 
 f = Firebase('https://welse-141512.firebaseio.com/movies');
 clear_firebase()
