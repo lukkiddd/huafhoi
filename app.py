@@ -405,11 +405,6 @@ def send_message(recipient_id, message_text):
                 "content_type":"text",
                 "title":"i5",
                 "payload":"i5"
-              },
-              {
-                "content_type": "text",
-                "title": "สุ่มหนัง",
-                "payload": "สุ่มหนัง"
               }
             ]
         }
@@ -616,11 +611,6 @@ def send_elements(recipient_id, elements, page, item_type, buttons):
                 "content_type":"text",
                 "title":"i5",
                 "payload":"i5"
-              },
-              {
-                "content_type": "text",
-                "title": "สุ่มหนัง",
-                "payload": "สุ่มหนัง"
               }
             ]
         }
@@ -689,11 +679,6 @@ def send_generic(recipient_id, elements, page, item_type):
                 "content_type":"text",
                 "title":"i5",
                 "payload":"i5"
-              },
-              {
-                "content_type": "text",
-                "title": "สุ่มหนัง",
-                "payload": "สุ่มหนัง"
               }
             ]
         }
