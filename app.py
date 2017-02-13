@@ -149,46 +149,47 @@ def webhook():
                         ranked_item = get_item_by_rank(message_text, filtered_item)
                         el = []
                         send_message(sender_id, u"(beta) ค้นหาตาม keywords")
-                        if(len(ranked_item) == 0):
-                            send_message(sender_id, "ฝอยลองหาแล้วนะ เมื่อวานกับวันนี้อะ")
-                            send_message(sender_id, "หาไม่เจอเลย~ แย่จางงงง")
-                            return "ok", 200
+                        if(ranked_item):
+		                        if(len(ranked_item) == 0):
+		                            send_message(sender_id, "ฝอยลองหาแล้วนะ เมื่อวานกับวันนี้อะ")
+		                            send_message(sender_id, "หาไม่เจอเลย~ แย่จางงงง")
+		                            return "ok", 200
 
-                        for item in ranked_item:
-                            el.append(
-                                {
-                                    "title": item['name'],
-                                    "subtitle": item['subtitle'],
-                                    "image_url": item['image'],
-                                    "buttons": [{
-                                        "title": "View",
-                                        "type": "web_url",
-                                        "url": item['link'],
-                                    }],
-                                    "default_action": {
-                                        "type": "web_url",
-                                        "url": item['link']
-                                    }
-                                }
-                            )
-                            if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == ranked_item[-1]['name']:
-                                if len(el) <= 4 and len(el) > 1:
-                                    send_elements(sender_id, el, 2, item['type'], [
-                                        {
-                                            "title": "ดูอีก",
-                                            "type": "postback",
-                                            "payload": "filter"                        
-                                        }
-                                    ])
-                                else:
-                                    send_generic(sender_id, el, 2, item['type'])
-                                el = []
-                                next_items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id)).get();
-                                if next_items != None:
-                                    temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).remove();
-                                temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id))
-                                temp.push(ranked_item[5:])
-                                return "ok", 200
+		                        for item in ranked_item:
+		                            el.append(
+		                                {
+		                                    "title": item['name'],
+		                                    "subtitle": item['subtitle'],
+		                                    "image_url": item['image'],
+		                                    "buttons": [{
+		                                        "title": "View",
+		                                        "type": "web_url",
+		                                        "url": item['link'],
+		                                    }],
+		                                    "default_action": {
+		                                        "type": "web_url",
+		                                        "url": item['link']
+		                                    }
+		                                }
+		                            )
+		                            if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == ranked_item[-1]['name']:
+		                                if len(el) <= 4 and len(el) > 1:
+		                                    send_elements(sender_id, el, 2, item['type'], [
+		                                        {
+		                                            "title": "ดูอีก",
+		                                            "type": "postback",
+		                                            "payload": "filter"                        
+		                                        }
+		                                    ])
+		                                else:
+		                                    send_generic(sender_id, el, 2, item['type'])
+		                                el = []
+		                                next_items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id)).get();
+		                                if next_items != None:
+		                                    temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).remove();
+		                                temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id))
+		                                temp.push(ranked_item[5:])
+		                                return "ok", 200
                             
                     return "ok", 200
                         
