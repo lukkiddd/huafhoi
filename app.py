@@ -129,7 +129,7 @@ def webhook():
 		                            el.append(
 		                                {
 		                                    "title": item['name'],
-		                                    "subtitle": item['subtitle'],
+		                                    "subtitle": item['price'],
 		                                    "image_url": item['image'],
 		                                    "buttons": [{
 		                                        "title": "View",
@@ -263,7 +263,7 @@ def webhook():
                                 el.append(
                                     {
                                         "title": item['name'],
-                                        "subtitle": item['price'],
+                                        "subtitle": item['subtitle'],
                                         "image_url": item['image'],
                                         "buttons": [{
                                             "title": "View",
