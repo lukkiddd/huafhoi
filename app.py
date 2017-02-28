@@ -719,13 +719,14 @@ def query_items_priceza(query):
                 image = item.find('div',{'class':'pic'}).find('img')['src']
             else:
                 image = item.find('div',{'class':'pic'}).find('img')['data-original']
-            price = item.find('div',{'class':'price'}).find('span',{'itemprop':'price'}).get_text()
-            items.append({
-                    "link": item_url,
-                    "name": title,
-                    "image": image,
-                    "price": price
-                })
+            if item.find('div',{'class':'price'}):
+                price = item.find('div',{'class':'price'}).find('span',{'itemprop':'price'}).get_text()
+                items.append({
+                        "link": item_url,
+                        "name": title,
+                        "image": image,
+                        "price": price
+                    })
     return items
 
 def log(message):  
