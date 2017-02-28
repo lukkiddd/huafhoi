@@ -143,14 +143,14 @@ def webhook():
 		                                }
 		                            )
 		                            if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == ranked_item[-1]['name']:
-	                                    send_generic(sender_id, el, 2, item['name'])
-		                                el = []
-		                                next_items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id)).get();
-		                                if next_items != None:
-		                                    temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).remove();
-		                                temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id))
-		                                temp.push(ranked_item[5:])
-		                                return "ok", 200
+                                        send_generic(sender_id, el, 2, item['name'])
+                                        el = []
+                                        next_items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id)).get();
+                                        if next_items != None:
+                                            temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).remove();
+                                        temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id))
+                                        temp.push(ranked_item[5:])
+                                        return "ok", 200
                             
                     return "ok", 200
                         
