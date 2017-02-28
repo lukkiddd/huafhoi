@@ -49,37 +49,6 @@ def webhook():
 
                     message_text = messaging_event["message"]["text"].lower()  # the message's text
 
-                    # if u"เลิกติดตามหนัง" in message_text:
-                    #     movies = Firebase('https://welse-141512.firebaseio.com/submovies/' + str(sender_id));
-                    #     movies.remove();
-                    #     return "ok", 200
-
-                    # if u"ตามหนัง" in message_text:
-                    #     movie_name = message_text.split(" ")[1].lower()
-                    #     movies = Firebase('https://welse-141512.firebaseio.com/movies').get();
-                    #     el = []
-                    #     for m in movies:
-                    #         if movie_name in m['title']:
-                    #             el.append({
-                    #                 "title": m['title'],
-                    #                 "subtitle": "imdb " + str(m['imdb']),
-                    #                 "image_url": m['image'],
-                    #                 "buttons": [{
-                    #                     "title": u"ดู",
-                    #                     "type": "web_url",
-                    #                     "url": m['link'],
-                    #                 }],
-                    #                 "default_action": {
-                    #                     "type": "web_url",
-                    #                     "url": m['link']
-                    #                 }})
-                    #             send_generic(sender_id, el, 2, m['link'])
-                    #             send_message(sender_id, "จัดไป ไม่ต้องตาม มีพร้อมดู อิอิ เจี้ยมไปเลย~!!")
-                    #             break
-                    #     else:
-                    #         movies_sub = Firebase('https://welse-141512.firebaseio.com/submovies/' + str(sender_id));
-                    #         movies_sub.push({"name": movie_name})
-                    #     return "ok", 200
                     if u"หนังไก่" in message_text or u"หนังหี" in message_text or u"หนังหมู" in message_text \
                     or u"หนัง ไก่" in message_text or u"หนังสือ" in message_text or u"หนัง สือ" in message_text \
                     or u"หนังเหี่ยว" in message_text or u"หนัง เหี่ยว" in message_text:
@@ -146,12 +115,13 @@ def webhook():
 
                         filtered_item = Firebase('https://huafhoi.firebaseio.com/items_filter').get();
 
-                        ranked_item = get_item_by_rank(message_text, filtered_item)
+                        # ranked_item = get_item_by_rank(message_text, filtered_item)
+                        ranked_item = query_items_priceza(message_text)
                         el = []
                         send_message(sender_id, u"(beta) ค้นหาตาม keywords")
+
                         if(ranked_item):
 		                        if(len(ranked_item) == 0):
-		                            send_message(sender_id, "ฝอยลองหาแล้วนะ เมื่อวานกับวันนี้อะ")
 		                            send_message(sender_id, "หาไม่เจอเลย~ แย่จางงงง")
 		                            return "ok", 200
 
@@ -293,7 +263,7 @@ def webhook():
                                 el.append(
                                     {
                                         "title": item['name'],
-                                        "subtitle": item['subtitle'],
+                                        "subtitle": item['price'],
                                         "image_url": item['image'],
                                         "buttons": [{
                                             "title": "View",
@@ -742,6 +712,30 @@ def scrap_restaurant(query):
             if len(restaurant) == 10:
                 break
     return restaurant
+
+def query_items_priceza(query):
+    url = "http://www.priceza.com/search?&productdataname=" + urllib.quote_plus(query.encode('utf8'))
+    r = requests.get(url)
+    data = r.text
+    soup = BeautifulSoup(data)
+    items = []
+    for item in soup.find_all('div',{'class':'item-box'}):
+        info = item.find('div',{'class':'info'})
+        if info.find('a'):
+            item_url = "http://www.priceza.com/"+info.find('a')['href']
+            title = info.find('a')['title']
+            if item.find('div',{'class':'pic'}).find('img').has_key('src'):
+                image = item.find('div',{'class':'pic'}).find('img')['src']
+            else:
+                image = item.find('div',{'class':'pic'}).find('img')['data-original']
+            price = item.find('div',{'class':'price'}).find('span',{'itemprop':'price'}).get_text()
+            items.append({
+                    "link": item_url,
+                    "name": title,
+                    "image": image,
+                    "price": price
+                })
+    return items
 
 def log(message):  
     print str(message)
