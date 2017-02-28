@@ -144,7 +144,7 @@ def webhook():
 		                            )
 		                            if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == ranked_item[-1]['name']:
 		                                if len(el) <= 4 and len(el) > 1:
-		                                    send_elements(sender_id, el, 2, item['type'], [
+		                                    send_elements(sender_id, el, 2, item['name'], [
 		                                        {
 		                                            "title": "ดูอีก",
 		                                            "type": "postback",
@@ -152,7 +152,7 @@ def webhook():
 		                                        }
 		                                    ])
 		                                else:
-		                                    send_generic(sender_id, el, 2, item['type'])
+		                                    send_generic(sender_id, el, 2, item['name'])
 		                                el = []
 		                                next_items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id)).get();
 		                                if next_items != None:
