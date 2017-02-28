@@ -129,7 +129,7 @@ def webhook():
 		                            el.append(
 		                                {
 		                                    "title": item['name'],
-		                                    "subtitle": item['price'],
+		                                    "subtitle": u"ราคา: " + item['price'] + u" บาท",
 		                                    "image_url": item['image'],
 		                                    "buttons": [{
 		                                        "title": "View",
