@@ -36,74 +36,60 @@ def webhook():
     data = request.get_json()
     log(data)
 
-    # if data["object"] == "page":
+    if data["object"] == "page":
 
-        # for entry in data["entry"]:
-        #     for messaging_event in entry["messaging"]:
+        for entry in data["entry"]:
+            for messaging_event in entry["messaging"]:
 
-        #         if messaging_event.get("message"):  # someone sent us a message
-        #             sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
-        #             recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
-        #             if(not messaging_event["message"].has_key('text')):
-        #                 return "ok", 200
+                if messaging_event.get("message"):  # someone sent us a message
+                    sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
+                    recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
+                    if(not messaging_event["message"].has_key('text')):
+                        return "ok", 200
 
-        #             message_text = messaging_event["message"]["text"].lower()  # the message's text
+                    message_text = messaging_event["message"]["text"].lower()  # the message's text
 
-        #             if u"หนังไก่" in message_text or u"หนังหี" in message_text or u"หนังหมู" in message_text \
-        #             or u"หนัง ไก่" in message_text or u"หนังสือ" in message_text or u"หนัง สือ" in message_text \
-        #             or u"หนังเหี่ยว" in message_text or u"หนัง เหี่ยว" in message_text:
-        #                 send_message(sender_id, "ไม่ได้แดกกูหรอก :D")
-        #                 return "ok", 200
+                    if u"หนัง" in message_text:
+                        movies = Firebase('https://welse-141512.firebaseio.com/movies').get();
+                        if len(message_text.split(" ")) > 1:
+                            print "ranked"
+                            movies = get_movie(message_text.lower(), movies)
 
-        #             if u"โป๊" in message_text or u"xxx" in message_text or u"porn" in message_text or u"แตด" in message_text:
-        #                 send_message(sender_id, "เฮ้อ ก็แบบนี้ตลอด เหนื่อยใจ")
-        #                 return "ok", 200
+                        if u"สุ่ม" in message_text:
+                            random.shuffle(movies)
 
-        #             if u"มีถั่วไหม" in message_text:
-        #                 send_message(sender_id, "ถามบังหน้าบ้านดิ!")
-        #                 return "ok", 200
-
-        #             if u"หนัง" in message_text:
-        #                 movies = Firebase('https://welse-141512.firebaseio.com/movies').get();
-        #                 if len(message_text.split(" ")) > 1:
-        #                     print "ranked"
-        #                     movies = get_movie(message_text.lower(), movies)
-
-        #                 if u"สุ่ม" in message_text:
-        #                     random.shuffle(movies)
-
-        #                 if movies != None:
-        #                     if len(movies) == 0:
-        #                         send_message(sender_id, "ไม่มีหนังที่หาอยู่น้า~!!")
-        #                         return "ok", 200
-        #                     el = []
-        #                     for m in movies:
-        #                         el.append({
-        #                             "title": m['title'],
-        #                             "subtitle": "imdb: " + str(m['imdb']),
-        #                             "image_url": m['image'],
-        #                             "buttons": [{
-        #                                 "title": u"ดู",
-        #                                 "type": "web_url",
-        #                                 "url": m['link'],
-        #                             }],
-        #                             "default_action": {
-        #                                 "type": "web_url",
-        #                                 "url": m['link']
-        #                             }})
-        #                         if len(el) == 10 or m['title'] == movies[-1]['title']:
-        #                             send_generic(sender_id, el, 2, m['link'])
-        #                             send_message(sender_id, "เลือกดูกัน ตามสบายยย~!!")
-        #                             return "ok", 200
-        #                     return "ok", 200
-        #             else:    
-        #                 if u"หยุด" in message_text or u"พอแล้ว" in message_text or u"เลิกติดตาม" in message_text:
-        #                     send_message(sender_id, "โอเค อยากได้อะไรคราวหน้าบอกฝอยละกัน")
-        #                     send_message(sender_id, "ใคร ๆ ก็รู้ ตลาดนี้ ฝอยคุม ง่อววว!")
-        #                     uf = Firebase('https://welse-141512.firebaseio.com/ocz/' + str(sender_id))
-        #                     uf.remove()
-        #                     send_message(sender_id, "เอาเป็นว่าคราวหน้า ถ้าอยากได้อะไรก็ทักฝอยได้เลย")
-        #                     return "ok", 200
+                        if movies != None:
+                            if len(movies) == 0:
+                                send_message(sender_id, "ไม่มีหนังที่หาอยู่น้า~!!")
+                                return "ok", 200
+                            el = []
+                            for m in movies:
+                                el.append({
+                                    "title": m['title'],
+                                    "subtitle": "imdb: " + str(m['imdb']),
+                                    "image_url": m['image'],
+                                    "buttons": [{
+                                        "title": u"ดู",
+                                        "type": "web_url",
+                                        "url": m['link'],
+                                    }],
+                                    "default_action": {
+                                        "type": "web_url",
+                                        "url": m['link']
+                                    }})
+                                if len(el) == 10 or m['title'] == movies[-1]['title']:
+                                    send_generic(sender_id, el, 2, m['link'])
+                                    send_message(sender_id, "เลือกดูกัน ตามสบายยย~!!")
+                                    return "ok", 200
+                            return "ok", 200
+                    else:    
+                        if u"หยุด" in message_text or u"พอแล้ว" in message_text or u"เลิกติดตาม" in message_text:
+                            send_message(sender_id, "โอเค อยากได้อะไรคราวหน้าบอกฝอยละกัน")
+                            send_message(sender_id, "ใคร ๆ ก็รู้ ตลาดนี้ ฝอยคุม ง่อววว!")
+                            uf = Firebase('https://welse-141512.firebaseio.com/ocz/' + str(sender_id))
+                            uf.remove()
+                            send_message(sender_id, "เอาเป็นว่าคราวหน้า ถ้าอยากได้อะไรก็ทักฝอยได้เลย")
+                            return "ok", 200
         #                 history = Firebase('https://huafhoi.firebaseio.com/history/' + str(sender_id) + '/text')
         #                 history.push({'text':message_text})
 
@@ -285,7 +271,7 @@ def webhook():
                         #     pass
                             # send_message(sender_id, "ฝอยไม่เข้าใจคำนี้อะ พิมที่เข้าใจหน่อยเด้")
 
-    # return "ok", 200
+    return "ok", 200
 
 def send_image(recipient_id, image):
     params = {
