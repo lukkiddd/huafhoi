@@ -36,256 +36,256 @@ def webhook():
     data = request.get_json()
     log(data)
 
-    if data["object"] == "page":
+    # if data["object"] == "page":
 
-        for entry in data["entry"]:
-            for messaging_event in entry["messaging"]:
+        # for entry in data["entry"]:
+        #     for messaging_event in entry["messaging"]:
 
-                if messaging_event.get("message"):  # someone sent us a message
-                    sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
-                    recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
-                    if(not messaging_event["message"].has_key('text')):
-                        return "ok", 200
+        #         if messaging_event.get("message"):  # someone sent us a message
+        #             sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
+        #             recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
+        #             if(not messaging_event["message"].has_key('text')):
+        #                 return "ok", 200
 
-                    message_text = messaging_event["message"]["text"].lower()  # the message's text
+        #             message_text = messaging_event["message"]["text"].lower()  # the message's text
 
-                    if u"หนังไก่" in message_text or u"หนังหี" in message_text or u"หนังหมู" in message_text \
-                    or u"หนัง ไก่" in message_text or u"หนังสือ" in message_text or u"หนัง สือ" in message_text \
-                    or u"หนังเหี่ยว" in message_text or u"หนัง เหี่ยว" in message_text:
-                        send_message(sender_id, "ไม่ได้แดกกูหรอก :D")
-                        return "ok", 200
+        #             if u"หนังไก่" in message_text or u"หนังหี" in message_text or u"หนังหมู" in message_text \
+        #             or u"หนัง ไก่" in message_text or u"หนังสือ" in message_text or u"หนัง สือ" in message_text \
+        #             or u"หนังเหี่ยว" in message_text or u"หนัง เหี่ยว" in message_text:
+        #                 send_message(sender_id, "ไม่ได้แดกกูหรอก :D")
+        #                 return "ok", 200
 
-                    if u"โป๊" in message_text or u"xxx" in message_text or u"porn" in message_text or u"แตด" in message_text:
-                        send_message(sender_id, "เฮ้อ ก็แบบนี้ตลอด เหนื่อยใจ")
-                        return "ok", 200
+        #             if u"โป๊" in message_text or u"xxx" in message_text or u"porn" in message_text or u"แตด" in message_text:
+        #                 send_message(sender_id, "เฮ้อ ก็แบบนี้ตลอด เหนื่อยใจ")
+        #                 return "ok", 200
 
-                    if u"มีถั่วไหม" in message_text:
-                        send_message(sender_id, "ถามบังหน้าบ้านดิ!")
-                        return "ok", 200
+        #             if u"มีถั่วไหม" in message_text:
+        #                 send_message(sender_id, "ถามบังหน้าบ้านดิ!")
+        #                 return "ok", 200
 
-                    if u"หนัง" in message_text:
-                        movies = Firebase('https://welse-141512.firebaseio.com/movies').get();
-                        if len(message_text.split(" ")) > 1:
-                            print "ranked"
-                            movies = get_movie(message_text.lower(), movies)
+        #             if u"หนัง" in message_text:
+        #                 movies = Firebase('https://welse-141512.firebaseio.com/movies').get();
+        #                 if len(message_text.split(" ")) > 1:
+        #                     print "ranked"
+        #                     movies = get_movie(message_text.lower(), movies)
 
-                        if u"สุ่ม" in message_text:
-                            random.shuffle(movies)
+        #                 if u"สุ่ม" in message_text:
+        #                     random.shuffle(movies)
 
-                        if movies != None:
-                            if len(movies) == 0:
-                                send_message(sender_id, "ไม่มีหนังที่หาอยู่น้า~!!")
-                                return "ok", 200
-                            el = []
-                            for m in movies:
-                                el.append({
-                                    "title": m['title'],
-                                    "subtitle": "imdb: " + str(m['imdb']),
-                                    "image_url": m['image'],
-                                    "buttons": [{
-                                        "title": u"ดู",
-                                        "type": "web_url",
-                                        "url": m['link'],
-                                    }],
-                                    "default_action": {
-                                        "type": "web_url",
-                                        "url": m['link']
-                                    }})
-                                if len(el) == 10 or m['title'] == movies[-1]['title']:
-                                    send_generic(sender_id, el, 2, m['link'])
-                                    send_message(sender_id, "เลือกดูกัน ตามสบายยย~!!")
-                                    return "ok", 200
-                            return "ok", 200
-                    else:    
-                        if u"หยุด" in message_text or u"พอแล้ว" in message_text or u"เลิกติดตาม" in message_text:
-                            send_message(sender_id, "โอเค อยากได้อะไรคราวหน้าบอกฝอยละกัน")
-                            send_message(sender_id, "ใคร ๆ ก็รู้ ตลาดนี้ ฝอยคุม ง่อววว!")
-                            uf = Firebase('https://welse-141512.firebaseio.com/ocz/' + str(sender_id))
-                            uf.remove()
-                            send_message(sender_id, "เอาเป็นว่าคราวหน้า ถ้าอยากได้อะไรก็ทักฝอยได้เลย")
-                            return "ok", 200
-                        history = Firebase('https://huafhoi.firebaseio.com/history/' + str(sender_id) + '/text')
-                        history.push({'text':message_text})
+        #                 if movies != None:
+        #                     if len(movies) == 0:
+        #                         send_message(sender_id, "ไม่มีหนังที่หาอยู่น้า~!!")
+        #                         return "ok", 200
+        #                     el = []
+        #                     for m in movies:
+        #                         el.append({
+        #                             "title": m['title'],
+        #                             "subtitle": "imdb: " + str(m['imdb']),
+        #                             "image_url": m['image'],
+        #                             "buttons": [{
+        #                                 "title": u"ดู",
+        #                                 "type": "web_url",
+        #                                 "url": m['link'],
+        #                             }],
+        #                             "default_action": {
+        #                                 "type": "web_url",
+        #                                 "url": m['link']
+        #                             }})
+        #                         if len(el) == 10 or m['title'] == movies[-1]['title']:
+        #                             send_generic(sender_id, el, 2, m['link'])
+        #                             send_message(sender_id, "เลือกดูกัน ตามสบายยย~!!")
+        #                             return "ok", 200
+        #                     return "ok", 200
+        #             else:    
+        #                 if u"หยุด" in message_text or u"พอแล้ว" in message_text or u"เลิกติดตาม" in message_text:
+        #                     send_message(sender_id, "โอเค อยากได้อะไรคราวหน้าบอกฝอยละกัน")
+        #                     send_message(sender_id, "ใคร ๆ ก็รู้ ตลาดนี้ ฝอยคุม ง่อววว!")
+        #                     uf = Firebase('https://welse-141512.firebaseio.com/ocz/' + str(sender_id))
+        #                     uf.remove()
+        #                     send_message(sender_id, "เอาเป็นว่าคราวหน้า ถ้าอยากได้อะไรก็ทักฝอยได้เลย")
+        #                     return "ok", 200
+        #                 history = Firebase('https://huafhoi.firebaseio.com/history/' + str(sender_id) + '/text')
+        #                 history.push({'text':message_text})
 
-                        if u"หมวดหมู่" in message_text:
-                            send_message(sender_id, "ตอนนี้ฝอยคุมตลาด ram, monitor, cpu, storage, macbook, toys (พวก Gadgets)")
-                            send_message(sender_id, "ตลาดอื่น ๆ เดี๋ยวฝอยจะไปคุมให้ เร็ว ๆ นี้")
-                            send_image(sender_id, "https://media.tenor.co/images/fdd5dbcc25782675259f821fc18de50d/raw")
-                            return "ok", 200
+        #                 if u"หมวดหมู่" in message_text:
+        #                     send_message(sender_id, "ตอนนี้ฝอยคุมตลาด ram, monitor, cpu, storage, macbook, toys (พวก Gadgets)")
+        #                     send_message(sender_id, "ตลาดอื่น ๆ เดี๋ยวฝอยจะไปคุมให้ เร็ว ๆ นี้")
+        #                     send_image(sender_id, "https://media.tenor.co/images/fdd5dbcc25782675259f821fc18de50d/raw")
+        #                     return "ok", 200
 
-                        filtered_item = Firebase('https://huafhoi.firebaseio.com/items_filter').get();
+        #                 filtered_item = Firebase('https://huafhoi.firebaseio.com/items_filter').get();
 
-                        # ranked_item = get_item_by_rank(message_text, filtered_item)
-                        ranked_item = query_items_priceza(message_text)
-                        el = []
-                        send_message(sender_id, u"(beta) ค้นหาตาม keywords")
+        #                 # ranked_item = get_item_by_rank(message_text, filtered_item)
+        #                 ranked_item = query_items_priceza(message_text)
+        #                 el = []
+        #                 send_message(sender_id, u"(beta) ค้นหาตาม keywords")
 
-                        if(ranked_item):
-                            if(len(ranked_item) == 0):
-                                send_message(sender_id, "หาไม่เจอเลย~ แย่จางงงง")
-                                return "ok", 200
+        #                 if(ranked_item):
+        #                     if(len(ranked_item) == 0):
+        #                         send_message(sender_id, "หาไม่เจอเลย~ แย่จางงงง")
+        #                         return "ok", 200
 
-                            for item in ranked_item:
-                                el.append(
-                                    {
-                                        "title": item['name'],
-                                        "subtitle": u"ราคา: " + item['price'] + u" บาท",
-                                        "image_url": item['image'],
-                                        "buttons": [{
-                                            "title": "View",
-                                            "type": "web_url",
-                                            "url": item['link'],
-                                        }],
-                                        "default_action": {
-                                            "type": "web_url",
-                                            "url": item['link']
-                                        }
-                                    }
-                                )
-                                if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == ranked_item[-1]['name']:
-                                        send_generic(sender_id, el, 2, item['name'])
-                                        el = []
-                                        next_items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id)).get();
-                                        if next_items != None:
-                                            temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).remove();
-                                        temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id))
-                                        temp.push(ranked_item[5:])
-                                        return "ok", 200
+        #                     for item in ranked_item:
+        #                         el.append(
+        #                             {
+        #                                 "title": item['name'],
+        #                                 "subtitle": u"ราคา: " + item['price'] + u" บาท",
+        #                                 "image_url": item['image'],
+        #                                 "buttons": [{
+        #                                     "title": "View",
+        #                                     "type": "web_url",
+        #                                     "url": item['link'],
+        #                                 }],
+        #                                 "default_action": {
+        #                                     "type": "web_url",
+        #                                     "url": item['link']
+        #                                 }
+        #                             }
+        #                         )
+        #                         if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == ranked_item[-1]['name']:
+        #                                 send_generic(sender_id, el, 2, item['name'])
+        #                                 el = []
+        #                                 next_items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id)).get();
+        #                                 if next_items != None:
+        #                                     temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).remove();
+        #                                 temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id))
+        #                                 temp.push(ranked_item[5:])
+        #                                 return "ok", 200
                             
-                    return "ok", 200
+        #             return "ok", 200
                         
-                if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
-                    sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
-                    recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
+        #         if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
+        #             sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
+        #             recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
 
-                    if(not messaging_event["postback"].has_key('payload')):
-                        return "ok", 200
+        #             if(not messaging_event["postback"].has_key('payload')):
+        #                 return "ok", 200
 
-                    if(messaging_event['postback']['payload'] == "done"):
-                        send_message(sender_id, "โอเค อยากได้อะไรคราวหน้าบอกฝอยละกัน")
-                        send_message(sender_id, "ใคร ๆ ก็รู้ ตลาดนี้ ฝอยคุม ง่อววว!")
-                        uf = Firebase('https://welse-141512.firebaseio.com/ocz/' + str(sender_id))
-                        uf.remove()
-                        send_message(sender_id, "เอาเป็นว่าคราวหน้า ถ้าอยากได้อะไรก็ทักฝอยได้เลย")
-                        return "ok", 200
+        #             if(messaging_event['postback']['payload'] == "done"):
+        #                 send_message(sender_id, "โอเค อยากได้อะไรคราวหน้าบอกฝอยละกัน")
+        #                 send_message(sender_id, "ใคร ๆ ก็รู้ ตลาดนี้ ฝอยคุม ง่อววว!")
+        #                 uf = Firebase('https://welse-141512.firebaseio.com/ocz/' + str(sender_id))
+        #                 uf.remove()
+        #                 send_message(sender_id, "เอาเป็นว่าคราวหน้า ถ้าอยากได้อะไรก็ทักฝอยได้เลย")
+        #                 return "ok", 200
 
-                    if(messaging_event['postback']['payload'] == "other"):
-                        send_message(sender_id, "หาอะไรอยู่ บอกฝอยเลย ไม่ว่าจะเป็น ram, monitor, cpu ก็ตาม เดะจัดให้")
-                        return "ok", 200
+        #             if(messaging_event['postback']['payload'] == "other"):
+        #                 send_message(sender_id, "หาอะไรอยู่ บอกฝอยเลย ไม่ว่าจะเป็น ram, monitor, cpu ก็ตาม เดะจัดให้")
+        #                 return "ok", 200
 
-                    if(messaging_event['postback']['payload'] == "menu"):
-                        initial_conversation(sender_id, "หาไรอยู่ มีให้เลือกตามนี้ จิ้มเลย เดะฝอยจะเช็คตลาดให้")
-                        return "ok", 200
+        #             if(messaging_event['postback']['payload'] == "menu"):
+        #                 initial_conversation(sender_id, "หาไรอยู่ มีให้เลือกตามนี้ จิ้มเลย เดะฝอยจะเช็คตลาดให้")
+        #                 return "ok", 200
 
-                    if(messaging_event["postback"]["payload"] == 'hey'):
-                        send_message(sender_id, "เฮ้ โย่ว หวัดเด")
-                        send_image(sender_id, "https://media.tenor.co/images/a4932ffb7bd04392cfd220e4cbd325f1/raw")
-                        send_message(sender_id, "หาไรอยู่ บอกเลย!! เดะฝอยจะเช็คตลาดให้")
-                        return "ok", 200
+        #             if(messaging_event["postback"]["payload"] == 'hey'):
+        #                 send_message(sender_id, "เฮ้ โย่ว หวัดเด")
+        #                 send_image(sender_id, "https://media.tenor.co/images/a4932ffb7bd04392cfd220e4cbd325f1/raw")
+        #                 send_message(sender_id, "หาไรอยู่ บอกเลย!! เดะฝอยจะเช็คตลาดให้")
+        #                 return "ok", 200
 
-                    message_text = messaging_event["postback"]["payload"].split(",")[0].lower()
-                    if(message_text == "sub"):
-                        sub = messaging_event["postback"]["payload"].split(",")[1].lower()
-                        if sub == "0":
-                            uf = Firebase('https://welse-141512.firebaseio.com/ocz/' + str(sender_id))
-                            uf.remove()
-                            return "ok", 200
-                        sub_type = messaging_event["postback"]["payload"].split(",")[2].lower()
-                        uf = Firebase('https://welse-141512.firebaseio.com/ocz/' + str(sender_id) + "/" + sub_type)
-                        uf.set({"subcribe": sub})
-                        if(sub == "1"):
-                            send_message(sender_id, "EZ มาก เดะฝอยดูตลาดให้")
-                            send_message(sender_id, "ของมาปั๊บ ทักหาทันที สวย ๆ อยากได้ไรเพิ่มบอกฝอย!!")
-                            send_message(sender_id, "อยากดูอะไรเพิ่มอีกก็บอกฝอยได้เลยนะจ๊ะ")
-                            return "ok", 200
+        #             message_text = messaging_event["postback"]["payload"].split(",")[0].lower()
+        #             if(message_text == "sub"):
+        #                 sub = messaging_event["postback"]["payload"].split(",")[1].lower()
+        #                 if sub == "0":
+        #                     uf = Firebase('https://welse-141512.firebaseio.com/ocz/' + str(sender_id))
+        #                     uf.remove()
+        #                     return "ok", 200
+        #                 sub_type = messaging_event["postback"]["payload"].split(",")[2].lower()
+        #                 uf = Firebase('https://welse-141512.firebaseio.com/ocz/' + str(sender_id) + "/" + sub_type)
+        #                 uf.set({"subcribe": sub})
+        #                 if(sub == "1"):
+        #                     send_message(sender_id, "EZ มาก เดะฝอยดูตลาดให้")
+        #                     send_message(sender_id, "ของมาปั๊บ ทักหาทันที สวย ๆ อยากได้ไรเพิ่มบอกฝอย!!")
+        #                     send_message(sender_id, "อยากดูอะไรเพิ่มอีกก็บอกฝอยได้เลยนะจ๊ะ")
+        #                     return "ok", 200
                     
-                    if u"หนัง" in message_text:
-                        movies = Firebase('https://welse-141512.firebaseio.com/movies').get();
+        #             if u"หนัง" in message_text:
+        #                 movies = Firebase('https://welse-141512.firebaseio.com/movies').get();
 
-                        if len(message_text.split(" ")) > 1:
-                            print "ranked"
-                            movies = get_movie(message_text.lower(), movies)
+        #                 if len(message_text.split(" ")) > 1:
+        #                     print "ranked"
+        #                     movies = get_movie(message_text.lower(), movies)
 
-                        if u"สุ่ม" in message_text:
-                            random.shuffle(movies)
+        #                 if u"สุ่ม" in message_text:
+        #                     random.shuffle(movies)
 
-                        if movies != None:
-                            if len(movies) == 0:
-                                send_message(sender_id, "ไม่มีหนังที่หาอยู่น้า~!!")
-                                return "ok", 200
-                            el = []
-                            for m in movies:
-                                el.append({
-                                    "title": m['title'],
-                                    "subtitle": "imdb: " + str(m['imdb']),
-                                    "image_url": m['image'],
-                                    "buttons": [{
-                                        "title": u"ดู",
-                                        "type": "web_url",
-                                        "url": m['link'],
-                                    }],
-                                    "default_action": {
-                                        "type": "web_url",
-                                        "url": m['link']
-                                    }})
-                                if len(el) == 10 or m['title'] == movies[-1]['title']:
-                                    send_generic(sender_id, el, 2, m['link'])
-                                    send_message(sender_id, "เลือกดูกัน ตามสบายยย~!!")
-                                    return "ok", 200
-                            return "ok", 200
-                    else:
-                        history_count = Firebase('https://huafhoi.firebaseio.com/history/' + str(sender_id) + '/count')
-                        history_count.push({'count':message_text})
+        #                 if movies != None:
+        #                     if len(movies) == 0:
+        #                         send_message(sender_id, "ไม่มีหนังที่หาอยู่น้า~!!")
+        #                         return "ok", 200
+        #                     el = []
+        #                     for m in movies:
+        #                         el.append({
+        #                             "title": m['title'],
+        #                             "subtitle": "imdb: " + str(m['imdb']),
+        #                             "image_url": m['image'],
+        #                             "buttons": [{
+        #                                 "title": u"ดู",
+        #                                 "type": "web_url",
+        #                                 "url": m['link'],
+        #                             }],
+        #                             "default_action": {
+        #                                 "type": "web_url",
+        #                                 "url": m['link']
+        #                             }})
+        #                         if len(el) == 10 or m['title'] == movies[-1]['title']:
+        #                             send_generic(sender_id, el, 2, m['link'])
+        #                             send_message(sender_id, "เลือกดูกัน ตามสบายยย~!!")
+        #                             return "ok", 200
+        #                     return "ok", 200
+        #             else:
+        #                 history_count = Firebase('https://huafhoi.firebaseio.com/history/' + str(sender_id) + '/count')
+        #                 history_count.push({'count':message_text})
 
-                        next_items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id)).get();
-                        if next_items == None:
-                            send_message(sender_id, "หมดแล้ว!! บ๋อแบ๋")
-                            send_image(sender_id, "https://media.tenor.co/images/ab096f70ea512a3881e85756d3175c26/raw")
-                            return "ok", 200
-                        else:
-                            items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).get();
-                            remove = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).remove();
-                        if items != None:
-                            temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id))
-                            temp.push(items[5:])
-                            # counts = 0
-                            el = []
-                            for item in items:
-                                el.append(
-                                    {
-                                        "title": item['name'],
-                                        "subtitle": item['subtitle'],
-                                        "image_url": item['image'],
-                                        "buttons": [{
-                                            "title": "View",
-                                            "type": "web_url",
-                                            "url": item['link'],
-                                        }],
-                                        "default_action": {
-                                            "type": "web_url",
-                                            "url": item['link']
-                                        }
-                                    }
-                                )
-                                if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == items[-1]['name']:
-                                    if len(el) <= 4 and len(el) > 1:
-                                        send_elements(sender_id, el, 2, item['type'], [
-                                            {
-                                                "title": "ดูอีก",
-                                                "type": "postback",
-                                                "payload": "filter"                        
-                                            }
-                                        ])
-                                    else:
-                                        send_generic(sender_id, el, 2, item['type'])
-                                    el = []
-                                    return "ok", 200
+        #                 next_items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id)).get();
+        #                 if next_items == None:
+        #                     send_message(sender_id, "หมดแล้ว!! บ๋อแบ๋")
+        #                     send_image(sender_id, "https://media.tenor.co/images/ab096f70ea512a3881e85756d3175c26/raw")
+        #                     return "ok", 200
+        #                 else:
+        #                     items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).get();
+        #                     remove = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).remove();
+        #                 if items != None:
+        #                     temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id))
+        #                     temp.push(items[5:])
+        #                     # counts = 0
+        #                     el = []
+        #                     for item in items:
+        #                         el.append(
+        #                             {
+        #                                 "title": item['name'],
+        #                                 "subtitle": item['subtitle'],
+        #                                 "image_url": item['image'],
+        #                                 "buttons": [{
+        #                                     "title": "View",
+        #                                     "type": "web_url",
+        #                                     "url": item['link'],
+        #                                 }],
+        #                                 "default_action": {
+        #                                     "type": "web_url",
+        #                                     "url": item['link']
+        #                                 }
+        #                             }
+        #                         )
+        #                         if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == items[-1]['name']:
+        #                             if len(el) <= 4 and len(el) > 1:
+        #                                 send_elements(sender_id, el, 2, item['type'], [
+        #                                     {
+        #                                         "title": "ดูอีก",
+        #                                         "type": "postback",
+        #                                         "payload": "filter"                        
+        #                                     }
+        #                                 ])
+        #                             else:
+        #                                 send_generic(sender_id, el, 2, item['type'])
+        #                             el = []
+        #                             return "ok", 200
                                 # counts += 1
-                        else:
-                            pass
+                        # else:
+                        #     pass
                             # send_message(sender_id, "ฝอยไม่เข้าใจคำนี้อะ พิมที่เข้าใจหน่อยเด้")
 
-    return "ok", 200
+    # return "ok", 200
 
 def send_image(recipient_id, image):
     params = {
