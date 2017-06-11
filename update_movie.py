@@ -17,7 +17,7 @@ def scrap_movie():
             sound = movie.find('span', {'class':'soundmovie'})
             imdb = movie.find('span',{'class','imdb'}).get_text()
             if sound != None and "N/A" not in imdb:
-                imdb = float(imdb)
+                imdb = float(imdb) if '.' in imdb else 0
                 link = movie.find('a')['href']
                 title = movie.find('h2').get_text()
                 sound = sound.get_text().replace(" ","")

@@ -99,44 +99,44 @@ def webhook():
                             send_image(sender_id, "https://media.tenor.co/images/fdd5dbcc25782675259f821fc18de50d/raw")
                             return "ok", 200
 
-                        filtered_item = Firebase('https://huafhoi.firebaseio.com/items_filter').get();
+                        # filtered_item = Firebase('https://huafhoi.firebaseio.com/items_filter').get();
 
-                        # ranked_item = get_item_by_rank(message_text, filtered_item)
-                        ranked_item = query_items_priceza(message_text)
-                        el = []
-                        send_message(sender_id, u"(beta) ค้นหาตาม keywords")
+                        # # ranked_item = get_item_by_rank(message_text, filtered_item)
+                        # ranked_item = query_items_priceza(message_text)
+                        # el = []
+                        # send_message(sender_id, u"(beta) ค้นหาตาม keywords")
 
-                        if(ranked_item):
-                            if(len(ranked_item) == 0):
-                                send_message(sender_id, "หาไม่เจอเลย~ แย่จางงงง")
-                                return "ok", 200
+                        # if(ranked_item):
+                        #     if(len(ranked_item) == 0):
+                        #         send_message(sender_id, "หาไม่เจอเลย~ แย่จางงงง")
+                        #         return "ok", 200
 
-                            for item in ranked_item:
-                                el.append(
-                                    {
-                                        "title": item['name'],
-                                        "subtitle": u"ราคา: " + item['price'] + u" บาท",
-                                        "image_url": item['image'],
-                                        "buttons": [{
-                                            "title": "View",
-                                            "type": "web_url",
-                                            "url": item['link'],
-                                        }],
-                                        "default_action": {
-                                            "type": "web_url",
-                                            "url": item['link']
-                                        }
-                                    }
-                                )
-                                if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == ranked_item[-1]['name']:
-                                        send_generic(sender_id, el, 2, item['name'])
-                                        el = []
-                                        next_items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id)).get();
-                                        if next_items != None:
-                                            temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).remove();
-                                        temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id))
-                                        temp.push(ranked_item[5:])
-                                        return "ok", 200
+                        #     for item in ranked_item:
+                        #         el.append(
+                        #             {
+                        #                 "title": item['name'],
+                        #                 "subtitle": u"ราคา: " + item['price'] + u" บาท",
+                        #                 "image_url": item['image'],
+                        #                 "buttons": [{
+                        #                     "title": "View",
+                        #                     "type": "web_url",
+                        #                     "url": item['link'],
+                        #                 }],
+                        #                 "default_action": {
+                        #                     "type": "web_url",
+                        #                     "url": item['link']
+                        #                 }
+                        #             }
+                        #         )
+                        #         if (len(el) % 4 == 0 and len(el) != 0) or item['name'] == ranked_item[-1]['name']:
+                        #                 send_generic(sender_id, el, 2, item['name'])
+                        #                 el = []
+                        #                 next_items = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id)).get();
+                        #                 if next_items != None:
+                        #                     temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id) + '/' + next_items.keys()[-1]).remove();
+                        #                 temp = Firebase('https://huafhoi.firebaseio.com/next/' + str(sender_id))
+                        #                 temp.push(ranked_item[5:])
+                        #                 return "ok", 200
                             
                     return "ok", 200
                         
