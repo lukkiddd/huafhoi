@@ -10,6 +10,8 @@ from flask import Flask, request, render_template
 from firebase import Firebase
 import random
 import urllib
+from chatterbot import ChatBot
+from chatterbot.trainers import ListTrainer
 
 app = Flask(__name__, static_url_path='')
 
@@ -48,57 +50,60 @@ def webhook():
                         return "ok", 200
 
                     message_text = messaging_event["message"]["text"].lower()  # the message's text
+                    decoded = message_text.decode("utf-8")
+                    response = chatbot.get_response(decoded)
+                    retMessage = unicode(response)
+                    send_message(sender_id, retMessage)
+                    # if u"หนัง" in message_text:
+                    #     movies = Firebase('https://welse-141512.firebaseio.com/movies').get();
+                    #     if len(message_text.split(" ")) > 1:
+                    #         print "ranked"
+                    #         movies = get_movie(message_text.lower(), movies)
 
-                    if u"หนัง" in message_text:
-                        movies = Firebase('https://welse-141512.firebaseio.com/movies').get();
-                        if len(message_text.split(" ")) > 1:
-                            print "ranked"
-                            movies = get_movie(message_text.lower(), movies)
+                    #     if u"สุ่ม" in message_text:
+                    #         random.shuffle(movies)
 
-                        if u"สุ่ม" in message_text:
-                            random.shuffle(movies)
+                    #     if movies != None:
+                    #         if len(movies) == 0:
+                    #             send_message(sender_id, "ไม่มีหนังที่หาอยู่น้า~!!")
+                    #             return "ok", 200
+                    #         el = []
+                    #         for m in movies:
+                    #             el.append({
+                    #                 "title": m['title'],
+                    #                 "subtitle": "imdb: " + str(m['imdb']),
+                    #                 "image_url": m['image'],
+                    #                 "buttons": [{
+                    #                     "title": u"ดู",
+                    #                     "type": "web_url",
+                    #                     "url": m['link'],
+                    #                 }],
+                    #                 "default_action": {
+                    #                     "type": "web_url",
+                    #                     "url": m['link']
+                    #                 }})
+                    #             if len(el) == 10 or m['title'] == movies[-1]['title']:
+                    #                 send_generic(sender_id, el, 2, m['link'])
+                    #                 send_message(sender_id, "เลือกดูกัน ตามสบายยย~!!")
+                    #                 return "ok", 200
+                    #         return "ok", 200
+                    # else:    
+                    #     if u"หยุด" in message_text or u"พอแล้ว" in message_text or u"เลิกติดตาม" in message_text:
+                    #         send_message(sender_id, "โอเค อยากได้อะไรคราวหน้าบอกฝอยละกัน")
+                    #         send_message(sender_id, "ใคร ๆ ก็รู้ ตลาดนี้ ฝอยคุม ง่อววว!")
+                    #         uf = Firebase('https://welse-141512.firebaseio.com/ocz/' + str(sender_id))
+                    #         uf.remove()
+                    #         send_message(sender_id, "เอาเป็นว่าคราวหน้า ถ้าอยากได้อะไรก็ทักฝอยได้เลย")
+                    #         return "ok", 200
+                    #     history = Firebase('https://huafhoi.firebaseio.com/history/' + str(sender_id) + '/text')
+                    #     history.push({'text':message_text})
 
-                        if movies != None:
-                            if len(movies) == 0:
-                                send_message(sender_id, "ไม่มีหนังที่หาอยู่น้า~!!")
-                                return "ok", 200
-                            el = []
-                            for m in movies:
-                                el.append({
-                                    "title": m['title'],
-                                    "subtitle": "imdb: " + str(m['imdb']),
-                                    "image_url": m['image'],
-                                    "buttons": [{
-                                        "title": u"ดู",
-                                        "type": "web_url",
-                                        "url": m['link'],
-                                    }],
-                                    "default_action": {
-                                        "type": "web_url",
-                                        "url": m['link']
-                                    }})
-                                if len(el) == 10 or m['title'] == movies[-1]['title']:
-                                    send_generic(sender_id, el, 2, m['link'])
-                                    send_message(sender_id, "เลือกดูกัน ตามสบายยย~!!")
-                                    return "ok", 200
-                            return "ok", 200
-                    else:    
-                        if u"หยุด" in message_text or u"พอแล้ว" in message_text or u"เลิกติดตาม" in message_text:
-                            send_message(sender_id, "โอเค อยากได้อะไรคราวหน้าบอกฝอยละกัน")
-                            send_message(sender_id, "ใคร ๆ ก็รู้ ตลาดนี้ ฝอยคุม ง่อววว!")
-                            uf = Firebase('https://welse-141512.firebaseio.com/ocz/' + str(sender_id))
-                            uf.remove()
-                            send_message(sender_id, "เอาเป็นว่าคราวหน้า ถ้าอยากได้อะไรก็ทักฝอยได้เลย")
-                            return "ok", 200
-                        history = Firebase('https://huafhoi.firebaseio.com/history/' + str(sender_id) + '/text')
-                        history.push({'text':message_text})
-
-                        if u"หมวดหมู่" in message_text:
-                            send_message(sender_id, "ตอนนี้ฝอยคุมตลาด ram, monitor, cpu, storage, macbook, toys (พวก Gadgets)")
-                            send_message(sender_id, "ตลาดอื่น ๆ เดี๋ยวฝอยจะไปคุมให้ เร็ว ๆ นี้")
-                            send_image(sender_id, "https://media.tenor.co/images/fdd5dbcc25782675259f821fc18de50d/raw")
-                            initial_conversation(sender_id, "หาไรอยู่ มีให้เลือกตามนี้ จิ้มเลย เดะฝอยจะเช็คตลาดให้")
-                            return "ok", 200
+                    #     if u"หมวดหมู่" in message_text:
+                    #         send_message(sender_id, "ตอนนี้ฝอยคุมตลาด ram, monitor, cpu, storage, macbook, toys (พวก Gadgets)")
+                    #         send_message(sender_id, "ตลาดอื่น ๆ เดี๋ยวฝอยจะไปคุมให้ เร็ว ๆ นี้")
+                    #         send_image(sender_id, "https://media.tenor.co/images/fdd5dbcc25782675259f821fc18de50d/raw")
+                    #         initial_conversation(sender_id, "หาไรอยู่ มีให้เลือกตามนี้ จิ้มเลย เดะฝอยจะเช็คตลาดให้")
+                    #         return "ok", 200
 
                         # filtered_item = Firebase('https://huafhoi.firebaseio.com/items_filter').get();
 
@@ -721,4 +726,17 @@ def log(message):
     sys.stdout.flush()
 
 if __name__ == '__main__':
+    chatbot = ChatBot(
+        'Ron Obvious'
+    )
+
+    conversation = [
+        u"สวัสดี",
+        u"ดีจ้า",
+        u"ทำไรอยู่",
+        u"กินข้าว"
+    ]
+
+    chatbot.set_trainer(ListTrainer)
+    chatbot.train(conversation)
     app.run(debug=True)
