@@ -19,22 +19,12 @@ app = Flask(__name__, static_url_path='')
 #     'Ron Obvious'
 # )
 
-chatbot = ChatBot('Ron Obvious',
+chatbot = ChatBot('lk',
     storage_adapter='chatterbot.storage.MongoDatabaseAdapter',
     database='heroku_bvcd4420',
     database_uri='mongodb://chatterbot:kisskid@ds019876.mlab.com:19876/heroku_bvcd4420',
     read_only=True
 )
-
-conversation = [
-    u"สวัสดี",
-    u"ดีจ้า",
-    u"ทำไรอยู่",
-    u"กินข้าว"
-]
-
-chatbot.set_trainer(ListTrainer)
-chatbot.train(conversation)
 
 @app.route('/', methods=['GET'])
 def verify():
