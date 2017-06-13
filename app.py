@@ -17,6 +17,20 @@ app = Flask(__name__, static_url_path='')
 
 chatbot = ChatBot(
     'Ron Obvious'
+)storage_adapter="chatterbot.storage.MongoDatabaseAdapter"
+
+bot = ChatBot('Ron Obvious',
+    storage_adapter='chatterbot.storage.MongoDatabaseAdapter',
+    logic_adapters=[
+        'chatterbot.logic.BestMatch'
+    ],
+    filters=[
+        'chatterbot.filters.RepetitiveResponseFilter'
+    ],
+    input_adapter='chatterbot.input.TerminalAdapter',
+    output_adapter='chatterbot.output.TerminalAdapter',
+    database='chatterbot-database',
+    database_uri='mongodb://chatterbot:kisskid@ds019876.mlab.com:19876/heroku_bvcd4420'
 )
 
 conversation = [
