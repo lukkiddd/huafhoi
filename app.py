@@ -64,8 +64,8 @@ def webhook():
                         return "ok", 200
 
                     message_text = messaging_event["message"]["text"].lower()  # the message's text
-                    decoded = message_text.decode("utf-8")
-                    response = chatbot.get_response(decoded)
+
+                    response = chatbot.get_response(message_text)
                     retMessage = unicode(response)
                     send_message(sender_id, retMessage)
                     # if u"หนัง" in message_text:
