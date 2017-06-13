@@ -22,8 +22,7 @@ app = Flask(__name__, static_url_path='')
 chatbot = ChatBot('lk',
     storage_adapter='chatterbot.storage.MongoDatabaseAdapter',
     database='heroku_bvcd4420',
-    database_uri='mongodb://chatterbot:kisskid@ds019876.mlab.com:19876/heroku_bvcd4420',
-    read_only=True
+    database_uri='mongodb://chatterbot:kisskid@ds019876.mlab.com:19876/heroku_bvcd4420'
 )
 
 @app.route('/', methods=['GET'])
@@ -62,8 +61,9 @@ def webhook():
 
                     message_text = messaging_event["message"]["text"].lower()  # the message's text
                     
-                    # response = chatbot.get_response(message_text)
-                    # retMessage = unicode(response)
+                    response = chatbot.get_response(message_text)
+                    retMessage = unicode(response)
+                    log("saved")
                     # send_message(sender_id, retMessage)
                     # except:
                         # pass
