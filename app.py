@@ -332,49 +332,49 @@ def send_message(recipient_id, message_text):
             "id": recipient_id
         },
         "message": {
-            "text": message_text,
-            "quick_replies":[
-              {
-                "content_type":"text",
-                "title":"แรม ddr3",
-                "payload":"แรมddr3"
-              },
-              {
-                "content_type":"text",
-                "title":"จอ",
-                "payload":"จอ"
-              },
-              {
-                "content_type":"text",
-                "title":"SSD",
-                "payload":"ssd"
-              },
-              {
-                "content_type":"text",
-                "title":"Macbook",
-                "payload":"macbook"
-              },
-              {
-                "content_type":"text",
-                "title":"ps4",
-                "payload":"ps4"
-              },
-              {
-                "content_type":"text",
-                "title":"มือถือ",
-                "payload":"มือถือ"
-              },
-              {
-                "content_type": "text",
-                "title": "การ์ดจอ",
-                "payload":"การ์ดจอ"
-              },
-              {
-                "content_type":"text",
-                "title":"i5",
-                "payload":"i5"
-              }
-            ]
+            "text": message_text
+            # "quick_replies":[
+            #   {
+            #     "content_type":"text",
+            #     "title":"แรม ddr3",
+            #     "payload":"แรมddr3"
+            #   },
+            #   {
+            #     "content_type":"text",
+            #     "title":"จอ",
+            #     "payload":"จอ"
+            #   },
+            #   {
+            #     "content_type":"text",
+            #     "title":"SSD",
+            #     "payload":"ssd"
+            #   },
+            #   {
+            #     "content_type":"text",
+            #     "title":"Macbook",
+            #     "payload":"macbook"
+            #   },
+            #   {
+            #     "content_type":"text",
+            #     "title":"ps4",
+            #     "payload":"ps4"
+            #   },
+            #   {
+            #     "content_type":"text",
+            #     "title":"มือถือ",
+            #     "payload":"มือถือ"
+            #   },
+            #   {
+            #     "content_type": "text",
+            #     "title": "การ์ดจอ",
+            #     "payload":"การ์ดจอ"
+            #   },
+            #   {
+            #     "content_type":"text",
+            #     "title":"i5",
+            #     "payload":"i5"
+            #   }
+            # ]
         }
     })
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
