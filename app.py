@@ -15,6 +15,20 @@ from chatterbot.trainers import ListTrainer
 
 app = Flask(__name__, static_url_path='')
 
+chatbot = ChatBot(
+    'Ron Obvious'
+)
+
+conversation = [
+    u"สวัสดี",
+    u"ดีจ้า",
+    u"ทำไรอยู่",
+    u"กินข้าว"
+]
+
+chatbot.set_trainer(ListTrainer)
+chatbot.train(conversation)
+
 @app.route('/', methods=['GET'])
 def verify():
     if request.args.get("hub.mode") == "subscribe" and request.args.get("hub.challenge"):
@@ -726,17 +740,4 @@ def log(message):
     sys.stdout.flush()
 
 if __name__ == '__main__':
-    chatbot = ChatBot(
-        'Ron Obvious'
-    )
-
-    conversation = [
-        u"สวัสดี",
-        u"ดีจ้า",
-        u"ทำไรอยู่",
-        u"กินข้าว"
-    ]
-
-    chatbot.set_trainer(ListTrainer)
-    chatbot.train(conversation)
     app.run(debug=True)
