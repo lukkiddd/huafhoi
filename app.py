@@ -15,9 +15,10 @@ from chatterbot.trainers import ListTrainer
 
 app = Flask(__name__, static_url_path='')
 
-chatbot = ChatBot(
-    'Ron Obvious'
-)storage_adapter="chatterbot.storage.MongoDatabaseAdapter"
+# chatbot = ChatBot(
+#     'Ron Obvious'
+# )
+storage_adapter="chatterbot.storage.MongoDatabaseAdapter"
 
 bot = ChatBot('Ron Obvious',
     storage_adapter='chatterbot.storage.MongoDatabaseAdapter',
