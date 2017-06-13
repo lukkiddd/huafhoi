@@ -38,7 +38,8 @@ conversation = [
     u"สวัสดี",
     u"ดีจ้า",
     u"ทำไรอยู่",
-    u"กินข้าว"
+    u"กินข้าว",
+    u"กินกับอะไร?"
 ]
 
 chatbot.set_trainer(ListTrainer)
