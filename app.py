@@ -73,7 +73,7 @@ def webhook():
                     
                     response = chatbot.get_response(message_text)
                     retMessage = unicode(response)
-                    log(retMessage)
+                    log("saved")
                     # send_message(sender_id, retMessage)
                     # except:
                         # pass
