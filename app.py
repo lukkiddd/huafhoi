@@ -69,6 +69,7 @@ def webhook():
                         retMessage = unicode(response)
                         send_message(sender_id, retMessage)
                     except ValueError:
+                        send_message(sender_id, u"พัง!!")
                         return "ok", 200
                     # if u"หนัง" in message_text:
                     #     movies = Firebase('https://welse-141512.firebaseio.com/movies').get();
