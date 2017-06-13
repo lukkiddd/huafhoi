@@ -20,6 +20,7 @@ app = Flask(__name__, static_url_path='')
 # )
 
 chatbot = ChatBot('Ron Obvious',
+    read_only=True,
     storage_adapter='chatterbot.storage.MongoDatabaseAdapter',
     database='heroku_bvcd4420',
     database_uri='mongodb://chatterbot:kisskid@ds019876.mlab.com:19876/heroku_bvcd4420'
