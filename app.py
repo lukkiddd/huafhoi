@@ -20,7 +20,7 @@ app = Flask(__name__, static_url_path='')
 # )
 storage_adapter="chatterbot.storage.MongoDatabaseAdapter"
 
-bot = ChatBot('Ron Obvious',
+chatbot = ChatBot('Ron Obvious',
     storage_adapter='chatterbot.storage.MongoDatabaseAdapter',
     logic_adapters=[
         'chatterbot.logic.BestMatch'
