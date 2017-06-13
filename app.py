@@ -18,18 +18,9 @@ app = Flask(__name__, static_url_path='')
 # chatbot = ChatBot(
 #     'Ron Obvious'
 # )
-storage_adapter="chatterbot.storage.MongoDatabaseAdapter"
 
 chatbot = ChatBot('Ron Obvious',
     storage_adapter='chatterbot.storage.MongoDatabaseAdapter',
-    logic_adapters=[
-        'chatterbot.logic.BestMatch'
-    ],
-    filters=[
-        'chatterbot.filters.RepetitiveResponseFilter'
-    ],
-    input_adapter='chatterbot.input.TerminalAdapter',
-    output_adapter='chatterbot.output.TerminalAdapter',
     database='heroku_bvcd4420',
     database_uri='mongodb://chatterbot:kisskid@ds019876.mlab.com:19876/heroku_bvcd4420'
 )
@@ -38,8 +29,7 @@ conversation = [
     u"สวัสดี",
     u"ดีจ้า",
     u"ทำไรอยู่",
-    u"กินข้าว",
-    u"กินกับอะไร?"
+    u"กินข้าว"
 ]
 
 chatbot.set_trainer(ListTrainer)
