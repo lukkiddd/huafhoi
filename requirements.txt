@@ -10,4 +10,4 @@ wsgiref==0.1.2
 bs4
 -e git://github.com/mikexstudios/python-firebase.git#egg=python-firebase
 wit
-chatter
+chatterbot
