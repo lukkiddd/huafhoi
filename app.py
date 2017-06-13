@@ -64,10 +64,12 @@ def webhook():
                         return "ok", 200
 
                     message_text = messaging_event["message"]["text"].lower()  # the message's text
-
+                    try:
                     response = chatbot.get_response(message_text)
                     retMessage = unicode(response)
                     send_message(sender_id, retMessage)
+                    except:
+                        pass
                     # if u"หนัง" in message_text:
                     #     movies = Firebase('https://welse-141512.firebaseio.com/movies').get();
                     #     if len(message_text.split(" ")) > 1:
