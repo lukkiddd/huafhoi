@@ -63,8 +63,8 @@ def webhook():
                     
                     response = chatbot.get_response(message_text)
                     retMessage = unicode(response)
-                    log("saved")
-                    # send_message(sender_id, retMessage)
+                    # log("saved")
+                    send_message(sender_id, retMessage)
                     # except:
                         # pass
                     # if u"หนัง" in message_text:
