@@ -57,9 +57,8 @@ type_item = [
 
 
 def send_news():
-    fb = Firebase('https://welse-141512.firebaseio.com/items_test')
+    fb = Firebase('https://welse-141512.firebaseio.com/items')
     old_items = fb.get()
-
     if(old_items == None):
         old_items = scrap()
 
@@ -74,7 +73,8 @@ def send_news():
         user = Firebase('https://welse-141512.firebaseio.com/ocz/' + str(u))
         user_data = user.get()
         for type_u in user_data:
-            if(user_data[type_u]['subcribe'] == "1"):
+            if(user_data[type_u]['subcribe'] == 1):
+                print new_send[type_u]
                 if len(new_send[type_u]) != 0:
                     el = []
 
@@ -96,8 +96,9 @@ def send_news():
                                 "url": item['link']
                             }
                         })
-
+                        print counts
                         if(counts >= 9 or new_send[type_u][-1]['name'] == item['name']):
+                            print "send"
                             send_message(u, 'ใหม่!! ' + str(type_u) + ' ' + str(len(el)) + ' กระทู้ฝอยจัดให้!!')
                             send_generic(u, el)
                             r = random.uniform(0, 1)

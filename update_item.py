@@ -77,14 +77,16 @@ def create_item_page(items):
     for key in items:
         count = 0
         page = 1
-        new_list[key] = {}
-        new_list[key]["page"+str(page)] = []
+        # new_list[key] = {}
+        new_list[key] = []
+        # new_list[key]["page"+str(page)] = []
         for item in items[key]:
-            if(count % 4 == 0 and count != 0):
-                count = 0
-                page += 1
-                new_list[key]["page"+str(page)] = []
-            new_list[key]["page"+str(page)].append(item)
+            # if(count % 4 == 0 and count != 0):
+                # count = 0
+                # page += 1
+                # new_list[key]["page"+str(page)] = []
+            # new_list[key]["page"+str(page)].append(item)
+            new_list[key].append(item)
             count += 1
     return new_list
 
