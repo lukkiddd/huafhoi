@@ -6,7 +6,7 @@ import requests
 import re
 import time
 from bs4 import BeautifulSoup
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 from firebase import Firebase
 import random
 import urllib
