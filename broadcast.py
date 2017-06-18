@@ -80,10 +80,10 @@ def send_news():
 
                     for item in new_send[type_u]:
                         el.append({
-                                "title": item['name'],
-                                "subtitle": item['subtitle'],
-                                "image_url": item['image'],
-                                "buttons": [{
+                            "title": item['name'],
+                            "subtitle": item['subtitle'],
+                            "image_url": item['image'],
+                            "buttons": [{
                                 "title": "View",
                                 "type": "web_url",
                                 "url": item['link'],

@@ -48,9 +48,26 @@ def subscribe():
     messenger_user_id = request.args.get('messenger user id')
     user = Firebase('https://welse-141512.firebaseio.com/ocz/' + str(messenger_user_id) + '/' + sub_item)
     user.set({"subcribe": 1})
-    message = [
-        {"message": "เรียบร้อยยย!"}
-    ]
+
+    message = {
+        "messages": [
+            {"text": u"เรียบร้อยยย!"}
+        ]
+    }
+    return jsonify(message)
+
+@app.route('/unsub', methods=['GET','POST'])
+def unsubscribe():
+    messenger_user_id = request.args.get('messenger user id')
+
+    user = Firebase('https://welse-141512.firebaseio.com/ocz/' + str(messenger_user_id))
+    user.remove()
+
+    message = {
+        "messages": [
+            {"text": u"เรียบร้อยยย!"}
+        ]
+    }
     return jsonify(message)
 
 # @app.route('/', methods=['POST'])
