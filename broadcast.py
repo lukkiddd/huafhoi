@@ -19,6 +19,11 @@ type_item = [
         'image': 'https://www.iconexperience.com/_img/g_collection_png/standard/512x512/cpu2.png'
     },
     {
+        'slug': 'blackberry',
+        'value': '171-BlackBerry',
+        'image': 'http://spyapps.net/wp-content/uploads/2016/11/How-to-spy-on-a-mobile-phone.jpg'
+    },
+    {
         'slug': 'monitor',
         'value': '158-Monitor',
         'image': 'https://www.iconexperience.com/_img/g_collection_png/standard/512x512/monitor.png'
