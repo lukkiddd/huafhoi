@@ -46,7 +46,7 @@ def policy():
 def subscribe():
     sub_item = request.args.get('sub_item')
     messenger_user_id = request.args.get('messenger user id')
-    user = Firebase('https://bott-a9c49.firebaseio.com/ocz/' + str(messenger_user_id) + '/' + sub_item)
+    user = Firebase('https://welse-141512.firebaseio.com/ocz/' + str(messenger_user_id) + '/' + sub_item)
     user.set({"subcribe": 1})
     message = [
         {"message": "เรียบร้อยยย!"}
