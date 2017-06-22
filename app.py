@@ -25,6 +25,117 @@ app = Flask(__name__, static_url_path='')
 #     database_uri='mongodb://chatterbot:kisskid@ds019876.mlab.com:19876/heroku_bvcd4420'
 # )
 
+@app.route('/bot_beta/blocks', methods=['GET'])
+def bot_beta_block():
+    bot_id = request.args.get('bot_id')
+    bot = Firebase('https://bot-platform-a5a5a.firebaseio.com/bots/bot_' + str(bot_id))
+    if(bot is not None):
+        blocks = bot.get()['blocks']
+        el = []
+        for block in blocks:
+            if(len(el) >= 9):
+                break
+            b = Firebase('https://bot-platform-a5a5a.firebaseio.com/bots/bot_' + str(bot_id) + '/blocks/' + block).get()
+            el.append({
+                "title": b['block_name'],
+                "subtitle": "nodes: " + str(len(b['nodes'])),
+                "buttons": [{
+                    "set_attributes": 
+                    {
+                        "block_id": b['block_id'],
+                    },
+                    "title": u"เลือก",
+                    "type": "show_block",
+                    "block_name": "node_list",
+                }]
+            })
+        message = {
+            "messages": [
+                    {
+                    "attachment": {
+                        "type": "template",
+                        "payload": {
+                            "template_type": "generic",
+                            "elements": el,
+                        }
+                    }
+                },{
+                    "text": u"เลือก Block ที่จะแก้เลยคร้าบบบ"
+                }
+            ]
+        }
+    else:
+        message = {
+            "messages": [
+                { "text": u"อืมมมม..." }
+            ]
+        }
+    return jsonify(message)
+
+@app.route('/bot_beta/nodes', methods=['GET'])
+def bot_beta_node():
+    bot_id = request.args.get('bot_id')
+    block_id = request.args.get('block_id')
+    block = Firebase('https://bot-platform-a5a5a.firebaseio.com/bots/bot_' + str(bot_id) + '/blocks/block' + str(block_id))
+    if(block is not None):
+        nodes = block.get()['nodes']
+        el = []
+        for node in nodes:
+            if(len(el) >= 9):
+                break
+            n = Firebase('https://bot-platform-a5a5a.firebaseio.com/bots/bot_' + str(bot_id) + '/blocks/block' + str(block_id) + '/nodes/' + node ).get()
+            nRes = Firebase('https://bot-platform-a5a5a.firebaseio.com/bots/bot_' + str(bot_id) + '/blocks/block' + str(block_id) + '/nodes/' + node + '/nodeResponse').get()
+            el.append({
+                "title": nRes['response'],
+                "subtitle": n['node_type'],
+                "buttons": [{
+                    "set_attributes": 
+                    {
+                        "node_id": n['node_id'],
+                    },
+                    "title": u"เลือก",
+                    "type": "show_block",
+                    "block_name": "node_text",
+                }]
+            })
+        message = {
+                "messages": [
+                    {
+                    "attachment": {
+                        "type": "template",
+                        "payload": {
+                            "template_type": "generic",
+                            "elements": el,
+                        }
+                    }
+                },{
+                    "text": u"เลือก Node ที่จะแก้เลยคร้าบบบ"
+                }
+            ]
+        }
+    else:
+        message = {
+            "messages": [
+                { "text": u"อืมมมม..." }
+            ]
+        }
+    return jsonify(message)
+
+
+@app.route('/bot_beta/nodes/text', methods=['GET'])
+def bot_beta_nodes_text():
+    bot_id = request.args.get('bot_id')
+    block_id = request.args.get('block_id')
+    node_id = request.args.get('node_id')
+    node_data = request.args.get('node_text_data')
+    Firebase('https://bot-platform-a5a5a.firebaseio.com/bots/bot_' + str(bot_id) + '/blocks/block' + str(block_id) + '/nodes/N' + node_id + '/nodeResponse/response').set(str(node_data))
+    message = {
+        "messages": [
+            { "text": u"เรียบร้อยแล้ววว!!" }
+        ]
+    }
+    return jsonify(message)
+
 @app.route('/', methods=['GET'])
 def verify():
     if request.args.get("hub.mode") == "subscribe" and request.args.get("hub.challenge"):
