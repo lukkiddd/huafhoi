@@ -36,9 +36,10 @@ def bot_beta_block():
             if(len(el) >= 9):
                 break
             b = Firebase('https://bot-platform-a5a5a.firebaseio.com/bots/bot_' + str(bot_id) + '/blocks/' + block).get()
+
             el.append({
                 "title": b['block_name'],
-                "subtitle": "nodes: " + str(len(b['nodes'])),
+                "subtitle": "bot_id: " + str(b['bot_id']),
                 "buttons": [{
                     "set_attributes": 
                     {
@@ -84,9 +85,9 @@ def bot_beta_node():
             if(len(el) >= 9):
                 break
             n = Firebase('https://bot-platform-a5a5a.firebaseio.com/bots/bot_' + str(bot_id) + '/blocks/block' + str(block_id) + '/nodes/' + node ).get()
-            nRes = Firebase('https://bot-platform-a5a5a.firebaseio.com/bots/bot_' + str(bot_id) + '/blocks/block' + str(block_id) + '/nodes/' + node + '/nodeResponse').get()
+            
             el.append({
-                "title": nRes['response'],
+                "title": n['nodeResponse']['response'],
                 "subtitle": n['node_type'],
                 "buttons": [{
                     "set_attributes": 
